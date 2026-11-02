@@ -6,13 +6,11 @@
     <title>축제 관리 | 축제메이트</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="../../static/css/root.css" rel="stylesheet">
     <link href="../../static/css/component.css" rel="stylesheet">
-    <link href="../../static/css/header.css" rel="stylesheet">
-    <link href="../../static/css/sidebar.css" rel="stylesheet">
-    <link href="../../static/css/festivalList.css" rel="stylesheet">
+    <link href="../../static/css/festivals.css" rel="stylesheet">
     <script src="../../static/js/component.js" defer></script>
-    <script src="../../static/js/festivalList.js" defer></script>
+    <script src="../../static/js/list.js" defer></script>
+    <script src="../../static/js/festivals.js" defer></script>
 </head>
 <body>
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
@@ -28,7 +26,7 @@
                 <a class="btn btn-primary" href="festivalAdd.html">축제 추가</a>
             </div>
 
-            <!-- 검색 기능 연결 전의 화면 초안 -->
+            <!-- 더미 데이터 기반 검색·상태 필터 -->
             <section class="bg-white border rounded-3 p-4" aria-labelledby="festival-list-heading">
                 <h2 id="festival-list-heading" class="visually-hidden">축제 목록과 검색</h2>
 
@@ -37,7 +35,7 @@
                         <label class="visually-hidden" for="festival-search-type">검색 기준</label>
                         <select class="form-select" id="festival-search-type" name="searchType">
                             <option value="">검색 유형</option>
-                            <option value="title">축제 제목</option>
+                            <option value="title">축제 이름</option>
                             <option value="genre">축제 장르</option>
                             <option value="place">축제 장소</option>
                             <option value="festivalId">축제 번호</option>
@@ -47,12 +45,12 @@
                         <label class="visually-hidden" for="festival-keyword">검색어</label>
                         <div class="input-group">
                             <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
-                            <button class="btn btn-outline-primary" type="button" disabled>검색</button>
+                            <button class="btn btn-outline-primary" type="submit">검색</button>
                         </div>
                     </div>
                 </form>
 
-                <p class="small text-secondary mb-2">전체 30개</p>
+                <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 10건 · 검색 결과 10건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle festival-table mb-0">
                         <thead class="table-light text-center">
@@ -61,13 +59,20 @@
                                     <button type="button" class="column-sort" data-sort="festivalId" aria-label="번호 정렬">번호 <span aria-hidden="true">↕</span></button>
                                 </th>
                                 <th scope="col">
-                                    상태
+                                    <details class="festival-status-filter" id="festival-status-filter">
+                                        <summary>상태 <span aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                        <div class="festival-status-options" role="group" aria-label="공개 상태 필터">
+                                            <button type="button" data-status-filter="all" aria-pressed="true">전체</button>
+                                            <button type="button" data-status-filter="visible" aria-pressed="false">공개만 보기</button>
+                                            <button type="button" data-status-filter="hidden" aria-pressed="false">비공개만 보기</button>
+                                        </div>
+                                    </details>
                                 </th>
                                 <th scope="col">
                                     축제 장르
                                 </th>
                                 <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="title" aria-label="축제 제목 정렬">축제 제목 <span aria-hidden="true">↕</span></button>
+                                    <button type="button" class="column-sort" data-sort="title" aria-label="축제 이름 정렬">축제 이름 <span aria-hidden="true">↕</span></button>
                                 </th>
                                 <th scope="col">
                                     <button type="button" class="column-sort" data-sort="startDate" aria-label="시작일 기준 일정 정렬">일정 <span aria-hidden="true">↕</span></button>
@@ -80,102 +85,105 @@
                                 </th>
                             </tr>
                         </thead>
-                        <tbody class="text-center">
-                            <tr>
-                                <td>1</td>
+                        <tbody class="text-center" id="festival-list">
+                            <tr data-status="visible">
+                                <td data-field="festivalId">1</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>음악</td>
-                                <td class="festival-title fw-medium text-start">부산 락 페스티벌</td>
-                                <td><time datetime="2026-11-02">2026.11.02</time> ~ <time datetime="2026-11-03">2026.11.03</time></td>
-                                <td class="festival-location">삼락공원</td>
-                                <td>53</td>
+                                <td data-field="genre">음악</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=1">부산 락 페스티벌</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-02"><time datetime="2026-11-02">2026.11.02</time> ~ <time datetime="2026-11-03">2026.11.03</time></td>
+                                <td class="festival-location" data-field="place">삼락공원</td>
+                                <td data-sort-field="likeCount">53</td>
                             </tr>
-                            <tr>
-                                <td>2</td>
+                            <tr data-status="hidden">
+                                <td data-field="festivalId">2</td>
                                 <td><span class="badge status-hidden">비공개</span></td>
-                                <td>먹거리</td>
-                                <td class="festival-title fw-medium text-start">서울 먹거리 축제</td>
-                                <td><time datetime="2026-11-03">2026.11.03</time> ~ <time datetime="2026-11-04">2026.11.04</time></td>
-                                <td class="festival-location">난지 한강공원</td>
-                                <td>66</td>
+                                <td data-field="genre">먹거리</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=2">서울 먹거리 축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-03"><time datetime="2026-11-03">2026.11.03</time> ~ <time datetime="2026-11-04">2026.11.04</time></td>
+                                <td class="festival-location" data-field="place">난지 한강공원</td>
+                                <td data-sort-field="likeCount">66</td>
                             </tr>
-                            <tr>
-                                <td>3</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">3</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>문화</td>
-                                <td class="festival-title fw-medium text-start">제주 가을 문화축제</td>
-                                <td><time datetime="2026-11-04">2026.11.04</time> ~ <time datetime="2026-11-05">2026.11.05</time></td>
-                                <td class="festival-location">제주</td>
-                                <td>79</td>
+                                <td data-field="genre">문화</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=3">제주 가을 문화축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-04"><time datetime="2026-11-04">2026.11.04</time> ~ <time datetime="2026-11-05">2026.11.05</time></td>
+                                <td class="festival-location" data-field="place">제주</td>
+                                <td data-sort-field="likeCount">79</td>
                             </tr>
-                            <tr>
-                                <td>4</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">4</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>음악</td>
-                                <td class="festival-title fw-medium text-start">서울 한강에서 함께 즐기는 가을밤 재즈와 세계 음악 페스티벌 특별 공연</td>
-                                <td><time datetime="2026-11-05">2026.11.05</time> ~ <time datetime="2026-11-06">2026.11.06</time></td>
-                                <td class="festival-location">서울특별시 영등포구 여의도 한강공원 야외무대</td>
-                                <td>92</td>
+                                <td data-field="genre">음악</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=4">서울 한강에서 함께 즐기는 가을밤 재즈와 세계 음악 페스티벌 특별 공연</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-05"><time datetime="2026-11-05">2026.11.05</time> ~ <time datetime="2026-11-06">2026.11.06</time></td>
+                                <td class="festival-location" data-field="place">서울특별시 영등포구 여의도 한강공원 야외무대</td>
+                                <td data-sort-field="likeCount">92</td>
                             </tr>
-                            <tr>
-                                <td>5</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">5</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>먹거리</td>
-                                <td class="festival-title fw-medium text-start">전국 김밥 맛집과 함께하는 특별한 가을 먹거리 나눔 축제</td>
-                                <td><time datetime="2026-11-06">2026.11.06</time> ~ <time datetime="2026-11-07">2026.11.07</time></td>
-                                <td class="festival-location">김천 사명대사공원</td>
-                                <td>105</td>
+                                <td data-field="genre">먹거리</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=5">전국 김밥 맛집과 함께하는 특별한 가을 먹거리 나눔 축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-06"><time datetime="2026-11-06">2026.11.06</time> ~ <time datetime="2026-11-07">2026.11.07</time></td>
+                                <td class="festival-location" data-field="place">김천 사명대사공원</td>
+                                <td data-sort-field="likeCount">105</td>
                             </tr>
-                            <tr>
-                                <td>6</td>
+                            <tr data-status="hidden">
+                                <td data-field="festivalId">6</td>
                                 <td><span class="badge status-hidden">비공개</span></td>
-                                <td>문화</td>
-                                <td class="festival-title fw-medium text-start">수원 전통문화 체험축제</td>
-                                <td><time datetime="2026-11-07">2026.11.07</time> ~ <time datetime="2026-11-08">2026.11.08</time></td>
-                                <td class="festival-location">수원 화성행궁 광장</td>
-                                <td>118</td>
+                                <td data-field="genre">문화</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=6">수원 전통문화 체험축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-07"><time datetime="2026-11-07">2026.11.07</time> ~ <time datetime="2026-11-08">2026.11.08</time></td>
+                                <td class="festival-location" data-field="place">수원 화성행궁 광장</td>
+                                <td data-sort-field="likeCount">118</td>
                             </tr>
-                            <tr>
-                                <td>7</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">7</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>음악</td>
-                                <td class="festival-title fw-medium text-start">인천 바다 음악축제</td>
-                                <td><time datetime="2026-11-08">2026.11.08</time> ~ <time datetime="2026-11-09">2026.11.09</time></td>
-                                <td class="festival-location">인천광역시 연수구 송도 달빛축제공원 메인무대</td>
-                                <td>131</td>
+                                <td data-field="genre">음악</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=7">인천 바다 음악축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-08"><time datetime="2026-11-08">2026.11.08</time> ~ <time datetime="2026-11-09">2026.11.09</time></td>
+                                <td class="festival-location" data-field="place">인천광역시 연수구 송도 달빛축제공원 메인무대</td>
+                                <td data-sort-field="likeCount">131</td>
                             </tr>
-                            <tr>
-                                <td>8</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">8</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>먹거리</td>
-                                <td class="festival-title fw-medium text-start">춘천 닭갈비 나눔축제</td>
-                                <td><time datetime="2026-11-09">2026.11.09</time> ~ <time datetime="2026-11-10">2026.11.10</time></td>
-                                <td class="festival-location">춘천 공지천</td>
-                                <td>144</td>
+                                <td data-field="genre">먹거리</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=8">춘천 닭갈비 나눔축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-09"><time datetime="2026-11-09">2026.11.09</time> ~ <time datetime="2026-11-10">2026.11.10</time></td>
+                                <td class="festival-location" data-field="place">춘천 공지천</td>
+                                <td data-sort-field="likeCount">144</td>
                             </tr>
-                            <tr>
-                                <td>9</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">9</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>문화</td>
-                                <td class="festival-title fw-medium text-start">가족과 친구가 함께 만드는 우리 동네 가을 예술 문화 체험 한마당 축제</td>
-                                <td><time datetime="2026-11-10">2026.11.10</time> ~ <time datetime="2026-11-11">2026.11.11</time></td>
-                                <td class="festival-location">대전 엑스포 시민광장</td>
-                                <td>157</td>
+                                <td data-field="genre">문화</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=9">가족과 친구가 함께 만드는 우리 동네 가을 예술 문화 체험 한마당 축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-10"><time datetime="2026-11-10">2026.11.10</time> ~ <time datetime="2026-11-11">2026.11.11</time></td>
+                                <td class="festival-location" data-field="place">대전 엑스포 시민광장</td>
+                                <td data-sort-field="likeCount">157</td>
                             </tr>
-                            <tr>
-                                <td>10</td>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">10</td>
                                 <td><span class="badge status-visible">공개</span></td>
-                                <td>먹거리</td>
-                                <td class="festival-title fw-medium text-start">전주 길거리 음식축제</td>
-                                <td><time datetime="2026-11-11">2026.11.11</time> ~ <time datetime="2026-11-12">2026.11.12</time></td>
-                                <td class="festival-location">전주 한옥마을</td>
-                                <td>170</td>
+                                <td data-field="genre">먹거리</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=10">전주 길거리 음식축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-11"><time datetime="2026-11-11">2026.11.11</time> ~ <time datetime="2026-11-12">2026.11.12</time></td>
+                                <td class="festival-location" data-field="place">전주 한옥마을</td>
+                                <td data-sort-field="likeCount">170</td>
+                            </tr>
+                            <tr id="festival-empty" hidden>
+                                <td colspan="7" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <nav class="mt-4" aria-label="축제 목록 페이지">
+                <nav class="mt-4" aria-label="축제 목록 페이지" id="festival-pagination">
                     <ul class="pagination justify-content-center mb-0">
                         <li class="page-item disabled"><span class="page-link">이전</span></li>
                         <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
