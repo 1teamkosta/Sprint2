@@ -27,9 +27,9 @@
                 <h2 id="user-list-heading" class="visually-hidden">회원 목록과 검색</h2>
                 <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto mb-4" aria-label="회원 검색">
                     <div class="user-search-setting">
-                        <label class="visually-hidden" for="user-search-type">검색 대상</label>
+                        <label class="visually-hidden" for="user-search-type">검색 유형</label>
                         <select class="form-select" id="user-search-type" name="searchType">
-                            <option value="">검색 대상</option>
+                            <option value="">검색 유형</option>
                             <option value="userId">회원 번호</option>
                             <option value="nickname">닉네임</option>
                             <option value="email">이메일</option>
@@ -43,7 +43,7 @@
                         </div>
                     </div>
                 </form>
-                <p class="small text-secondary mb-2" id="user-result-count" role="status">전체 10건 · 검색 결과 10건</p>
+                <p class="small text-secondary mb-2" id="user-result-count" role="status">전체 11건 · 검색 결과 11건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle user-table mb-0">
                         <caption class="visually-hidden">회원 관리 예시 목록, 페이지당 10개</caption>
@@ -138,6 +138,14 @@
                                 <td data-field="joinedAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
                                 <td><button class="btn btn-sm user-suspend" type="button" data-user-id="10" aria-label="임전주 회원 정지">정지</button></td>
                             </tr>
+                            <tr data-status="active">
+                                <td data-field="userId">11</td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=11">서봄</a></td>
+                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=11">spring.seo@example.com</a></td>
+                                <td data-sort-field="popularity">102</td>
+                                <td data-field="joinedAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
+                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="11" aria-label="서봄 회원 정지">정지</button></td>
+                            </tr>
                             <tr id="user-empty" hidden>
                                 <td colspan="6" class="py-5 text-secondary">조건에 맞는 회원이 없습니다.</td>
                             </tr>
@@ -145,13 +153,7 @@
                     </table>
                 </div>
                 <nav class="mt-4" aria-label="회원 목록 페이지" id="user-pagination">
-                    <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled"><span class="page-link">이전</span></li>
-                        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="2페이지">2</button></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="3페이지">3</button></li>
-                        <li class="page-item"><button class="page-link" type="button">다음</button></li>
-                    </ul>
+                    <ul class="pagination justify-content-center mb-0"></ul>
                 </nav>
             </section>
         </div>
