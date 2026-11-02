@@ -8,6 +8,8 @@
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link href="../../static/css/root.css" rel="stylesheet">
     <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/header.css" rel="stylesheet">
+    <link href="../../static/css/sidebar.css" rel="stylesheet">
     <link href="../../static/css/festivalList.css" rel="stylesheet">
     <script src="../../static/js/component.js" defer></script>
     <script src="../../static/js/festivalList.js" defer></script>
@@ -32,13 +34,13 @@
 
                 <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto mb-4" aria-label="축제 검색">
                     <div class="festival-search-setting">
-                        <label class="visually-hidden" for="festival-region">검색 기준</label>
-                        <select class="form-select" id="festival-region" name="region">
+                        <label class="visually-hidden" for="festival-search-type">검색 기준</label>
+                        <select class="form-select" id="festival-search-type" name="searchType">
                             <option value="">검색 유형</option>
                             <option value="title">축제 제목</option>
-                            <option value="ganre">축제 장르</option>
+                            <option value="genre">축제 장르</option>
                             <option value="place">축제 장소</option>
-                            <option value="title">축제 번호</option>
+                            <option value="festivalId">축제 번호</option>
                         </select>
                     </div>
                     <div class="flex-grow-1">

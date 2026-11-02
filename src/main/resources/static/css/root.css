@@ -1,7 +1,5 @@
 /* 공통 색상과 레이아웃 변수 */
 :root {
-    --admin-sidebar-width: 220px;
-    --admin-header-height: 72px;
     --admin-yellow: #fff0ad;
     --admin-yellow-hover: #ffe58a;
     --admin-yellow-border: #e8cc70;

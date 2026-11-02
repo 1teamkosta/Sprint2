@@ -14,3 +14,8 @@ function shortenText(selector, limit) {
 
 shortenText('.festival-title', 30);
 shortenText('.festival-location', 15);
+
+// 검색 기능 연결 전에는 Enter 입력으로 페이지가 새로고침되지 않도록 한다.
+document.querySelector('form[aria-label="축제 검색"]').addEventListener('submit', function (event) {
+    event.preventDefault();
+});
