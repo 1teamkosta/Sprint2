@@ -50,7 +50,7 @@
                     </div>
                 </form>
 
-                <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 10건 · 검색 결과 10건</p>
+                <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 11건 · 검색 결과 11건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle festival-table mb-0">
                         <thead class="table-light text-center">
@@ -176,6 +176,15 @@
                                 <td class="festival-location" data-field="place">전주 한옥마을</td>
                                 <td data-sort-field="likeCount">170</td>
                             </tr>
+                            <tr data-status="visible">
+                                <td data-field="festivalId">11</td>
+                                <td><span class="badge status-visible">공개</span></td>
+                                <td data-field="genre">문화</td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="festivalDetail.html?id=11">강릉 바다빛 문화축제</a></td>
+                                <td data-sort-field="startDate" data-sort-value="2026-11-12"><time datetime="2026-11-12">2026.11.12</time> ~ <time datetime="2026-11-13">2026.11.13</time></td>
+                                <td class="festival-location" data-field="place">강릉 경포해변</td>
+                                <td data-sort-field="likeCount">183</td>
+                            </tr>
                             <tr id="festival-empty" hidden>
                                 <td colspan="7" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
                             </tr>
@@ -184,13 +193,7 @@
                 </div>
 
                 <nav class="mt-4" aria-label="축제 목록 페이지" id="festival-pagination">
-                    <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled"><span class="page-link">이전</span></li>
-                        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="2페이지">2</button></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="3페이지">3</button></li>
-                        <li class="page-item"><button class="page-link" type="button">다음</button></li>
-                    </ul>
+                    <ul class="pagination justify-content-center mb-0"></ul>
                 </nav>
             </section>
         </div>

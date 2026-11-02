@@ -6,7 +6,5 @@ setupList({
     prefix: 'festival',
     tableSelector: '.festival-table',
     idField: 'festivalId',
-    exactFields: ['festivalId'],
-    // 3페이지 표시는 UI 예시이므로 검색·필터 적용 시 숨김.
-    hidePaginationWhenFiltered: true
+    exactFields: ['festivalId']
 });

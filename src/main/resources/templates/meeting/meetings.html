@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </form>
-                <p class="small text-secondary mb-2" id="meeting-result-count" role="status">전체 10건 · 검색 결과 10건</p>
+                <p class="small text-secondary mb-2" id="meeting-result-count" role="status">전체 11건 · 검색 결과 11건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle meeting-table mb-0">
                         <caption class="visually-hidden">모임 관리 예시 목록, 페이지당 10개</caption>
@@ -160,6 +160,15 @@
                                 <td data-field="purpose">음식메이트</td>
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-21"><time datetime="2026-10-21">2026.10.21</time></td>
                             </tr>
+                            <tr data-status="visible">
+                                <td data-field="meetingId">11</td>
+                                <td><span class="badge meeting-status-visible">공개</span></td>
+                                <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=11">강릉 바다빛 문화축제</a></td>
+                                <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=11">강릉 바다빛 축제 같이 구경해요</a></td>
+                                <td data-field="host">서봄</td>
+                                <td data-field="purpose">축제메이트</td>
+                                <td data-sort-field="createdAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
+                            </tr>
                             <tr id="meeting-empty" hidden>
                                 <td colspan="7" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
                             </tr>
@@ -167,13 +176,7 @@
                     </table>
                 </div>
                 <nav class="mt-4" aria-label="모임 목록 페이지" id="meeting-pagination">
-                    <ul class="pagination justify-content-center mb-0">
-                        <li class="page-item disabled"><span class="page-link">이전</span></li>
-                        <li class="page-item active" aria-current="page"><span class="page-link">1</span></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="2페이지">2</button></li>
-                        <li class="page-item"><button class="page-link" type="button" aria-label="3페이지">3</button></li>
-                        <li class="page-item"><button class="page-link" type="button">다음</button></li>
-                    </ul>
+                    <ul class="pagination justify-content-center mb-0"></ul>
                 </nav>
             </section>
         </div>
