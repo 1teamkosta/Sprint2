@@ -1,0 +1,14 @@
+/* 공통 색상과 레이아웃 변수 */
+:root {
+    --admin-sidebar-width: 220px;
+    --admin-header-height: 72px;
+    --admin-yellow: #fff0ad;
+    --admin-yellow-hover: #ffe58a;
+    --admin-yellow-border: #e8cc70;
+    --admin-ink: #51431d;
+    --bs-primary: #fff0ad;
+    --bs-primary-rgb: 255, 240, 173;
+    --bs-link-color: #705719;
+    --bs-link-hover-color: #51431d;
+    --bs-focus-ring-color: rgba(190, 149, 35, 0.25);
+}
