@@ -1,0 +1,133 @@
+/* 태그 관리: 공통 색상은 root.css에서 가져온다. */
+.tag-stat {
+    height: 100%;
+    padding: 24px;
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+}
+
+.tag-stat h2 {
+    margin-bottom: 16px;
+    color: var(--admin-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.tag-stat p {
+    margin: 0;
+    font-size: 1.8rem;
+    font-weight: 700;
+}
+
+.tag-tabs {
+    --bs-nav-link-color: var(--admin-muted);
+    --bs-nav-link-hover-color: var(--admin-ink);
+    --bs-nav-tabs-link-active-color: var(--admin-ink);
+    --bs-nav-tabs-link-active-bg: var(--admin-yellow);
+    --bs-nav-tabs-link-active-border-color: var(--admin-yellow-border);
+}
+
+.tag-search {
+    width: 100%;
+    max-width: 360px;
+}
+
+.tag-table {
+    min-width: 850px;
+}
+
+.tag-table th,
+.tag-table td {
+    padding: 18px 12px;
+}
+
+.tag-table th {
+    white-space: nowrap;
+}
+
+.tag-description {
+    max-width: 280px;
+    overflow-wrap: anywhere;
+}
+
+.tag-color-display {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+}
+
+.tag-color-swatch {
+    display: inline-block;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border: 1px solid var(--admin-border);
+    border-radius: 6px;
+}
+
+.tag-code {
+    color: var(--admin-muted);
+    font-size: 0.85rem;
+    font-family: ui-monospace, monospace;
+}
+
+.tag-actions {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+}
+
+.tag-actions .btn {
+    white-space: nowrap;
+}
+
+/* 기본 dialog의 배경·포커스 관리와 Escape 닫기를 사용한다. */
+.tag-dialog {
+    width: min(520px, calc(100% - 32px));
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 0;
+    overflow-y: auto;
+    color: inherit;
+    background: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+}
+
+.tag-dialog::backdrop {
+    background: var(--admin-overlay);
+}
+
+.tag-dialog-header,
+.tag-dialog-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 20px 24px;
+}
+
+.tag-dialog-header {
+    border-bottom: 1px solid var(--admin-border);
+}
+
+.tag-dialog-footer {
+    justify-content: flex-end;
+    border-top: 1px solid var(--admin-border);
+}
+
+.tag-dialog-body {
+    padding: 24px;
+}
+
+.tag-color-input {
+    width: 54px;
+    height: 42px;
+    cursor: pointer;
+}
+
+.tag-required {
+    color: var(--admin-status-visible-text);
+}

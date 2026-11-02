@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>태그 관리 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/tags.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/tags.js" defer></script>
+</head>
+<body data-admin-page="tags">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+                <h1 class="h3 fw-bold mb-0">태그 관리</h1>
+                <button class="btn btn-primary" type="button" id="tag-add-button">태그 추가</button>
+            </div>
+
+            <section class="row g-3 mb-4" aria-label="태그 현황">
+                <div class="col-12 col-md-4">
+                    <div class="tag-stat"><h2>축제 장르 태그</h2><p><span id="tag-genre-count">12</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="tag-stat"><h2>추천 대상 태그</h2><p><span id="tag-target-count">5</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="tag-stat"><h2>전체 태그 수</h2><p><span id="tag-total-count">17</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                </div>
+            </section>
+
+            <section class="bg-white border rounded-3 p-4" aria-label="태그 목록과 검색">
+                <div class="nav nav-tabs tag-tabs mb-4" role="tablist" aria-label="태그 종류">
+                    <button class="nav-link active" type="button" role="tab" id="tag-genre-tab" aria-selected="true" aria-controls="tag-panel" data-tag-type="genre">축제 장르 태그</button>
+                    <button class="nav-link" type="button" role="tab" id="tag-target-tab" aria-selected="false" aria-controls="tag-panel" tabindex="-1" data-tag-type="target">추천 대상 태그</button>
+                </div>
+                <div role="tabpanel" id="tag-panel" aria-labelledby="tag-genre-tab">
+                    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
+                        <h2 class="h6 fw-semibold mb-0" id="tag-list-heading">축제 장르 태그 목록</h2>
+                        <form class="tag-search ms-md-auto" id="tag-search-form" role="search">
+                            <label class="visually-hidden" for="tag-search">태그명 검색</label>
+                            <div class="input-group">
+                                <input class="form-control" type="search" id="tag-search" placeholder="태그명을 입력하세요" name="keyword">
+                                <button class="btn btn-outline-primary" type="submit">검색</button>
+                            </div>
+                        </form>
+                    </div>
+                    <p class="small text-secondary mb-2" id="tag-result-count" role="status"></p>
+                    <div class="table-responsive">
+                        <table class="table table-hover align-middle tag-table mb-0">
+                            <caption class="visually-hidden">태그 관리 목록, 페이지당 10개</caption>
+                            <thead class="table-light text-center">
+                                <tr>
+                                    <th scope="col">태그 ID</th>
+                                    <th scope="col">태그명</th>
+                                    <th scope="col">색상 코드</th>
+                                    <th scope="col">설명</th>
+                                    <th scope="col">사용 중인 축제 수</th>
+                                    <th scope="col">관리</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center" id="tag-list"></tbody>
+                        </table>
+                    </div>
+                    <nav class="mt-4" aria-label="태그 목록 페이지" id="tag-pagination">
+                        <ul class="pagination justify-content-center mb-0" id="tag-pages"></ul>
+                    </nav>
+                </div>
+            </section>
+            <p class="small text-secondary mt-3 mb-0" id="tag-feedback" role="status"></p>
+        </div>
+    </main>
+
+    <!-- 기본 HTML dialog: X 버튼과 Escape로 닫을 수 있다. -->
+    <dialog class="tag-dialog" id="tag-dialog" aria-labelledby="tag-dialog-title">
+        <div class="tag-dialog-header">
+            <h2 class="h5 fw-bold mb-0" id="tag-dialog-title">태그 추가</h2>
+            <button class="btn-close" type="button" id="tag-dialog-close" aria-label="태그 추가 창 닫기"></button>
+        </div>
+        <form id="tag-form">
+            <div class="tag-dialog-body">
+                <div class="mb-3">
+                    <label class="form-label" for="tag-name">태그명 <span class="tag-required" aria-hidden="true">*</span></label>
+                    <input class="form-control" id="tag-name" name="name" placeholder="태그명을 입력하세요" maxlength="20" required autofocus>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="tag-type">태그 종류 <span class="tag-required" aria-hidden="true">*</span></label>
+                    <select class="form-select" id="tag-type" name="type" required>
+                        <option value="genre">축제 장르</option>
+                        <option value="target">추천 대상</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="tag-color">색상 <span class="tag-required" aria-hidden="true">*</span></label>
+                    <div class="d-flex gap-2">
+                        <input class="form-control form-control-color tag-color-input" id="tag-color" type="color" aria-label="색상 선택기 열기">
+                        <label class="visually-hidden" for="tag-color-code">HEX 색상 코드</label>
+                        <input class="form-control" id="tag-color-code" name="color" placeholder="#FFF0AD" pattern="#[0-9A-Fa-f]{6}" maxlength="7" spellcheck="false" required aria-describedby="tag-color-help">
+                    </div>
+                    <p class="form-text mb-0" id="tag-color-help">색상 선택기를 누르거나 #으로 시작하는 6자리 색상 코드를 입력하세요.</p>
+                </div>
+                <div>
+                    <label class="form-label" for="tag-description">설명</label>
+                    <textarea class="form-control" id="tag-description" name="description" rows="3" maxlength="200" placeholder="태그에 대한 설명을 입력하세요"></textarea>
+                </div>
+            </div>
+            <div class="tag-dialog-footer">
+                <button class="btn btn-outline-secondary" type="button" id="tag-dialog-cancel">취소</button>
+                <button class="btn btn-primary" type="submit" id="tag-save">태그 추가</button>
+            </div>
+        </form>
+    </dialog>
+</body>
+</html>
