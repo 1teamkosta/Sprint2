@@ -1,5 +1,14 @@
 /* 공통 색상과 레이아웃 변수 */
 :root {
+    --admin-status-visible-bg: #fbe5d6;
+    --admin-status-visible-text: #80472b;
+    --admin-status-hidden-bg: #eeeeee;
+    --admin-status-hidden-text: #555555;
+    --admin-surface: #ffffff;
+    --admin-border: #dee2e6;
+    --admin-muted: #6c757d;
+    --admin-action-muted-bg: #656b70;
+    --admin-action-muted-hover: #50565b;
     --admin-yellow: #fff0ad;
     --admin-yellow-hover: #ffe58a;
     --admin-yellow-border: #e8cc70;
