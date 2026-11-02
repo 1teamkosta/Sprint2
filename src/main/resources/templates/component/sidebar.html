@@ -1,0 +1,22 @@
+<!-- 공통 사이드바: 메뉴 화면이 구현되면 비활성 버튼을 링크로 변경 -->
+<aside class="admin-sidebar d-flex flex-column p-3">
+    <a class="admin-brand text-decoration-none text-dark px-2 mb-4" href="festivals.html">
+        <strong class="fs-4">축제메이트</strong>
+        <span class="d-block small text-secondary mt-1">관리자 페이지</span>
+    </a>
+    <nav aria-label="관리자 메뉴">
+        <ul class="nav nav-pills flex-column gap-2">
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>대시보드</button></li>
+            <li class="nav-item"><a class="nav-link active" href="festivals.html" aria-current="page">축제 관리</a></li>
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>모임 관리</button></li>
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>회원 관리</button></li>
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>태그 관리</button></li>
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>통계</button></li>
+            <li class="nav-item"><button class="nav-link w-100 text-start" disabled>설정</button></li>
+        </ul>
+    </nav>
+    <div class="admin-account mt-auto border-top pt-3 px-2">
+        <p class="mb-2 fw-semibold">관리자</p>
+        <button class="btn btn-outline-secondary btn-sm w-100" type="button" disabled>로그아웃</button>
+    </div>
+</aside>

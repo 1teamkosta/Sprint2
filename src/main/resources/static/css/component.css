@@ -1,0 +1,78 @@
+/*공통배치, 버튼, 입력창, 페이지 네이션...*/
+
+body {
+    margin: 0;
+    color: #252b36;
+    background-color: #f5f6f8;
+    font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+}
+
+.admin-main {
+    margin-left: 220px;
+    padding: calc(72px + 36px) 24px 40px;
+}
+
+/* Bootstrap 기본 클래스는 유지하고 색상만 공통 테마로 변경한다. */
+.btn-primary {
+    --bs-btn-color: var(--admin-ink);
+    --bs-btn-bg: var(--admin-yellow);
+    --bs-btn-border-color: var(--admin-yellow-border);
+    --bs-btn-hover-color: var(--admin-ink);
+    --bs-btn-hover-bg: var(--admin-yellow-hover);
+    --bs-btn-hover-border-color: #d1b453;
+    --bs-btn-active-color: var(--admin-ink);
+    --bs-btn-active-bg: #ffde70;
+    --bs-btn-active-border-color: #d1b453;
+    --bs-btn-disabled-color: var(--admin-ink);
+    --bs-btn-disabled-bg: var(--admin-yellow);
+    --bs-btn-disabled-border-color: var(--admin-yellow-border);
+    --bs-btn-focus-shadow-rgb: 190, 149, 35;
+}
+
+.btn-outline-primary {
+    --bs-btn-color: #705719;
+    --bs-btn-border-color: var(--admin-yellow-border);
+    --bs-btn-hover-color: var(--admin-ink);
+    --bs-btn-hover-bg: var(--admin-yellow);
+    --bs-btn-hover-border-color: var(--admin-yellow-border);
+    --bs-btn-active-color: var(--admin-ink);
+    --bs-btn-active-bg: var(--admin-yellow-hover);
+    --bs-btn-active-border-color: #d1b453;
+    --bs-btn-disabled-color: #705719;
+    --bs-btn-disabled-border-color: var(--admin-yellow-border);
+    --bs-btn-focus-shadow-rgb: 190, 149, 35;
+}
+
+.pagination {
+    --bs-pagination-color: #705719;
+    --bs-pagination-hover-color: var(--admin-ink);
+    --bs-pagination-hover-bg: #fff7d6;
+    --bs-pagination-focus-color: var(--admin-ink);
+    --bs-pagination-focus-bg: #fff7d6;
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(190, 149, 35, 0.25);
+    --bs-pagination-active-color: var(--admin-ink);
+    --bs-pagination-active-bg: var(--admin-yellow);
+    --bs-pagination-active-border-color: var(--admin-yellow-border);
+}
+
+.form-control:focus,
+.form-select:focus {
+    border-color: var(--admin-yellow-border);
+    box-shadow: 0 0 0 0.25rem rgba(190, 149, 35, 0.2);
+}
+
+.skip-link:focus {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+    z-index: 1040;
+    padding: 8px 12px;
+    background-color: #fff;
+}
+
+@media (max-width: 767.98px) {
+    .admin-main {
+        margin-left: 0;
+        padding: 24px 4px;
+    }
+}

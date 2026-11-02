@@ -1,0 +1,30 @@
+/* 헤더 */
+.admin-header {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 220px;
+    z-index: 1020;
+    height: 72px;
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.admin-avatar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    color: var(--admin-ink);
+    background-color: var(--admin-yellow);
+    border-radius: 50%;
+    font-size: 14px;
+}
+
+@media (max-width: 767.98px) {
+    .admin-header {
+        position: static;
+        height: 72px;
+    }
+}
