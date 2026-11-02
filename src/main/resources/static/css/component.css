@@ -1,3 +1,7 @@
+@import url("./root.css");
+@import url("./header.css");
+@import url("./sidebar.css");
+
 /*공통배치, 버튼, 입력창, 페이지 네이션...*/
 
 body {
@@ -12,7 +16,7 @@ body {
     padding: calc(72px + 36px) 24px 40px;
 }
 
-/* Bootstrap 기본 클래스는 유지하고 색상만 공통 테마로 변경한다. */
+/* Bootstrap 기본 색 변경 */
 .btn-primary {
     --bs-btn-color: var(--admin-ink);
     --bs-btn-bg: var(--admin-yellow);
@@ -75,4 +79,40 @@ body {
         margin-left: 0;
         padding: 24px 4px;
     }
+}
+
+/* 목록 컬럼 정렬 버튼 */
+.list-detail-link {
+    color: inherit;
+    text-decoration: none;
+}
+
+.list-detail-link:hover,
+.list-detail-link:focus-visible {
+    color: var(--admin-ink);
+    text-decoration: underline;
+}
+
+.column-sort {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: 0;
+    padding: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.column-sort span {
+    color: var(--admin-muted);
+    font-size: 0.85em;
+}
+
+.column-sort:focus-visible {
+    outline: 2px solid var(--admin-ink);
+    outline-offset: 4px;
+    border-radius: 2px;
 }

@@ -1,0 +1,96 @@
+/* 축제 관리 목록 */
+.status-visible {
+    background-color: var(--admin-status-visible-bg);
+    color: var(--admin-status-visible-text);
+}
+
+.status-hidden {
+    background-color: var(--admin-status-hidden-bg);
+    color: var(--admin-status-hidden-text);
+}
+
+.festival-table {
+    min-width: 850px;
+}
+
+.festival-table th,
+.festival-table td {
+    padding: 18px 12px;
+}
+
+/* 검색 창 */
+.festival-search {
+    width: 100%;
+    max-width: 640px;
+}
+
+.festival-search-setting {
+    flex: 0 0 150px;
+}
+
+.festival-search .form-select,
+.festival-search .form-control,
+.festival-search .btn {
+    min-height: 42px;
+}
+
+.festival-search .btn {
+    padding-right: 22px;
+    padding-left: 22px;
+}
+
+@media (max-width: 575.98px) {
+    .festival-search-setting {
+        flex-basis: auto;
+    }
+}
+
+.festival-status-filter {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.festival-status-filter summary {
+    cursor: pointer;
+    list-style: none;
+}
+
+.festival-status-filter summary::-webkit-details-marker {
+    display: none;
+}
+
+.festival-status-filter summary span {
+    color: var(--admin-muted);
+    font-size: 0.8em;
+}
+
+.festival-status-options {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 1;
+    width: 140px;
+    padding: 6px;
+    transform: translateX(-50%);
+    background-color: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+}
+
+.festival-status-options button {
+    display: block;
+    width: 100%;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--admin-ink);
+    text-align: left;
+}
+
+.festival-status-options button:hover,
+.festival-status-options button[aria-pressed="true"] {
+    background-color: var(--admin-yellow);
+}
+

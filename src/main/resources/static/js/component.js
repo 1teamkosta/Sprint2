@@ -1,7 +1,7 @@
 // HTML에는 다른 HTML을 직접 삽입하는 기능이 없어, 현재는 fetch로 공통 영역을 불러옵니다.
 // 추후 Thymeleaf를 사용하면 없어질 파일입니다.
 async function loadFragment(containerId, filePath) {
-    const container = document.getElementById(containerId);
+    const container = document.querySelector(`#${containerId}`);
 
     try {
         const response = await fetch(filePath);
@@ -9,6 +9,18 @@ async function loadFragment(containerId, filePath) {
             throw new Error(`공통 영역 불러오기 실패: ${response.status}`);
         }
         container.innerHTML = await response.text();
+        if (containerId === 'sidebar-container') {
+            const currentPage = document.body.dataset.adminPage || 'festival';
+            container.querySelectorAll('[data-page]').forEach(function (link) {
+                const isCurrentPage = link.dataset.page === currentPage;
+                link.classList.toggle('active', isCurrentPage);
+                if (isCurrentPage) {
+                    link.setAttribute('aria-current', 'page');
+                } else {
+                    link.removeAttribute('aria-current');
+                }
+            });
+        }
     } catch (error) {
         const message = document.createElement('p');
         message.className = 'alert alert-danger m-3';
