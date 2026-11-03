@@ -9,6 +9,12 @@ async function loadFragment(containerId, filePath) {
             throw new Error(`공통 영역 불러오기 실패: ${response.status}`);
         }
         container.innerHTML = await response.text();
+        // 메뉴 조각의 위치를 기준으로 링크를 해석해 루트/하위 화면에서 모두 이동되게 한다.
+        const fragmentUrl = new URL(filePath, document.baseURI);
+        container.querySelectorAll('a[href]').forEach(function (link) {
+            const href = link.getAttribute('href');
+            if (href && !href.startsWith('#')) link.href = new URL(href, fragmentUrl).href;
+        });
         if (containerId === 'sidebar-container') {
             const currentPage = document.body.dataset.adminPage || 'festival';
             container.querySelectorAll('[data-page]').forEach(function (link) {
@@ -31,5 +37,7 @@ async function loadFragment(containerId, filePath) {
     }
 }
 
-loadFragment('sidebar-container', '../component/sidebar.html');
-loadFragment('header-container', '../component/header.html');
+// 인덱스는 templates 바로 아래, 목록은 하위 폴더라 공통 영역까지의 상대 경로가 다르다.
+const componentBase = document.body.dataset.componentBase || '../component/';
+loadFragment('sidebar-container', `${componentBase}sidebar.html`);
+loadFragment('header-container', `${componentBase}header.html`);

@@ -1,0 +1,376 @@
+/* 관리자 대시보드. 공통 레이아웃은 component.css를 사용한다. */
+.dashboard-summary-card,
+.dashboard-card {
+    background-color: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+}
+
+.dashboard-summary-card {
+    height: 100%;
+    padding: 24px;
+}
+
+.dashboard-summary-label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+    color: var(--admin-muted);
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.dashboard-summary-mark {
+    width: 12px;
+    height: 12px;
+    background-color: var(--admin-yellow);
+    border: 1px solid var(--admin-yellow-border);
+    border-radius: 50%;
+}
+
+.dashboard-summary-value {
+    margin-bottom: 0;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+}
+
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr) minmax(0, 0.85fr);
+    grid-template-areas:
+        "festivals genre members"
+        "activity interests members";
+    gap: 24px;
+    align-items: stretch;
+}
+
+.dashboard-card {
+    min-width: 0;
+    padding: 24px;
+}
+
+.dashboard-festivals { grid-area: festivals; }
+.dashboard-genre { grid-area: genre; }
+.dashboard-low-popularity { grid-area: members; }
+.dashboard-activity { grid-area: activity; }
+.dashboard-interests { grid-area: interests; }
+
+/* 카드가 늘어난 높이를 본문도 사용하도록 한다. */
+.dashboard-genre,
+.dashboard-low-popularity,
+.dashboard-activity {
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-genre > .dashboard-card-heading,
+.dashboard-low-popularity > .dashboard-card-heading,
+.dashboard-activity > .dashboard-card-heading {
+    flex-shrink: 0;
+}
+
+.dashboard-low-popularity > .table-responsive {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.dashboard-activity > dl {
+    flex: 1;
+    align-items: center;
+    min-height: 180px;
+}
+
+.dashboard-card-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.dashboard-card-heading h2 {
+    margin: 0;
+    font-size: 1rem;
+    font-weight: 700;
+}
+
+.dashboard-more {
+    color: var(--admin-muted);
+    font-size: 0.8rem;
+    text-decoration: none;
+}
+
+.dashboard-more:hover,
+.dashboard-more:focus-visible {
+    color: var(--admin-ink);
+    text-decoration: underline;
+}
+
+.dashboard-table {
+    width: 100%;
+    table-layout: fixed;
+    font-size: 0.85rem;
+}
+
+/* 표 내용만큼 카드 높이를 늘려 내부 세로 스크롤 없이 표시한다. */
+.dashboard-festival-table-wrap {
+    overflow: visible;
+}
+
+.dashboard-table th:first-child { width: 29%; }
+.dashboard-table th:nth-child(2) { width: 11%; }
+.dashboard-table th:nth-child(3) { width: 26%; }
+.dashboard-table th:nth-child(4) { width: 17%; }
+.dashboard-table th:nth-child(5) { width: 17%; }
+
+.dashboard-table td {
+    overflow-wrap: anywhere;
+}
+
+.dashboard-table time {
+    font-size: 0.75rem;
+}
+
+.dashboard-suspend {
+    --bs-btn-color: var(--admin-surface);
+    --bs-btn-bg: var(--admin-action-muted-bg);
+    --bs-btn-border-color: var(--admin-action-muted-bg);
+    --bs-btn-hover-color: var(--admin-surface);
+    --bs-btn-hover-bg: var(--admin-action-muted-hover);
+    --bs-btn-hover-border-color: var(--admin-action-muted-hover);
+    --bs-btn-active-color: var(--admin-surface);
+    --bs-btn-active-bg: var(--admin-action-muted-hover);
+    --bs-btn-active-border-color: var(--admin-action-muted-hover);
+    cursor: pointer;
+}
+
+.dashboard-table th,
+.dashboard-table td {
+    padding: 14px 8px;
+}
+
+.dashboard-table th {
+    color: var(--admin-muted);
+    font-size: 0.8rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.dashboard-status {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    white-space: nowrap;
+    font-size: 0.75rem;
+}
+
+.dashboard-status-current {
+    color: var(--admin-ink);
+    background-color: var(--admin-yellow);
+}
+
+.dashboard-status-ended {
+    color: var(--admin-status-hidden-text);
+    background-color: var(--admin-status-hidden-bg);
+}
+
+.dashboard-status-upcoming {
+    color: var(--admin-status-visible-text);
+    background-color: var(--admin-status-visible-bg);
+}
+
+.dashboard-genre-content {
+    display: grid;
+    grid-template-columns: minmax(140px, 1.2fr) minmax(100px, 1fr);
+    flex: 1;
+    align-items: center;
+    gap: 20px;
+    min-height: 240px;
+}
+
+/* 화면 초안용 고정 비율. 실제 데이터 연동 시 각 구간 비율도 함께 변경한다. */
+.dashboard-donut {
+    position: relative;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 100%;
+    max-width: 240px;
+    aspect-ratio: 1;
+    justify-self: center;
+    border-radius: 50%;
+    background: conic-gradient(
+        var(--admin-yellow) 0% 42%,
+        var(--admin-status-visible-bg) 42% 66%,
+        var(--admin-border) 66% 84%,
+        var(--admin-action-muted-bg) 84% 100%
+    );
+}
+
+.dashboard-donut::before {
+    position: absolute;
+    width: 70%;
+    height: 70%;
+    border-radius: 50%;
+    background: var(--admin-surface);
+    content: "";
+}
+
+.dashboard-donut-label {
+    position: relative;
+    text-align: center;
+}
+
+.dashboard-donut-label strong {
+    display: block;
+    font-size: clamp(1.4rem, 2vw, 2.2rem);
+}
+
+.dashboard-donut-label span {
+    color: var(--admin-muted);
+    font-size: 0.75rem;
+}
+
+.dashboard-legend {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    font-size: 1rem;
+}
+
+.dashboard-legend li {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 0;
+}
+
+.dashboard-legend strong {
+    margin-left: auto;
+}
+
+.dashboard-legend-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+.dashboard-legend-music { background: var(--admin-yellow); }
+.dashboard-legend-food { background: var(--admin-status-visible-bg); }
+.dashboard-legend-exhibition { background: var(--admin-border); }
+.dashboard-legend-other { background: var(--admin-action-muted-bg); }
+
+.dashboard-ranking {
+    display: grid;
+    gap: 16px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.dashboard-ranking li {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.dashboard-rank {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 28px;
+    height: 28px;
+    color: var(--admin-ink);
+    background: var(--admin-yellow);
+    border-radius: 8px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.dashboard-ranking-count {
+    margin-left: auto;
+    color: var(--admin-muted);
+    font-size: 0.85rem;
+    white-space: nowrap;
+}
+
+.dashboard-activity-item {
+    padding: 8px 12px;
+    text-align: center;
+}
+
+.dashboard-activity-item + .dashboard-activity-item {
+    border-left: 1px solid var(--admin-border);
+}
+
+.dashboard-activity-item dt {
+    margin-bottom: 12px;
+    color: var(--admin-muted);
+    font-size: 0.9rem;
+    font-weight: 400;
+}
+
+.dashboard-activity-item dd {
+    margin: 0;
+    font-size: clamp(1.3rem, 2vw, 2rem);
+    font-weight: 700;
+}
+
+.dashboard-low-popularity-table {
+    min-width: 240px;
+    width: 100%;
+    height: 100%;
+    flex: 1;
+    font-size: 0.95rem;
+}
+
+@media (max-width: 575.98px) {
+    .dashboard-genre-content {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .dashboard-legend {
+        width: 100%;
+    }
+
+    .dashboard-activity-item {
+        padding-right: 6px;
+        padding-left: 6px;
+    }
+}
+
+.dashboard-low-popularity-table th,
+.dashboard-low-popularity-table td {
+    padding: 16px 6px;
+    white-space: nowrap;
+}
+
+.dashboard-low-popularity-table th {
+    color: var(--admin-muted);
+    font-size: 0.75rem;
+    font-weight: 500;
+}
+
+@media (max-width: 1399.98px) {
+    .dashboard-grid {
+        grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+        grid-template-areas: "festivals genre" "activity interests" "members members";
+    }
+}
+
+@media (max-width: 991.98px) {
+    .dashboard-grid {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-areas: "festivals" "genre" "activity" "interests" "members";
+    }
+
+    .dashboard-card {
+        padding: 20px;
+    }
+}
