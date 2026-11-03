@@ -50,6 +50,7 @@ let nextTagId = tags.length + 1;
 let selectedTagType = 'genre';
 let tagKeyword = '';
 let tagPage = 1;
+let tagUsageSort = null;
 let editingTagId = null;
 // 태그 화면의 실제 페이지당 표시 개수. 개수를 바꾸려면 이 값만 수정한다.
 const tagsPerPage = 10;
@@ -72,18 +73,33 @@ function tagElement(tagName, className, text) {
     return element;
 }
 
+// 종류·검색·정렬 조건을 적용한 전체 결과. 화면 표시와 저장 후 페이지 계산에 함께 쓴다.
+function getTagResults() {
+    const results = tags.filter(function (tag) {
+        return tag.type === selectedTagType && tag.name.toLocaleLowerCase().includes(tagKeyword);
+    });
+    // 페이지를 나누기 전에 전체 결과를 정렬한다. 같은 사용 수는 ID순으로 유지한다.
+    if (tagUsageSort) {
+        results.sort(function (first, second) {
+            const difference = first.usage - second.usage;
+            return difference === 0 ? first.id - second.id
+                : difference * (tagUsageSort === 'ascending' ? 1 : -1);
+        });
+    }
+    return results;
+}
+
 /**
- * 화면 갱신의 중심 함수.
- * 전체 집계 → 종류 필터 → 이름 검색 → 페이지 범위 보정 → 현재 페이지 행 생성
- * → 건수와 페이지 버튼 갱신 순서로 처리한다.
- * 기존 행을 지우고 새로 만들기 때문에 수정·삭제 버튼 이벤트도 이 안에서 연결한다.
+ * 전체 집계 → 종류·검색·정렬 → 페이지 범위 보정 → 현재 페이지 행 생성
+ * → 건수와 페이지 버튼 갱신 순서로 화면을 다시 그린다.
+ * 행을 새로 만들기 때문에 수정·삭제 버튼 이벤트도 여기서 연결한다.
  */
 function renderTags() {
     document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
     document.querySelector('#tag-target-count').textContent = tags.filter(function (tag) { return tag.type === 'target'; }).length;
     document.querySelector('#tag-total-count').textContent = tags.length;
     const category = tags.filter(function (tag) { return tag.type === selectedTagType; });
-    const results = category.filter(function (tag) { return tag.name.toLocaleLowerCase().includes(tagKeyword); });
+    const results = getTagResults();
     // 공통 함수가 페이지별 데이터 분리와 마지막 페이지 삭제 시 범위 보정을 맡는다.
     const pageData = paginateItems(results, tagPage, tagsPerPage);
     tagPage = pageData.currentPage;
@@ -190,6 +206,16 @@ function openTagDialog(tag) {
     tagDialog.showModal();
 }
 
+// 사용 수 정렬은 탭과 검색 조건을 유지하고 1페이지부터 보여준다.
+document.querySelector('#tag-usage-sort').addEventListener('click', function () {
+    tagUsageSort = tagUsageSort === 'ascending' ? 'descending' : 'ascending';
+    tagPage = 1;
+    const button = document.querySelector('#tag-usage-sort');
+    button.closest('th').setAttribute('aria-sort', tagUsageSort);
+    button.querySelector('span').textContent = tagUsageSort === 'ascending' ? '↑' : '↓';
+    renderTags();
+});
+
 // 클릭과 키보드(좌우 방향키·Home·End)로 탭을 선택할 수 있도록 연결한다.
 tagTabs.forEach(function (tab, index) {
     tab.addEventListener('click', function () { selectTagType(tab.dataset.tagType); });
@@ -258,7 +284,8 @@ tagForm.addEventListener('submit', function (event) {
     document.querySelector('#tag-search').value = '';
     tagDialog.close();
     selectTagType(type);
-    const category = tags.filter(function (tag) { return tag.type === type; });
+    // 저장 후에도 현재 정렬 기준에 맞는 위치로 이동한다.
+    const category = getTagResults();
     // 배열 위치는 0부터, 페이지는 1부터 시작한다. 저장한 항목이 있는 페이지를 계산한다.
     tagPage = Math.floor(category.findIndex(function (tag) { return tag.id === item.id; }) / tagsPerPage) + 1;
     renderTags();

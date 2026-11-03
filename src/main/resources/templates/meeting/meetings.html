@@ -45,12 +45,27 @@
                         </div>
                     </div>
                 </form>
-                <p class="small text-secondary mb-2" id="meeting-result-count" role="status">전체 11건 · 검색 결과 11건</p>
+                <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
+                    <p class="small text-secondary mb-0" id="meeting-result-count" role="status">전체 11건 · 검색 결과 11건</p>
+                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2 ms-auto" role="group" aria-label="선택한 모임 상태 변경">
+                        <label class="small text-secondary me-1" for="meeting-bulk-status">선택 항목</label>
+                        <select class="form-select form-select-sm list-bulk-status" id="meeting-bulk-status" name="bulkStatus">
+                            <option value="">변경할 상태</option>
+                                <option value="visible">공개</option>
+                                <option value="hidden">비공개</option>
+                        </select>
+                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="meeting">상태 변경</button>
+                    </div>
+                </div>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle meeting-table mb-0">
                         <caption class="visually-hidden">모임 관리 예시 목록, 페이지당 10개</caption>
                         <thead class="table-light text-center">
                             <tr>
+                                <th scope="col" class="list-selection-column">
+                                    <input class="form-check-input list-selection-input" type="checkbox" id="meeting-select-all" aria-label="현재 페이지 모임 전체 선택">
+                                </th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="meetingId" aria-label="번호 정렬">번호 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col">
                                     <details class="meeting-status-filter" id="meeting-status-filter">
@@ -71,6 +86,7 @@
                         </thead>
                         <tbody class="text-center" id="meeting-list">
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="1" aria-label="모임 1번 선택"></td>
                                 <td data-field="meetingId">1</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=1">부산 락 페스티벌</a></td>
@@ -80,6 +96,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
                             </tr>
                             <tr data-status="hidden">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="2" aria-label="모임 2번 선택"></td>
                                 <td data-field="meetingId">2</td>
                                 <td><span class="badge meeting-status-hidden">비공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=2">서울 먹거리 축제</a></td>
@@ -89,6 +106,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-29"><time datetime="2026-10-29">2026.10.29</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="3" aria-label="모임 3번 선택"></td>
                                 <td data-field="meetingId">3</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=3">제주 가을 문화축제</a></td>
@@ -98,6 +116,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-28"><time datetime="2026-10-28">2026.10.28</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="4" aria-label="모임 4번 선택"></td>
                                 <td data-field="meetingId">4</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=4">서울 한강에서 함께 즐기는 가을밤 재즈와 세계 음악 페스티벌 특별 공연</a></td>
@@ -107,6 +126,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-27"><time datetime="2026-10-27">2026.10.27</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="5" aria-label="모임 5번 선택"></td>
                                 <td data-field="meetingId">5</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=5">김천 김밥축제</a></td>
@@ -116,6 +136,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-26"><time datetime="2026-10-26">2026.10.26</time></td>
                             </tr>
                             <tr data-status="hidden">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="6" aria-label="모임 6번 선택"></td>
                                 <td data-field="meetingId">6</td>
                                 <td><span class="badge meeting-status-hidden">비공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=6">수원 전통문화 체험축제</a></td>
@@ -125,6 +146,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="7" aria-label="모임 7번 선택"></td>
                                 <td data-field="meetingId">7</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=7">인천 바다 음악축제</a></td>
@@ -134,6 +156,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-24"><time datetime="2026-10-24">2026.10.24</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="8" aria-label="모임 8번 선택"></td>
                                 <td data-field="meetingId">8</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=8">춘천 닭갈비 나눔축제</a></td>
@@ -143,6 +166,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-23"><time datetime="2026-10-23">2026.10.23</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="9" aria-label="모임 9번 선택"></td>
                                 <td data-field="meetingId">9</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=9">대전 가을 문화축제</a></td>
@@ -152,6 +176,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-22"><time datetime="2026-10-22">2026.10.22</time></td>
                             </tr>
                             <tr data-status="hidden">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="10" aria-label="모임 10번 선택"></td>
                                 <td data-field="meetingId">10</td>
                                 <td><span class="badge meeting-status-hidden">비공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=10">전주 길거리 음식축제</a></td>
@@ -161,6 +186,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-10-21"><time datetime="2026-10-21">2026.10.21</time></td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="meetingIds" value="11" aria-label="모임 11번 선택"></td>
                                 <td data-field="meetingId">11</td>
                                 <td><span class="badge meeting-status-visible">공개</span></td>
                                 <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=11">강릉 바다빛 문화축제</a></td>
@@ -170,7 +196,7 @@
                                 <td data-sort-field="createdAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
                             </tr>
                             <tr id="meeting-empty" hidden>
-                                <td colspan="7" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
+                                <td colspan="8" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
                             </tr>
                         </tbody>
                     </table>
