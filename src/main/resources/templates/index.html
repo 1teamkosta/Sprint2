@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>관리자 대시보드 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../static/css/component.css" th:href="@{/css/component.css}" rel="stylesheet">
+    <link href="../static/css/index.css" th:href="@{/css/index.css}" rel="stylesheet">
+    <script src="../static/js/component.js" th:src="@{/js/component.js}" defer></script>
+</head>
+<body data-admin-page="dashboard" data-component-base="component/">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <!-- 현재는 JS로 공통 영역을 불러온다. 추후 Thymeleaf 조각으로 교체한다. -->
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <div class="mb-4">
+                <h1 class="h3 fw-bold mb-2">안녕하세요, 관리자님</h1>
+                <p class="text-secondary small mb-0">축제와 회원의 주요 현황을 한눈에 확인하세요.</p>
+            </div>
+
+            <!-- 화면 구성용 예시 값. 추후 서버에서 집계한 데이터로 교체한다. -->
+            <section class="row g-3 mb-4" aria-label="주요 현황">
+                <div class="col-12 col-md-4">
+                    <div class="dashboard-summary-card">
+                        <h2 class="dashboard-summary-label"><span class="dashboard-summary-mark" aria-hidden="true"></span>등록된 축제 수</h2>
+                        <p class="dashboard-summary-value">248<span class="fs-6 fw-normal text-secondary ms-2">개</span></p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="dashboard-summary-card">
+                        <h2 class="dashboard-summary-label"><span class="dashboard-summary-mark" aria-hidden="true"></span>전체 회원 수</h2>
+                        <p class="dashboard-summary-value">12,480<span class="fs-6 fw-normal text-secondary ms-2">명</span></p>
+                    </div>
+                </div>
+                <div class="col-12 col-md-4">
+                    <div class="dashboard-summary-card">
+                        <h2 class="dashboard-summary-label"><span class="dashboard-summary-mark" aria-hidden="true"></span>오늘 신규 회원</h2>
+                        <p class="dashboard-summary-value">312<span class="fs-6 fw-normal text-secondary ms-2">명</span></p>
+                    </div>
+                </div>
+            </section>
+
+            <div class="dashboard-grid">
+                <section class="dashboard-card dashboard-festivals" aria-labelledby="dashboard-festivals-heading">
+                    <div class="dashboard-card-heading">
+                        <h2 id="dashboard-festivals-heading">축제 현황</h2>
+                        <a class="dashboard-more" href="festival/festivals.html">전체 보기 →</a>
+                    </div>
+                    <div class="dashboard-festival-table-wrap">
+                        <table class="table align-middle dashboard-table mb-0">
+                            <caption class="visually-hidden">최근 축제 현황 예시</caption>
+                            <thead class="text-center">
+                                <tr><th scope="col" class="text-start">축제명</th><th scope="col">지역</th><th scope="col">기간</th><th scope="col">상태</th><th scope="col">관리</th></tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr>
+                                    <td class="text-start fw-medium"><a class="list-detail-link" href="festival/festivalDetail.html?id=1">서울 재즈 페스티벌</a></td>
+                                    <td>서울</td>
+                                    <td><time datetime="2026-11-01">2026.11.01</time><br>~ <time datetime="2026-11-05">2026.11.05</time></td>
+                                    <td><span class="dashboard-status dashboard-status-current">진행 중</span></td>
+                                    <td><a class="btn btn-outline-secondary btn-sm" href="festival/festivalDetail.html?id=1">상세</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start fw-medium"><a class="list-detail-link" href="festival/festivalDetail.html?id=2">부산 불꽃축제</a></td>
+                                    <td>부산</td>
+                                    <td><time datetime="2026-10-10">2026.10.10</time><br>~ <time datetime="2026-10-11">2026.10.11</time></td>
+                                    <td><span class="dashboard-status dashboard-status-ended">종료</span></td>
+                                    <td><a class="btn btn-outline-secondary btn-sm" href="festival/festivalDetail.html?id=2">상세</a></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-start fw-medium"><a class="list-detail-link" href="festival/festivalDetail.html?id=3">강릉 커피축제</a></td>
+                                    <td>강릉</td>
+                                    <td><time datetime="2026-12-15">2026.12.15</time><br>~ <time datetime="2026-12-18">2026.12.18</time></td>
+                                    <td><span class="dashboard-status dashboard-status-upcoming">예정</span></td>
+                                    <td><a class="btn btn-outline-secondary btn-sm" href="festival/festivalDetail.html?id=3">상세</a></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="dashboard-card dashboard-genre" aria-labelledby="dashboard-genre-heading">
+                    <div class="dashboard-card-heading">
+                        <h2 id="dashboard-genre-heading">장르 태그 분포</h2>
+                        <a class="dashboard-more" href="tags/tags.html">태그 보기 →</a>
+                    </div>
+                    <div class="dashboard-genre-content">
+                        <div class="dashboard-donut" role="img" aria-label="예시 장르 태그 분포: 음악 42%, 먹거리 24%, 전시 18%, 기타 16%, 전체 축제 248개">
+                            <div class="dashboard-donut-label" aria-hidden="true"><strong>248</strong><span>전체 축제</span></div>
+                        </div>
+                        <ul class="dashboard-legend" aria-label="장르 태그별 비율">
+                            <li><span class="dashboard-legend-dot dashboard-legend-music" aria-hidden="true"></span>음악<strong>42%</strong></li>
+                            <li><span class="dashboard-legend-dot dashboard-legend-food" aria-hidden="true"></span>먹거리<strong>24%</strong></li>
+                            <li><span class="dashboard-legend-dot dashboard-legend-exhibition" aria-hidden="true"></span>전시<strong>18%</strong></li>
+                            <li><span class="dashboard-legend-dot dashboard-legend-other" aria-hidden="true"></span>기타<strong>16%</strong></li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section class="dashboard-card dashboard-low-popularity" aria-labelledby="dashboard-low-popularity-heading">
+                    <div class="dashboard-card-heading">
+                        <h2 id="dashboard-low-popularity-heading">인기도 낮은 회원</h2>
+                        <a class="dashboard-more" href="users/users.html">전체 보기 →</a>
+                    </div>
+                    <p class="small text-secondary mb-3">인기도가 낮은 순으로 5명을 표시합니다.</p>
+                    <div class="table-responsive">
+                        <table class="table align-middle dashboard-low-popularity-table mb-0">
+                            <caption class="visually-hidden">인기도 오름차순 회원 예시</caption>
+                            <thead><tr><th scope="col">닉네임</th><th scope="col" class="text-center">인기도</th><th scope="col" class="text-end">관리</th></tr></thead>
+                            <tbody>
+                                <tr><td><a class="list-detail-link" href="users/userDetail.html?id=4">한문화</a></td><td class="text-center fw-semibold">7</td><td class="text-end"><button class="btn btn-sm dashboard-suspend" type="button" data-user-id="4" aria-label="한문화 회원 정지">정지</button></td></tr>
+                                <tr><td><a class="list-detail-link" href="users/userDetail.html?id=8">오춘천</a></td><td class="text-center fw-semibold">15</td><td class="text-end"><button class="btn btn-sm dashboard-suspend" type="button" data-user-id="8" aria-label="오춘천 회원 정지">정지</button></td></tr>
+                                <tr><td><a class="list-detail-link" href="users/userDetail.html?id=6">정수원</a></td><td class="text-center fw-semibold">33</td><td class="text-end"><button class="btn btn-sm dashboard-suspend" type="button" data-user-id="6" aria-label="정수원 회원 정지">정지</button></td></tr>
+                                <tr><td><a class="list-detail-link" href="users/userDetail.html?id=2">이음식</a></td><td class="text-center fw-semibold">42</td><td class="text-end"><button class="btn btn-sm dashboard-suspend" type="button" data-user-id="2" aria-label="이음식 회원 정지">정지</button></td></tr>
+                                <tr><td><a class="list-detail-link" href="users/userDetail.html?id=10">임전주</a></td><td class="text-center fw-semibold">64</td><td class="text-end"><button class="btn btn-sm dashboard-suspend" type="button" data-user-id="10" aria-label="임전주 회원 정지">정지</button></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section class="dashboard-card dashboard-activity" aria-labelledby="dashboard-activity-heading">
+                    <div class="dashboard-card-heading"><h2 id="dashboard-activity-heading">사용자 축제 활동 현황 (일간)</h2></div>
+                    <dl class="row g-0 mb-0">
+                        <div class="col-4 dashboard-activity-item"><dt>축제 평가 수</dt><dd>18,432</dd></div>
+                        <div class="col-4 dashboard-activity-item"><dt>모임 참여 수</dt><dd>28,000</dd></div>
+                        <div class="col-4 dashboard-activity-item"><dt>찜한 축제 수</dt><dd>5,362</dd></div>
+                    </dl>
+                </section>
+
+                <section class="dashboard-card dashboard-interests" aria-labelledby="dashboard-interests-heading">
+                    <div class="dashboard-card-heading">
+                        <h2 id="dashboard-interests-heading">사용자 선택 관심사 TOP 5</h2>
+                        <a class="dashboard-more" href="tags/tags.html">태그 보기 →</a>
+                    </div>
+                    <ol class="dashboard-ranking">
+                        <li><span class="dashboard-rank" aria-label="1위">1</span><span>음악</span><span class="dashboard-ranking-count">3,842회</span></li>
+                        <li><span class="dashboard-rank" aria-label="2위">2</span><span>먹거리</span><span class="dashboard-ranking-count">2,415회</span></li>
+                        <li><span class="dashboard-rank" aria-label="3위">3</span><span>전시</span><span class="dashboard-ranking-count">2,177회</span></li>
+                        <li><span class="dashboard-rank" aria-label="4위">4</span><span>도시</span><span class="dashboard-ranking-count">1,892회</span></li>
+                        <li><span class="dashboard-rank" aria-label="5위">5</span><span>체험</span><span class="dashboard-ranking-count">1,434회</span></li>
+                    </ol>
+                </section>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
