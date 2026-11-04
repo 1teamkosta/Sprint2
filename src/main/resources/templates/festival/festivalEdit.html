@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>축제 수정 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/festivalAdd.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/festivalAdd.js" defer></script>
+    <script src="../../static/js/festivalEdit.js" defer></script>
+</head>
+<body data-admin-page="festival" data-festival-mode="edit">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <form id="festival-add-form">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                    <h1 class="h3 fw-bold mb-0">축제 수정</h1>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-secondary" id="festival-edit-cancel" href="festivals.html">취소</a>
+                        <a class="btn btn-primary disabled" id="festival-edit-save" href="festivaldetail.html?id=1" aria-disabled="true" tabindex="-1">저장</a>
+                    </div>
+                </div>
+                <p id="festival-edit-feedback" class="small text-secondary" role="status">축제 정보를 불러오는 중입니다.</p>
+                <fieldset id="festival-edit-fields" class="border-0 p-0 m-0 w-100" disabled>
+                <section class="festival-add-card" aria-labelledby="festival-form-heading">
+                    <h2 id="festival-form-heading" class="visually-hidden">축제 정보 입력</h2>
+                    <div class="festival-add-field mb-4">
+                        <label class="form-label fw-semibold" for="festival-name">축제 이름 <span class="visually-hidden">필수</span></label>
+                        <input class="form-control" id="festival-name" name="title" placeholder="축제 이름을 입력하세요" maxlength="200" required>
+                    </div>
+                    <div class="festival-add-overview">
+                        <div>
+                            <div class="festival-add-image" id="festival-image-placeholder"><span>축제 이미지</span><span class="small">이미지를 선택해 주세요</span></div>
+                            <img class="festival-add-preview" id="festival-image-preview" alt="선택한 축제 이미지 미리보기" hidden>
+                            <label class="btn btn-outline-secondary w-100 mt-2" for="festival-image">이미지 선택</label>
+                            <input class="visually-hidden" type="file" id="festival-image" name="image" accept="image/*" aria-describedby="festival-image-feedback">
+                            <p class="small text-secondary mt-2 mb-0" id="festival-image-feedback" role="status"></p>
+                        </div>
+                        <div>
+                            <div class="mb-4">
+                                <label class="form-label fw-semibold" for="festival-genre">대표 축제 장르</label>
+                                <select class="form-select" id="festival-genre" name="genre" required>
+                                    <option value="">대표 축제 장르를 선택하세요</option>
+                                </select>
+                            </div>
+                            <div>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h3 class="h6 fw-semibold mb-0" id="festival-tags-heading">태그</h3>
+                                    <button class="festival-tag-add" type="button" id="festival-tag-open" aria-label="축제 태그 추가" aria-haspopup="dialog" aria-controls="festival-tag-dialog">+</button>
+                                </div>
+                                <div class="festival-selected-tags" id="festival-selected-tags" role="group" aria-labelledby="festival-tags-heading"></div>
+                                <p class="small text-secondary mt-2 mb-0">+ 버튼을 눌러 축제 장르와 추천 대상 태그를 선택하세요.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row g-3 mt-2">
+                        <div class="col-md-6"><label class="form-label fw-semibold" for="festival-start-date">시작일</label><input class="form-control" id="festival-start-date" name="startDate" type="date" required></div>
+                        <div class="col-md-6"><label class="form-label fw-semibold" for="festival-end-date">종료일</label><input class="form-control" id="festival-end-date" name="endDate" type="date" required></div>
+                        <div class="col-12"><label class="form-label fw-semibold" for="festival-place">장소</label><input class="form-control" id="festival-place" name="place" placeholder="축제가 열리는 장소를 입력하세요" maxlength="200" required></div>
+                        <div class="col-12"><label class="form-label fw-semibold" for="festival-description">행사 소개</label><textarea class="form-control" id="festival-description" name="description" rows="9" placeholder="축제 프로그램과 행사 내용을 입력하세요" maxlength="2000"></textarea></div>
+                    </div>
+                    <p class="small text-secondary mt-3 mb-0" id="festival-save-feedback" role="status" hidden></p>
+                </section>
+                </fieldset>
+            </form>
+        </div>
+    </main>
+    <!-- 기존 태그를 축제에 연결하는 모달. 태그 자체의 신규 등록은 태그 관리에서 처리한다. -->
+    <dialog class="festival-tag-dialog" id="festival-tag-dialog" aria-labelledby="festival-tag-dialog-title">
+        <div class="festival-tag-dialog-header">
+            <h2 class="h5 fw-bold mb-0" id="festival-tag-dialog-title">태그 추가</h2>
+            <button class="btn-close" type="button" id="festival-tag-close" aria-label="태그 추가 닫기"></button>
+        </div>
+        <div class="p-4">
+            <label class="visually-hidden" for="festival-tag-search">태그명 검색</label>
+            <input class="form-control mb-3" id="festival-tag-search" type="search" placeholder="태그명을 검색하세요" autofocus>
+            <div class="festival-tag-results">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light"><tr><th scope="col">태그 종류</th><th scope="col">태그명</th><th scope="col" class="text-end">선택</th></tr></thead>
+                    <tbody id="festival-tag-options"></tbody>
+                </table>
+            </div>
+            <p id="festival-tag-feedback" class="small text-secondary mt-3 mb-0" role="status"></p>
+        </div>
+    </dialog>
+</body>
+</html>

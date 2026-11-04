@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>축제 상세 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/festivaldetail.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/festivaldetail.js" defer></script>
+</head>
+<body data-admin-page="festival">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <!-- 공통 영역은 추후 Thymeleaf의 th:replace로 교체한다. -->
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <h1 class="h3 fw-bold mb-0">축제 상세</h1>
+                <!-- 비공개 처리는 서버 연동 시 연결한다. 수정은 동일한 축제 ID로 이동한다. -->
+                <div class="d-flex gap-2">
+                    <button class="btn btn-outline-secondary" type="button" id="festival-visibility">비공개</button>
+                    <a class="btn btn-primary" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
+                </div>
+            </div>
+
+            <p id="festival-detail-feedback" class="small text-secondary" role="status" hidden></p>
+            <article class="festival-detail-card" aria-labelledby="festival-title">
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                    <span id="festival-status" class="badge festival-detail-visible">공개</span>
+                    <h2 id="festival-title" class="h4 fw-bold mb-0">부산 락 페스티벌</h2>
+                </div>
+
+                <div class="festival-detail-overview">
+                    <!-- 실제 이미지가 준비되면 이 영역을 축제 이미지 img로 교체한다. -->
+                    <div class="festival-detail-poster" role="img" aria-label="축제 이미지 준비 중">
+                        <span class="festival-detail-poster-year">2026</span>
+                        <span class="festival-detail-poster-title">축제메이트</span>
+                        <span class="small">축제 이미지 준비 중</span>
+                    </div>
+                    <dl class="festival-detail-info mb-0">
+                        <div><dt>대표 축제 장르</dt><dd class="d-flex flex-wrap gap-2 mb-0"><span id="festival-genre" class="festival-detail-tag">음악</span></dd></div>
+                        <div><dt>추천 대상</dt><dd class="d-flex flex-wrap gap-2 mb-0">
+                            <span class="festival-detail-tag">청년</span>
+                            <span class="festival-detail-tag">가족</span>
+                            <span class="festival-detail-tag">친구</span>
+                            <span class="festival-detail-tag">연인</span>
+                        </dd></div>
+                        <div><dt>일정</dt><dd id="festival-schedule"><time datetime="2026-11-02">2026.11.02</time> ~ <time datetime="2026-11-03">2026.11.03</time></dd></div>
+                        <div><dt>장소</dt><dd id="festival-place">삼락공원</dd></div>
+                    </dl>
+                </div>
+
+                <section class="mt-4" aria-labelledby="festival-description-heading">
+                    <h3 id="festival-description-heading" class="h6 fw-semibold mb-3">행사 소개</h3>
+                    <div class="festival-detail-description" id="festival-description">
+                        부산 삼락공원에서 함께 즐기는 락 페스티벌입니다.
+                        다양한 아티스트의 공연과 먹거리를 만나고, 축제메이트와 함께 즐거운 추억을 만들어 보세요.
+                    </div>
+                </section>
+
+                <!-- 참여·평가 수는 화면 확인용 더미 값이며 서버 연동 시 실제 집계로 교체한다. -->
+                <dl class="festival-detail-stats mb-0" aria-label="축제 활동 통계">
+                    <div><dt>찜 수</dt><dd id="festival-bookmark-count">53</dd></div>
+                    <div><dt>참여자 수</dt><dd>507</dd></div>
+                    <div><dt>좋았어요 수</dt><dd>428</dd></div>
+                    <div><dt>별로였어요 수</dt><dd>12</dd></div>
+                </dl>
+            </article>
+            <div class="mt-4"><a class="btn btn-outline-secondary" href="festivals.html">목록으로</a></div>
+        </div>
+    </main>
+</body>
+</html>
