@@ -1,4 +1,16 @@
 /* 색상은 component.css에서 불러온 root.css의 공통 변수를 사용한다. */
+.festival-detail-private {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-bg: var(--admin-sidebar-bg);
+    --bs-btn-border-color: var(--admin-sidebar-bg);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-sidebar-hover);
+    --bs-btn-hover-border-color: var(--admin-sidebar-hover);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-sidebar-hover);
+    --bs-btn-active-border-color: var(--admin-sidebar-hover);
+}
+
 .festival-detail-card {
     padding: 32px;
     border: 1px solid var(--admin-border);
