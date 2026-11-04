@@ -47,8 +47,10 @@
 .meeting-column-select { width: 48px; }
 .meeting-column-number { width: 76px; }
 .meeting-column-status { width: 92px; }
-.meeting-column-name { width: calc((100% - 482px) / 2); }
+.meeting-column-name { width: calc((100% - 594px) / 2); }
+.meeting-column-purpose { width: 112px; }
 .meeting-column-host { width: 130px; }
+.meeting-purpose { white-space: nowrap; }
 .meeting-column-date { width: 136px; }
 
 .meeting-table [data-sort-field="createdAt"] {

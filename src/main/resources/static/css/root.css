@@ -9,6 +9,12 @@
     --admin-status-visible-text: #80472b;
     --admin-status-hidden-bg: #eeeeee;
     --admin-status-hidden-text: #555555;
+    --admin-progress-ongoing-bg: #dceee3;
+    --admin-progress-ongoing-text: #315e43;
+    --admin-progress-upcoming-bg: #ece5f5;
+    --admin-progress-upcoming-text: #655080;
+    --admin-progress-ended-bg: #e2e8ee;
+    --admin-progress-ended-text: #506174;
     --admin-surface: #ffffff;
     --admin-border: #dee2e6;
     --admin-muted: #6c757d;

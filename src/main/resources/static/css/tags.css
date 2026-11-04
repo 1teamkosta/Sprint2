@@ -41,11 +41,12 @@
 
 /* 탭·검색·페이지가 바뀌어도 열 너비를 유지하고 설명 열에 남는 공간을 배분한다. */
 .tag-column-id { width: 88px; }
+.tag-column-status { width: 92px; }
 .tag-column-name { width: 144px; }
 .tag-column-color { width: 160px; }
-.tag-column-description { width: calc(100% - 728px); }
+.tag-column-description { width: calc(100% - 752px); }
 .tag-column-usage { width: 180px; }
-.tag-column-actions { width: 156px; }
+.tag-column-actions { width: 88px; }
 
 .tag-table td {
     overflow-wrap: anywhere;
@@ -144,4 +145,14 @@
 
 .tag-required {
     color: var(--admin-status-visible-text);
+}
+
+/* 다른 관리 목록과 같은 공개·비공개 상태 배지 */
+.tag-status-visible {
+    background-color: var(--admin-status-visible-bg);
+    color: var(--admin-status-visible-text);
+}
+.tag-status-hidden {
+    background-color: var(--admin-status-hidden-bg);
+    color: var(--admin-status-hidden-text);
 }

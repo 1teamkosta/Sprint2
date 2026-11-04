@@ -49,6 +49,51 @@
     color: var(--admin-status-hidden-text);
 }
 
+/* 공통 list.js의 상태 필터에 연결한다. 검색·정렬·페이지 이동과 함께 적용된다. */
+.user-status-filter {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+.user-status-filter summary {
+    cursor: pointer;
+    list-style: none;
+}
+.user-status-filter summary::-webkit-details-marker { display: none; }
+.user-status-filter summary span {
+    color: var(--admin-muted);
+    font-size: 0.8em;
+}
+.user-status-options {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 1;
+    width: 140px;
+    padding: 6px;
+    transform: translateX(-50%);
+    background-color: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+}
+.user-status-options button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--admin-ink);
+    text-align: left;
+}
+.user-status-options button:hover,
+.user-status-options button[aria-pressed="true"] {
+    background-color: var(--admin-yellow);
+}
+.user-status-options button[aria-pressed="true"]::after { content: '✓'; }
+
 @media (max-width: 575.98px) {
     .user-search-setting {
         flex-basis: auto;

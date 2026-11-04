@@ -72,6 +72,7 @@
                             <col class="meeting-column-status">
                             <col class="meeting-column-name">
                             <col class="meeting-column-name">
+                            <col class="meeting-column-purpose">
                             <col class="meeting-column-host">
                             <col class="meeting-column-date">
                         </colgroup>
@@ -93,6 +94,7 @@
                                     </th>
                                     <th scope="col"><button type="button" class="column-sort" data-sort="festival" aria-label="축제 이름 정렬">축제 이름 <span aria-hidden="true">↕</span></button></th>
                                     <th scope="col"><button type="button" class="column-sort" data-sort="title" aria-label="모임 이름 정렬">모임 이름 <span aria-hidden="true">↕</span></button></th>
+                                    <th scope="col" class="meeting-purpose">모임 목적</th>
                                     <th scope="col" class="meeting-host-heading">모임 개설자</th>
 
                                     <th scope="col"><button type="button" class="column-sort" data-sort="createdAt" aria-label="개설일 정렬">개설일 <span aria-hidden="true">↕</span></button></th>
@@ -105,6 +107,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=1">부산 락 페스티벌</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=1">처음 가는 락페 함께 즐겨요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">김축제</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
@@ -115,6 +118,7 @@
                                     <td><span class="badge meeting-status-hidden">비공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=2">서울 먹거리 축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=2">돼지갈비후라이드 나눠 먹을 분</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">음식메이트</td>
                                     <td data-field="host">이음식</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-29"><time datetime="2026-10-29">2026.10.29</time></td>
@@ -125,6 +129,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=3">제주 가을 문화축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=3">전시 보고 산책하실 분 구해요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">한문화</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-28"><time datetime="2026-10-28">2026.10.28</time></td>
@@ -135,6 +140,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=4">서울 한강에서 함께 즐기는 가을밤 재즈와 세계 음악 페스티벌 특별 공연</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=4">혼자 가는 재즈 축제에서 함께 공연을 즐기고 맛있는 음식도 나눠 먹을 동행 구합니다</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">박재즈</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-27"><time datetime="2026-10-27">2026.10.27</time></td>
@@ -145,6 +151,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=5">김천 김밥축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=5">김밥 여러 종류 같이 나눠 먹어요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">음식메이트</td>
                                     <td data-field="host">최김밥</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-26"><time datetime="2026-10-26">2026.10.26</time></td>
@@ -155,6 +162,7 @@
                                     <td><span class="badge meeting-status-hidden">비공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=6">수원 전통문화 체험축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=6">전통문화 체험 같이 하실 분</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">정수원</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
@@ -165,6 +173,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=7">인천 바다 음악축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=7">저녁 공연 함께 봐요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">송바다</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-24"><time datetime="2026-10-24">2026.10.24</time></td>
@@ -175,6 +184,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=8">춘천 닭갈비 나눔축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=8">닭갈비 한 판 함께 먹을 분</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">음식메이트</td>
                                     <td data-field="host">오춘천</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-23"><time datetime="2026-10-23">2026.10.23</time></td>
@@ -185,6 +195,7 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=9">대전 가을 문화축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=9">문화축제 구경할 동행 찾아요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">유가을</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-22"><time datetime="2026-10-22">2026.10.22</time></td>
@@ -195,6 +206,7 @@
                                     <td><span class="badge meeting-status-hidden">비공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=10">전주 길거리 음식축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=10">축제 음식 다양하게 나눠 먹어요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">음식메이트</td>
                                     <td data-field="host">임전주</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-21"><time datetime="2026-10-21">2026.10.21</time></td>
@@ -205,12 +217,13 @@
                                     <td><span class="badge meeting-status-visible">공개</span></td>
                                     <td class="meeting-festival text-start" data-field="festival"><a class="list-detail-link" href="../festival/festivalDetail.html?id=11">강릉 바다빛 문화축제</a></td>
                                     <td class="meeting-title fw-medium text-start" data-field="title"><a class="list-detail-link" href="meetingDetail.html?id=11">강릉 바다빛 축제 같이 구경해요</a></td>
+                                    <td class="meeting-purpose" data-field="purpose">축제메이트</td>
                                     <td data-field="host">서봄</td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
                                 </tr>
                                 <tr id="meeting-empty" hidden>
-                                    <td colspan="7" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
+                                    <td colspan="8" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
                                 </tr>
                             </tbody>
                         </table>
