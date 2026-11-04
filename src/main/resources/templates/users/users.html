@@ -64,7 +64,16 @@
                                     <input class="form-check-input list-selection-input" type="checkbox" id="user-select-all" aria-label="현재 페이지 회원 전체 선택">
                                 </th>
                                 <th scope="col">번호</th>
-                                <th scope="col">상태</th>
+                                <th scope="col">
+                                    <details class="user-status-filter" id="user-status-filter">
+                                        <summary>상태 <span aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                        <div class="user-status-options" role="group" aria-label="회원 상태 필터">
+                                            <button type="button" data-status-filter="all" aria-pressed="true">전체 보기</button>
+                                            <button type="button" data-status-filter="active" aria-pressed="false">활동 보기</button>
+                                            <button type="button" data-status-filter="suspended" aria-pressed="false">정지 보기</button>
+                                        </div>
+                                    </details>
+                                </th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="nickname" aria-label="닉네임 정렬">닉네임 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="email" aria-label="이메일 정렬">이메일 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도 <span aria-hidden="true">↕</span></button></th>

@@ -59,6 +59,7 @@
                             <caption class="visually-hidden">태그 관리 목록, 페이지당 10개</caption>
                             <colgroup>
                                 <col class="tag-column-id">
+                                <col class="tag-column-status">
                                 <col class="tag-column-name">
                                 <col class="tag-column-color">
                                 <col class="tag-column-description">
@@ -68,6 +69,7 @@
                             <thead class="table-light text-center">
                                 <tr>
                                     <th scope="col">태그 ID</th>
+                                    <th scope="col">상태</th>
                                     <th scope="col" aria-sort="none"><button class="column-sort" type="button" id="tag-name-sort" data-tag-sort="name" aria-label="태그명 정렬">태그명 <span aria-hidden="true">↕</span></button></th>
                                     <th scope="col">색상 코드</th>
                                     <th scope="col">설명</th>
@@ -104,6 +106,13 @@
                     <select class="form-select" id="tag-type" name="type" required>
                         <option value="genre">축제 장르</option>
                         <option value="target">추천 대상</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label" for="tag-status">상태 <span class="tag-required" aria-hidden="true">*</span></label>
+                    <select class="form-select" id="tag-status" name="status" required>
+                        <option value="visible">공개</option>
+                        <option value="hidden">비공개</option>
                     </select>
                 </div>
                 <div class="mb-3">

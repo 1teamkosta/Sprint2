@@ -41,7 +41,7 @@ let tags = [
     ['가족', 'target', '가족과 함께 즐기기 좋은 축제', 31],
     ['아이와 함께', 'target', '아이와 함께 체험하기 좋은 축제', 14]
 ].map(function (item, index) {
-    return { id: index + 1, name: item[0], type: item[1], description: item[2], usage: item[3], color: tagPalette[index % tagPalette.length] };
+    return { id: index + 1, name: item[0], type: item[1], description: item[2], usage: item[3], isPublic: true, color: tagPalette[index % tagPalette.length] };
 });
 // 화면 상태: 다음 더미 ID, 선택 탭·검색어·페이지, 수정 대상 ID.
 // editingTagId가 null이면 추가 모드, 숫자이면 해당 태그 수정 모드다.
@@ -61,6 +61,7 @@ const tagDialog = document.querySelector('#tag-dialog');
 const tagForm = document.querySelector('#tag-form');
 const tagNameInput = document.querySelector('#tag-name');
 const tagTypeInput = document.querySelector('#tag-type');
+const tagStatusInput = document.querySelector('#tag-status');
 const tagColorInput = document.querySelector('#tag-color');
 const tagColorCode = document.querySelector('#tag-color-code');
 const tagDescription = document.querySelector('#tag-description');
@@ -97,7 +98,7 @@ function getTagResults() {
 /**
  * 전체 집계 → 종류·검색·정렬 → 페이지 범위 보정 → 현재 페이지 행 생성
  * → 건수와 페이지 버튼 갱신 순서로 화면을 다시 그린다.
- * 행을 새로 만들기 때문에 수정·공개 상태 변경 버튼 이벤트도 여기서 연결한다.
+ * 행을 새로 만들기 때문에 수정 버튼 이벤트도 여기서 연결한다. 상태는 수정 모달에서 변경한다.
  */
 function renderTags() {
     document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
@@ -114,7 +115,10 @@ function renderTags() {
     // 필터링된 결과 전체 중 현재 페이지의 데이터만 잘라서 표시한다.
     pageData.items.forEach(function (tag) {
         const row = document.createElement('tr');
-        row.append(tagElement('td', '', tag.id), tagElement('td', 'fw-medium', tag.name));
+        const statusCell = document.createElement('td');
+        const isPublic = tag.isPublic !== false;
+        statusCell.append(tagElement('span', `badge tag-status-${isPublic ? 'visible' : 'hidden'}`, isPublic ? '공개' : '비공개'));
+        row.append(tagElement('td', '', tag.id), statusCell, tagElement('td', 'fw-medium', tag.name));
         const colorCell = document.createElement('td');
         const colorDisplay = tagElement('span', 'tag-color-display');
         const swatch = tagElement('span', 'tag-color-swatch');
@@ -132,19 +136,7 @@ function renderTags() {
         edit.type = 'button';
         edit.setAttribute('aria-label', `${tag.name} 태그 수정`);
         edit.addEventListener('click', function () { openTagDialog(tag); });
-        // 비공개여도 관리자 목록에는 남긴다. 같은 버튼으로 다시 공개할 수 있다.
-        const visibilityLabel = tag.isPublic === false ? '공개' : '비공개';
-        const visibilityButton = tagElement('button', 'btn btn-outline-secondary btn-sm', visibilityLabel);
-        visibilityButton.type = 'button';
-        visibilityButton.setAttribute('aria-label', `${tag.name} 태그 ${visibilityLabel}로 변경`);
-        visibilityButton.addEventListener('click', function () {
-            if (!window.confirm(`‘${tag.name}’ 태그를 ${visibilityLabel}로 변경할까요?`)) return;
-            // 시연용 상태 변경. 서버 연동 시 상태 변경 API 성공 후 목록을 갱신한다.
-            tag.isPublic = tag.isPublic === false;
-            document.querySelector('#tag-feedback').textContent = `‘${tag.name}’ 태그를 ${visibilityLabel}로 변경했습니다.`;
-            renderTags();
-        });
-        group.append(edit, visibilityButton);
+        group.append(edit);
         actions.append(group);
         row.append(actions);
         body.append(row);
@@ -153,7 +145,7 @@ function renderTags() {
     if (results.length === 0) {
         const row = document.createElement('tr');
         const cell = tagElement('td', 'py-5 text-secondary', '조건에 맞는 태그가 없습니다.');
-        cell.colSpan = 6;
+        cell.colSpan = 7;
         row.append(cell);
         body.append(row);
     }
@@ -202,6 +194,8 @@ function openTagDialog(tag) {
     tagColorInput.value = tag ? tag.color : tagPalette[0];
     tagColorCode.value = tag ? tag.color : tagPalette[0];
     tagDescription.value = tag ? tag.description : '';
+    // 새 태그는 공개가 기본값이며 수정 시 기존 공개 상태를 그대로 표시한다.
+    tagStatusInput.value = tag && tag.isPublic === false ? 'hidden' : 'visible';
     document.querySelector('#tag-dialog-title').textContent = tag ? '태그 수정' : '태그 추가';
     document.querySelector('#tag-save').textContent = tag ? '저장' : '태그 추가';
     document.querySelector('#tag-dialog-close').setAttribute('aria-label', tag ? '태그 수정 창 닫기' : '태그 추가 창 닫기');
@@ -285,7 +279,7 @@ tagForm.addEventListener('submit', function (event) {
     if (!tagForm.reportValidity()) return;
     // 현재는 메모리 배열만 변경한다. 수정 시 기존 ID와 사용 축제 수를 유지한다.
     const existing = tags.find(function (tag) { return tag.id === editingTagId; });
-    const item = { id: existing ? existing.id : nextTagId++, name, type, color, description: tagDescription.value.trim(), usage: existing ? existing.usage : 0 };
+    const item = { id: existing ? existing.id : nextTagId++, name, type, color, isPublic: tagStatusInput.value === 'visible', description: tagDescription.value.trim(), usage: existing ? existing.usage : 0 };
     if (existing) Object.assign(existing, item);
     else tags.push(item);
     // 저장한 항목이 검색 조건 때문에 숨지 않도록 검색을 비우고 해당 탭으로 이동한다.

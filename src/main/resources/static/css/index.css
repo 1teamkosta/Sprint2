@@ -169,18 +169,18 @@
 }
 
 .dashboard-status-current {
-    color: var(--admin-ink);
-    background-color: var(--admin-yellow);
+    color: var(--admin-progress-ongoing-text);
+    background-color: var(--admin-progress-ongoing-bg);
 }
 
 .dashboard-status-ended {
-    color: var(--admin-status-hidden-text);
-    background-color: var(--admin-status-hidden-bg);
+    color: var(--admin-progress-ended-text);
+    background-color: var(--admin-progress-ended-bg);
 }
 
 .dashboard-status-upcoming {
-    color: var(--admin-status-visible-text);
-    background-color: var(--admin-status-visible-bg);
+    color: var(--admin-progress-upcoming-text);
+    background-color: var(--admin-progress-upcoming-bg);
 }
 
 .dashboard-genre-content {

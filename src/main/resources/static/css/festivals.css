@@ -9,36 +9,55 @@
     color: var(--admin-status-hidden-text);
 }
 
+/* 전체 열을 화면 너비 안에 배분해 마지막 찜 수까지 표시한다. */
+.festival-table-container { overflow: visible; }
 .festival-table {
-    min-width: 850px;
+    width: 100%;
+    table-layout: fixed;
 }
-
-.festival-table th {
-    white-space: nowrap;
-}
-
-.festival-table .festival-number-heading,
-.festival-table [data-field="festivalId"] {
-    min-width: 72px;
-    white-space: nowrap;
-}
-
-/* 말줄임은 JS의 30글자 기준만 사용하고, 표시된 제목은 한 줄로 유지한다. */
-.festival-table .festival-title {
-    min-width: 34em;
-    white-space: nowrap;
-}
-
-.festival-table .festival-genre-heading,
-.festival-table [data-field="genre"] {
-    min-width: 110px;
-    white-space: nowrap;
-}
+.festival-col-select { width: 4%; }
+.festival-col-number { width: 5%; }
+.festival-col-status { width: 7%; }
+.festival-col-genre { width: 8%; }
+.festival-col-title { width: 25%; }
+.festival-col-schedule { width: 17%; }
+.festival-col-progress { width: 8%; }
+.festival-col-place { width: 19%; }
+.festival-col-likes { width: 7%; }
 
 .festival-table th,
 .festival-table td {
-    padding: 18px 12px;
+    padding: 18px 6px;
+    overflow-wrap: anywhere;
 }
+.festival-table th { font-size: 0.875rem; }
+.festival-table .list-selection-column,
+.festival-table .festival-number-heading,
+.festival-table [data-field="festivalId"],
+.festival-table .festival-genre-heading,
+.festival-table [data-field="genre"] {
+    min-width: 0;
+}
+.festival-table .festival-number-heading,
+.festival-table [data-field="festivalId"],
+.festival-table [data-sort-field="likeCount"] {
+    white-space: nowrap;
+}
+/* 글자 수 말줄임과 함께, 칸보다 긴 내용은 한 줄 안에서 말줄임한다. */
+.festival-table .festival-title,
+.festival-table .festival-location {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.festival-table .festival-title .list-detail-link {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.festival-table [data-sort-field="startDate"] { font-size: 0.875rem; }
+.festival-table time { display: inline-block; }
 
 /* 검색 창 */
 .festival-search {
@@ -116,3 +135,20 @@
     background-color: var(--admin-yellow);
 }
 
+
+/* 공개 상태와 별개로 축제 일정에 따른 진행상황을 표시한다. */
+.festival-progress-column {
+    white-space: nowrap;
+}
+.festival-progress-ongoing {
+    background-color: var(--admin-progress-ongoing-bg);
+    color: var(--admin-progress-ongoing-text);
+}
+.festival-progress-ended {
+    background-color: var(--admin-progress-ended-bg);
+    color: var(--admin-progress-ended-text);
+}
+.festival-progress-upcoming {
+    background-color: var(--admin-progress-upcoming-bg);
+    color: var(--admin-progress-upcoming-text);
+}
