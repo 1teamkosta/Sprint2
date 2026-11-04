@@ -1,5 +1,10 @@
 /* 공통 색상과 레이아웃 변수 */
 :root {
+    --admin-sidebar-bg: #3e342e;
+    --admin-sidebar-hover: #57483d;
+    --admin-sidebar-text: #f5efe6;
+    --admin-sidebar-muted: #cbbfb2;
+    --admin-sidebar-border: #756457;
     --admin-status-visible-bg: #fbe5d6;
     --admin-status-visible-text: #80472b;
     --admin-status-hidden-bg: #eeeeee;

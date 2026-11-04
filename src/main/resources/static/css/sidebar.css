@@ -7,17 +7,29 @@
     z-index: 1030;
     width: 220px;
     overflow-y: auto;
-    background-color: #fff;
-    border-right: 1px solid #dee2e6;
+    color: var(--admin-sidebar-text);
+    background-color: var(--admin-sidebar-bg);
+    border-right: 1px solid var(--admin-sidebar-border);
+    --bs-border-color: var(--admin-sidebar-border);
 }
 
 .admin-brand {
     padding-top: 12px;
+    color: var(--admin-sidebar-text);
+}
+
+.admin-brand:hover,
+.admin-brand:focus-visible {
+    color: var(--admin-sidebar-text);
+}
+
+.admin-brand-subtitle {
+    color: var(--admin-sidebar-muted);
 }
 
 .admin-sidebar .nav-link {
     padding: 12px 16px;
-    color: var(--admin-ink);
+    color: var(--admin-sidebar-text);
 }
 
 .admin-sidebar .nav-pills {
@@ -26,16 +38,43 @@
 }
 
 .admin-sidebar .nav-link:not(:disabled):hover {
-    background-color: #fff7d6;
+    color: var(--admin-sidebar-text);
+    background-color: var(--admin-sidebar-hover);
+}
+
+.admin-sidebar .nav-link.active {
+    color: var(--admin-ink);
+}
+
+.admin-sidebar .nav-link.active:hover {
+    color: var(--admin-ink);
+    background-color: var(--admin-yellow-hover);
+}
+
+.admin-sidebar .nav-link:focus-visible {
+    outline: 2px solid var(--admin-yellow);
+    outline-offset: 2px;
+    box-shadow: none;
 }
 
 .admin-sidebar .nav-link:disabled {
-    color: #6c757d;
+    color: var(--admin-sidebar-muted);
 }
 
 .admin-account {
     flex-shrink: 0;
     padding-bottom: 8px;
+}
+
+.admin-account .btn-outline-secondary {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-border-color: var(--admin-sidebar-muted);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-sidebar-hover);
+    --bs-btn-hover-border-color: var(--admin-sidebar-muted);
+    --bs-btn-disabled-color: var(--admin-sidebar-muted);
+    --bs-btn-disabled-border-color: var(--admin-sidebar-border);
+    --bs-btn-disabled-opacity: 1;
 }
 
 /* 작은 화면에서는 네비게이션을 본문 위에 배치한다. */
@@ -44,7 +83,7 @@
         position: static;
         width: 100%;
         border-right: 0;
-        border-bottom: 1px solid #dee2e6;
+        border-bottom: 1px solid var(--admin-sidebar-border);
     }
 
     .admin-sidebar .nav {

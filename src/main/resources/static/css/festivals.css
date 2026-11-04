@@ -13,6 +13,22 @@
     min-width: 850px;
 }
 
+.festival-table th {
+    white-space: nowrap;
+}
+
+.festival-table .festival-number-heading,
+.festival-table [data-field="festivalId"] {
+    min-width: 72px;
+    white-space: nowrap;
+}
+
+/* 말줄임은 JS의 30글자 기준만 사용하고, 표시된 제목은 한 줄로 유지한다. */
+.festival-table .festival-title {
+    min-width: 34em;
+    white-space: nowrap;
+}
+
 .festival-table .festival-genre-heading,
 .festival-table [data-field="genre"] {
     min-width: 110px;

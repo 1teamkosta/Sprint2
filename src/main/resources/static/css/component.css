@@ -82,6 +82,20 @@ body {
 }
 
 /* 목록 일괄 선택·상태 변경 UI. 실제 선택/적용 동작은 추후 연결한다. */
+.list-toolbar > form {
+    flex: 1 1 360px;
+    min-width: 0;
+}
+
+.list-toolbar .list-bulk-actions {
+    flex-shrink: 0;
+}
+
+.list-toolbar .list-bulk-status,
+.list-toolbar .list-bulk-actions .btn {
+    min-height: 42px;
+}
+
 .list-bulk-status {
     width: 150px;
 }
