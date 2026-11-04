@@ -2,6 +2,7 @@
 // 서버 연동 시 id로 상세 API를 호출하거나 Thymeleaf 모델로 렌더링하도록 교체한다.
 async function loadFestivalDetail() {
     const festivalId = new URLSearchParams(window.location.search).get('id') || '1';
+    document.querySelector('#festival-edit-link').href = `festivalEdit.html?id=${encodeURIComponent(festivalId)}`;
     const feedback = document.querySelector('#festival-detail-feedback');
     try {
         const response = await fetch('festivals.html');

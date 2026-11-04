@@ -21,10 +21,10 @@
         <div class="container-fluid">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <h1 class="h3 fw-bold mb-0">축제 상세</h1>
-                <!-- 비공개·수정은 UI만 구성하며, 실제 처리와 이동은 서버 연동 시 연결한다. -->
+                <!-- 비공개 처리는 서버 연동 시 연결한다. 수정은 동일한 축제 ID로 이동한다. -->
                 <div class="d-flex gap-2">
                     <button class="btn btn-outline-secondary" type="button" id="festival-visibility">비공개</button>
-                    <button class="btn btn-primary" type="button">수정</button>
+                    <a class="btn btn-primary" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
                 </div>
             </div>
 
