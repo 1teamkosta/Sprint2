@@ -23,8 +23,9 @@
                 <h1 class="h3 fw-bold mb-0">축제 상세</h1>
                 <!-- 비공개 처리는 서버 연동 시 연결한다. 수정은 동일한 축제 ID로 이동한다. -->
                 <div class="d-flex gap-2">
-                    <button class="btn btn-outline-secondary" type="button" id="festival-visibility">비공개</button>
-                    <a class="btn btn-primary" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
+                    <button class="btn festival-detail-private" type="button" id="festival-visibility">비공개</button>
+                    <a class="btn btn-secondary" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
+                    <a class="btn btn-primary" href="festivals.html">목록으로</a>
                 </div>
             </div>
 
@@ -71,7 +72,6 @@
                     <div><dt>별로였어요 수</dt><dd>12</dd></div>
                 </dl>
             </article>
-            <div class="mt-4"><a class="btn btn-outline-secondary" href="festivals.html">목록으로</a></div>
         </div>
     </main>
 </body>
