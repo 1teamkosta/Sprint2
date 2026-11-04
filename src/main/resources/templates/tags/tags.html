@@ -38,12 +38,13 @@
 
             <section class="bg-white border rounded-3 p-4" aria-label="태그 목록과 검색">
                 <div class="nav nav-tabs tag-tabs mb-4" role="tablist" aria-label="태그 종류">
-                    <button class="nav-link active" type="button" role="tab" id="tag-genre-tab" aria-selected="true" aria-controls="tag-panel" data-tag-type="genre">축제 장르 태그</button>
+                    <button class="nav-link active" type="button" role="tab" id="tag-all-tab" aria-selected="true" aria-controls="tag-panel" data-tag-type="all">전체 태그</button>
+                    <button class="nav-link" type="button" role="tab" id="tag-genre-tab" aria-selected="false" aria-controls="tag-panel" tabindex="-1" data-tag-type="genre">축제 장르 태그</button>
                     <button class="nav-link" type="button" role="tab" id="tag-target-tab" aria-selected="false" aria-controls="tag-panel" tabindex="-1" data-tag-type="target">추천 대상 태그</button>
                 </div>
-                <div role="tabpanel" id="tag-panel" aria-labelledby="tag-genre-tab">
+                <div role="tabpanel" id="tag-panel" aria-labelledby="tag-all-tab">
                     <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-3">
-                        <h2 class="h6 fw-semibold mb-0" id="tag-list-heading">축제 장르 태그 목록</h2>
+                        <h2 class="h6 fw-semibold mb-0" id="tag-list-heading">전체 태그 목록</h2>
                         <form class="tag-search ms-md-auto" id="tag-search-form" role="search">
                             <label class="visually-hidden" for="tag-search">태그명 검색</label>
                             <div class="input-group">
@@ -56,13 +57,21 @@
                     <div class="table-responsive">
                         <table class="table table-hover align-middle tag-table mb-0">
                             <caption class="visually-hidden">태그 관리 목록, 페이지당 10개</caption>
+                            <colgroup>
+                                <col class="tag-column-id">
+                                <col class="tag-column-name">
+                                <col class="tag-column-color">
+                                <col class="tag-column-description">
+                                <col class="tag-column-usage">
+                                <col class="tag-column-actions">
+                            </colgroup>
                             <thead class="table-light text-center">
                                 <tr>
                                     <th scope="col">태그 ID</th>
-                                    <th scope="col">태그명</th>
+                                    <th scope="col" aria-sort="none"><button class="column-sort" type="button" id="tag-name-sort" data-tag-sort="name" aria-label="태그명 정렬">태그명 <span aria-hidden="true">↕</span></button></th>
                                     <th scope="col">색상 코드</th>
                                     <th scope="col">설명</th>
-                                    <th scope="col">사용 중인 축제 수</th>
+                                    <th scope="col" aria-sort="none"><button class="column-sort" type="button" id="tag-usage-sort" data-tag-sort="usage" aria-label="사용 중인 축제 수 정렬">사용 중인 축제 수 <span aria-hidden="true">↕</span></button></th>
                                     <th scope="col">관리</th>
                                 </tr>
                             </thead>

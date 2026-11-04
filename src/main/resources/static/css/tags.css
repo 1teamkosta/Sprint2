@@ -34,7 +34,21 @@
 }
 
 .tag-table {
-    min-width: 850px;
+    width: 100%;
+    min-width: 1000px;
+    table-layout: fixed;
+}
+
+/* 탭·검색·페이지가 바뀌어도 열 너비를 유지하고 설명 열에 남는 공간을 배분한다. */
+.tag-column-id { width: 88px; }
+.tag-column-name { width: 144px; }
+.tag-column-color { width: 160px; }
+.tag-column-description { width: calc(100% - 728px); }
+.tag-column-usage { width: 180px; }
+.tag-column-actions { width: 156px; }
+
+.tag-table td {
+    overflow-wrap: anywhere;
 }
 
 .tag-table th,

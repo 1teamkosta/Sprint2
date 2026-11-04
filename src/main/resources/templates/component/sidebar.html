@@ -1,16 +1,16 @@
 <!-- 공통 사이드바: 메뉴 화면이 구현되면 비활성 버튼을 링크로 변경 -->
 <aside class="admin-sidebar d-flex flex-column p-3">
-    <a class="admin-brand text-decoration-none text-dark px-2 mb-4" href="../festival/festivals.html">
+    <a class="admin-brand text-decoration-none px-2 mb-4" href="../festival/festivals.html">
         <strong class="fs-4">축제메이트</strong>
-        <span class="d-block small text-secondary mt-1">관리자 페이지</span>
+        <span class="admin-brand-subtitle d-block small mt-1">관리자 페이지</span>
     </a>
     <nav aria-label="관리자 메뉴">
         <ul class="nav nav-pills flex-column gap-2">
             <li class="nav-item"><a class="nav-link" href="../index.html" data-page="dashboard">대시보드</a></li>
+            <li class="nav-item"><a class="nav-link" href="../tags/tags.html" data-page="tags">태그 관리</a></li>
             <li class="nav-item"><a class="nav-link active" href="../festival/festivals.html" data-page="festival" aria-current="page">축제 관리</a></li>
             <li class="nav-item"><a class="nav-link" href="../meeting/meetings.html" data-page="meeting">모임 관리</a></li>
             <li class="nav-item"><a class="nav-link" href="../users/users.html" data-page="users">회원 관리</a></li>
-            <li class="nav-item"><a class="nav-link" href="../tags/tags.html" data-page="tags">태그 관리</a></li>
         </ul>
     </nav>
     <div class="admin-account mt-auto border-top pt-3 px-2">

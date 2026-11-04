@@ -81,6 +81,47 @@ body {
     }
 }
 
+/* 목록 일괄 선택·상태 변경 UI. 실제 선택/적용 동작은 추후 연결한다. */
+.list-toolbar > form {
+    flex: 1 1 360px;
+    min-width: 0;
+}
+
+.list-toolbar .list-bulk-actions {
+    flex-shrink: 0;
+}
+
+.list-toolbar .list-bulk-status,
+.list-toolbar .list-bulk-actions .btn {
+    min-height: 42px;
+}
+
+.list-bulk-status {
+    width: 150px;
+}
+
+.list-selection-column {
+    width: 48px;
+    min-width: 48px;
+    text-align: center;
+}
+
+.list-selection-input {
+    margin: 0;
+    vertical-align: middle;
+    cursor: pointer;
+}
+
+.list-selection-input:checked {
+    background-color: var(--admin-ink);
+    border-color: var(--admin-ink);
+}
+
+.list-selection-input:focus {
+    border-color: var(--admin-yellow-border);
+    box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
 /* 목록 컬럼 정렬 버튼 */
 .list-detail-link {
     color: inherit;

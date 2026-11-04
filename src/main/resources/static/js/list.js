@@ -166,6 +166,8 @@ function setupTableSort(tableSelector, rows, idField, onSort = function () {}) {
  * idField: 같은 값인 행의 순서를 결정할 고유 번호 필드. 예: 'userId'.
  * exactFields: 부분 일치 대신 정확히 일치시킬 검색 필드. 예: ['userId'].
  * pageSize: 한 페이지 표시 개수. 기본값은 10개다.
+ * extraFilter: 화면별 추가 필터 함수. 행을 받아 표시 대상이면 true를 반환한다.
+ * 반환 객체의 refresh()는 검색·정렬을 유지한 채 추가 필터를 다시 적용하고 1페이지로 이동한다.
  *
  * [HTML 연결 규칙]
  * - 데이터 행: data-status. 상태 필터가 없는 회원 화면도 행 구분용으로 붙인다.
@@ -177,7 +179,7 @@ function setupTableSort(tableSelector, rows, idField, onSort = function () {}) {
  * 초기화 시 수집한 행을 계속 사용하므로 HTML 준비 후 한 번만 호출한다.
  * 이후 행을 새로 만드는 동적 목록은 별도 처리가 필요하다. tags.js가 그 예다.
  */
-function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize = 10 }) {
+function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize = 10, extraFilter = function () { return true; } }) {
     const table = document.querySelector(tableSelector);
     const rows = Array.from(table.querySelectorAll('tbody tr[data-status]'));
     const form = document.querySelector(`.${prefix}-search`);
@@ -214,7 +216,7 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize 
                     ? value === searchKeyword
                     : value.includes(searchKeyword);
             });
-            return matchesStatus && matchesKeyword;
+            return matchesStatus && matchesKeyword && extraFilter(row);
         });
         const pageData = paginateItems(results, currentPage, pageSize);
         currentPage = pageData.currentPage;
@@ -283,4 +285,10 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize 
         filterRows();
     });
     filterRows();
+    return {
+        refresh: function () {
+            currentPage = 1;
+            filterRows();
+        }
+    };
 }

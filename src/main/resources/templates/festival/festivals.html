@@ -30,33 +30,45 @@
             <section class="bg-white border rounded-3 p-4" aria-labelledby="festival-list-heading">
                 <h2 id="festival-list-heading" class="visually-hidden">축제 목록과 검색</h2>
 
-                <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto mb-4" aria-label="축제 검색">
-                    <div class="festival-search-setting">
-                        <label class="visually-hidden" for="festival-search-type">검색 기준</label>
-                        <select class="form-select" id="festival-search-type" name="searchType">
-                            <option value="">검색 유형</option>
-                            <option value="title">축제 이름</option>
-                            <option value="genre">축제 장르</option>
-                            <option value="place">축제 장소</option>
-                            <option value="festivalId">축제 번호</option>
+                <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
+                <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
+                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group" aria-label="선택한 축제 상태 변경">
+                        <label class="small text-secondary me-1" for="festival-bulk-status">선택 항목</label>
+                        <select class="form-select form-select-sm list-bulk-status" id="festival-bulk-status" name="bulkStatus">
+                            <option value="">변경할 상태</option>
+                                <option value="visible">공개</option>
+                                <option value="hidden">비공개</option>
                         </select>
+                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="festival">상태 변경</button>
                     </div>
-                    <div class="flex-grow-1">
-                        <label class="visually-hidden" for="festival-keyword">검색어</label>
-                        <div class="input-group">
-                            <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
-                            <button class="btn btn-outline-primary" type="submit">검색</button>
+                    <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="축제 검색">
+                        <div class="festival-search-setting">
+                            <label class="visually-hidden" for="festival-search-type">검색 기준</label>
+                            <select class="form-select" id="festival-search-type" name="searchType">
+                                <option value="">검색 유형</option>
+                                <option value="title">축제 이름</option>
+                                <option value="genre">축제 장르</option>
+                            </select>
                         </div>
-                    </div>
-                </form>
-
+                        <div class="flex-grow-1">
+                            <label class="visually-hidden" for="festival-keyword">검색어</label>
+                            <div class="input-group">
+                                <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
+                                <button class="btn btn-outline-primary" type="submit">검색</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
                 <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 11건 · 검색 결과 11건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle festival-table mb-0">
                         <thead class="table-light text-center">
                             <tr>
-                                <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="festivalId" aria-label="번호 정렬">번호 <span aria-hidden="true">↕</span></button>
+                                <th scope="col" class="list-selection-column">
+                                    <input class="form-check-input list-selection-input" type="checkbox" id="festival-select-all" aria-label="현재 페이지 축제 전체 선택">
+                                </th>
+                                <th scope="col" class="festival-number-heading">
+                                    번호
                                 </th>
                                 <th scope="col">
                                     <details class="festival-status-filter" id="festival-status-filter">
@@ -68,7 +80,7 @@
                                         </div>
                                     </details>
                                 </th>
-                                <th scope="col">
+                                <th scope="col" class="festival-genre-heading">
                                     축제 장르
                                 </th>
                                 <th scope="col">
@@ -87,6 +99,7 @@
                         </thead>
                         <tbody class="text-center" id="festival-list">
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="1" aria-label="축제 1번 선택"></td>
                                 <td data-field="festivalId">1</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">음악</td>
@@ -96,6 +109,7 @@
                                 <td data-sort-field="likeCount">53</td>
                             </tr>
                             <tr data-status="hidden">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="2" aria-label="축제 2번 선택"></td>
                                 <td data-field="festivalId">2</td>
                                 <td><span class="badge status-hidden">비공개</span></td>
                                 <td data-field="genre">먹거리</td>
@@ -105,6 +119,7 @@
                                 <td data-sort-field="likeCount">66</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="3" aria-label="축제 3번 선택"></td>
                                 <td data-field="festivalId">3</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">문화</td>
@@ -114,6 +129,7 @@
                                 <td data-sort-field="likeCount">79</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="4" aria-label="축제 4번 선택"></td>
                                 <td data-field="festivalId">4</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">음악</td>
@@ -123,6 +139,7 @@
                                 <td data-sort-field="likeCount">92</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="5" aria-label="축제 5번 선택"></td>
                                 <td data-field="festivalId">5</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">먹거리</td>
@@ -132,6 +149,7 @@
                                 <td data-sort-field="likeCount">105</td>
                             </tr>
                             <tr data-status="hidden">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="6" aria-label="축제 6번 선택"></td>
                                 <td data-field="festivalId">6</td>
                                 <td><span class="badge status-hidden">비공개</span></td>
                                 <td data-field="genre">문화</td>
@@ -141,6 +159,7 @@
                                 <td data-sort-field="likeCount">118</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="7" aria-label="축제 7번 선택"></td>
                                 <td data-field="festivalId">7</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">음악</td>
@@ -150,6 +169,7 @@
                                 <td data-sort-field="likeCount">131</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="8" aria-label="축제 8번 선택"></td>
                                 <td data-field="festivalId">8</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">먹거리</td>
@@ -159,6 +179,7 @@
                                 <td data-sort-field="likeCount">144</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="9" aria-label="축제 9번 선택"></td>
                                 <td data-field="festivalId">9</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">문화</td>
@@ -168,6 +189,7 @@
                                 <td data-sort-field="likeCount">157</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="10" aria-label="축제 10번 선택"></td>
                                 <td data-field="festivalId">10</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">먹거리</td>
@@ -177,6 +199,7 @@
                                 <td data-sort-field="likeCount">170</td>
                             </tr>
                             <tr data-status="visible">
+                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" value="11" aria-label="축제 11번 선택"></td>
                                 <td data-field="festivalId">11</td>
                                 <td><span class="badge status-visible">공개</span></td>
                                 <td data-field="genre">문화</td>
@@ -186,7 +209,7 @@
                                 <td data-sort-field="likeCount">183</td>
                             </tr>
                             <tr id="festival-empty" hidden>
-                                <td colspan="7" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
+                                <td colspan="8" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
                             </tr>
                         </tbody>
                     </table>
