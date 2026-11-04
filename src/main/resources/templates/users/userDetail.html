@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>회원 상세 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/userDetail.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/userDetail.js" defer></script>
+</head>
+<body data-admin-page="users">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <h1 class="h3 fw-bold mb-0">회원 상세</h1>
+                <div class="d-flex gap-2">
+                    <button class="btn user-detail-suspend" type="button" id="user-detail-status-action" disabled>정지</button>
+                    <a class="btn btn-primary" href="users.html">목록으로</a>
+                </div>
+            </div>
+            <p class="small text-secondary" id="user-detail-feedback" role="status">회원 정보를 불러오는 중입니다.</p>
+            <article class="user-detail-card" id="user-detail-card" aria-labelledby="user-profile-heading" hidden>
+                <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
+                    <h2 class="h5 fw-bold mb-0" id="user-profile-heading">회원 정보</h2>
+                </div>
+                <dl class="user-detail-profile mb-0">
+                    <div><dt>번호</dt><dd id="user-detail-number"></dd></div>
+                    <div><dt>상태</dt><dd><span class="badge user-detail-active" id="user-detail-status">활동</span></dd></div>
+                    <div><dt>아이디</dt><dd id="user-detail-login-id"></dd></div>
+                    <div><dt>닉네임</dt><dd id="user-detail-nickname"></dd></div>
+                    <div><dt>인기도</dt><dd id="user-detail-popularity"></dd></div>
+                    <div><dt>이메일</dt><dd id="user-detail-email"></dd></div>
+                    <div><dt>가입날짜</dt><dd><time id="user-detail-joined"></time></dd></div>
+                </dl>
+                <section class="mt-5" aria-labelledby="user-activity-heading">
+                    <h2 class="h5 fw-bold mb-3" id="user-activity-heading">활동 내역</h2>
+                    <h3 class="h6 fw-semibold mb-3">참여 모임 <span class="text-secondary" id="user-detail-meeting-count">(0개)</span></h3>
+                    <p class="small text-secondary" id="user-meetings-feedback" role="status">참여 모임을 불러오는 중입니다.</p>
+                    <table class="table table-hover align-middle user-detail-meetings mb-0">
+                        <caption class="visually-hidden">회원이 참여한 모임의 번호, 축제 이름, 모임 이름, 역할과 모임 목적</caption>
+                        <colgroup><col class="user-meeting-number"><col class="user-meeting-festival"><col class="user-meeting-name"><col class="user-meeting-role"><col class="user-meeting-purpose"></colgroup>
+                        <thead class="table-light text-center"><tr><th scope="col">모임 번호</th><th scope="col">축제 이름</th><th scope="col">모임 이름</th><th scope="col">역할</th><th scope="col">모임 목적</th></tr></thead>
+                        <tbody class="text-center" id="user-detail-meetings"></tbody>
+                    </table>
+                </section>
+            </article>
+        </div>
+    </main>
+</body>
+</html>
