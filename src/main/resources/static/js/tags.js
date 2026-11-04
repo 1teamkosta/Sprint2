@@ -5,7 +5,7 @@
  *
  * 기존 목록 화면은 HTML 행을 숨기지만, 이 파일은 배열에서 행을 새로 만든다.
  * 페이지 분리와 버튼 생성은 list.js의 paginateItems() / renderPagination()을 재사용한다.
- * 태그처럼 추가·수정·삭제하는 화면을 만들 때 참고할 수 있지만, 그대로 쓰는 범용 모듈은 아니다.
+ * 태그처럼 추가·수정·공개 상태 변경하는 화면을 만들 때 참고할 수 있지만, 그대로 쓰는 범용 모듈은 아니다.
  * 다른 화면에 적용한다면 HTML ID와 데이터 항목을 함께 맞춰야 한다.
  *
  * [현재 범위 / 서버 연동]
@@ -18,7 +18,7 @@
 // 더미 태그와 추가 모달의 기본 색상이다. 선택한 색상은 :root 변수로 등록하지 않는다.
 // 나중에 DB에서 color: '#FFF0AD' 같은 HEX 문자열을 받아도 아래 표시 코드를 사용할 수 있다.
 const tagPalette = ['#FFF0AD', '#FBE5D6', '#D9EEE5', '#ECE5F5', '#DCEAF5', '#F1DCE5'];
-const tagTypeNames = { genre: '축제 장르', target: '추천 대상' };
+const tagTypeNames = { all: '전체', genre: '축제 장르', target: '추천 대상' };
 // 더미 원본: [태그명, 종류, 설명, 사용 중인 축제 수].
 // 아래 map()에서 { id, name, type, description, usage, color } 객체로 변환한다.
 // 서버 응답도 이 필드 구조에 맞추면 화면 생성 코드를 유지하기 쉽다.
@@ -47,10 +47,12 @@ let tags = [
 // editingTagId가 null이면 추가 모드, 숫자이면 해당 태그 수정 모드다.
 // 실제 ID는 서버·DB가 발급한다. nextTagId는 시연용이다.
 let nextTagId = tags.length + 1;
-let selectedTagType = 'genre';
+let selectedTagType = 'all';
 let tagKeyword = '';
 let tagPage = 1;
-let tagUsageSort = null;
+let tagSortField = null;
+let tagSortDirection = 'ascending';
+const tagNameCollator = new Intl.Collator('ko', { numeric: true, sensitivity: 'base' });
 let editingTagId = null;
 // 태그 화면의 실제 페이지당 표시 개수. 개수를 바꾸려면 이 값만 수정한다.
 const tagsPerPage = 10;
@@ -76,14 +78,17 @@ function tagElement(tagName, className, text) {
 // 종류·검색·정렬 조건을 적용한 전체 결과. 화면 표시와 저장 후 페이지 계산에 함께 쓴다.
 function getTagResults() {
     const results = tags.filter(function (tag) {
-        return tag.type === selectedTagType && tag.name.toLocaleLowerCase().includes(tagKeyword);
+        return (selectedTagType === 'all' || tag.type === selectedTagType)
+            && tag.name.toLocaleLowerCase().includes(tagKeyword);
     });
-    // 페이지를 나누기 전에 전체 결과를 정렬한다. 같은 사용 수는 ID순으로 유지한다.
-    if (tagUsageSort) {
+    // 페이지를 나누기 전에 전체 결과를 정렬한다. 같은 값은 ID순으로 유지한다.
+    if (tagSortField) {
         results.sort(function (first, second) {
-            const difference = first.usage - second.usage;
+            const difference = tagSortField === 'name'
+                ? tagNameCollator.compare(first.name, second.name)
+                : first.usage - second.usage;
             return difference === 0 ? first.id - second.id
-                : difference * (tagUsageSort === 'ascending' ? 1 : -1);
+                : difference * (tagSortDirection === 'ascending' ? 1 : -1);
         });
     }
     return results;
@@ -92,15 +97,15 @@ function getTagResults() {
 /**
  * 전체 집계 → 종류·검색·정렬 → 페이지 범위 보정 → 현재 페이지 행 생성
  * → 건수와 페이지 버튼 갱신 순서로 화면을 다시 그린다.
- * 행을 새로 만들기 때문에 수정·삭제 버튼 이벤트도 여기서 연결한다.
+ * 행을 새로 만들기 때문에 수정·공개 상태 변경 버튼 이벤트도 여기서 연결한다.
  */
 function renderTags() {
     document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
     document.querySelector('#tag-target-count').textContent = tags.filter(function (tag) { return tag.type === 'target'; }).length;
     document.querySelector('#tag-total-count').textContent = tags.length;
-    const category = tags.filter(function (tag) { return tag.type === selectedTagType; });
+    const category = tags.filter(function (tag) { return selectedTagType === 'all' || tag.type === selectedTagType; });
     const results = getTagResults();
-    // 공통 함수가 페이지별 데이터 분리와 마지막 페이지 삭제 시 범위 보정을 맡는다.
+    // 공통 함수가 페이지별 데이터 분리와 결과 개수 변경 시 페이지 범위 보정을 맡는다.
     const pageData = paginateItems(results, tagPage, tagsPerPage);
     tagPage = pageData.currentPage;
     const body = document.querySelector('#tag-list');
@@ -127,23 +132,19 @@ function renderTags() {
         edit.type = 'button';
         edit.setAttribute('aria-label', `${tag.name} 태그 수정`);
         edit.addEventListener('click', function () { openTagDialog(tag); });
-        const remove = tagElement('button', 'btn btn-outline-secondary btn-sm', '삭제');
-        remove.type = 'button';
-        remove.setAttribute('aria-label', `${tag.name} 태그 삭제`);
-        // 현재 UI 정책: 축제에서 사용 중인 태그는 삭제하지 않는다.
-        // 서버 연동 시에도 서버가 사용 여부를 다시 검사해야 한다.
-        remove.addEventListener('click', function () {
-            if (tag.usage > 0) {
-                document.querySelector('#tag-feedback').textContent = '축제에서 사용 중인 태그는 삭제할 수 없습니다.';
-                return;
-            }
-            if (!window.confirm(`‘${tag.name}’ 태그를 삭제할까요?`)) return;
-            // 서버 연동 지점: 삭제 API 성공 후 목록을 재조회하거나 배열을 갱신한다.
-            tags = tags.filter(function (item) { return item.id !== tag.id; });
-            document.querySelector('#tag-feedback').textContent = `‘${tag.name}’ 태그를 삭제했습니다.`;
+        // 비공개여도 관리자 목록에는 남긴다. 같은 버튼으로 다시 공개할 수 있다.
+        const visibilityLabel = tag.isPublic === false ? '공개' : '비공개';
+        const visibilityButton = tagElement('button', 'btn btn-outline-secondary btn-sm', visibilityLabel);
+        visibilityButton.type = 'button';
+        visibilityButton.setAttribute('aria-label', `${tag.name} 태그 ${visibilityLabel}로 변경`);
+        visibilityButton.addEventListener('click', function () {
+            if (!window.confirm(`‘${tag.name}’ 태그를 ${visibilityLabel}로 변경할까요?`)) return;
+            // 시연용 상태 변경. 서버 연동 시 상태 변경 API 성공 후 목록을 갱신한다.
+            tag.isPublic = tag.isPublic === false;
+            document.querySelector('#tag-feedback').textContent = `‘${tag.name}’ 태그를 ${visibilityLabel}로 변경했습니다.`;
             renderTags();
         });
-        group.append(edit, remove);
+        group.append(edit, visibilityButton);
         actions.append(group);
         row.append(actions);
         body.append(row);
@@ -196,7 +197,8 @@ function openTagDialog(tag) {
     tagNameInput.setCustomValidity('');
     tagColorCode.setCustomValidity('');
     tagNameInput.value = tag ? tag.name : '';
-    tagTypeInput.value = tag ? tag.type : selectedTagType;
+    // '전체'는 조회용 탭이므로 새 태그의 기본 종류는 실제 값인 '축제 장르'로 설정한다.
+    tagTypeInput.value = tag ? tag.type : selectedTagType === 'all' ? 'genre' : selectedTagType;
     tagColorInput.value = tag ? tag.color : tagPalette[0];
     tagColorCode.value = tag ? tag.color : tagPalette[0];
     tagDescription.value = tag ? tag.description : '';
@@ -206,14 +208,21 @@ function openTagDialog(tag) {
     tagDialog.showModal();
 }
 
-// 사용 수 정렬은 탭과 검색 조건을 유지하고 1페이지부터 보여준다.
-document.querySelector('#tag-usage-sort').addEventListener('click', function () {
-    tagUsageSort = tagUsageSort === 'ascending' ? 'descending' : 'ascending';
-    tagPage = 1;
-    const button = document.querySelector('#tag-usage-sort');
-    button.closest('th').setAttribute('aria-sort', tagUsageSort);
-    button.querySelector('span').textContent = tagUsageSort === 'ascending' ? '↑' : '↓';
-    renderTags();
+// 정렬 컬럼을 바꾸면 오름차순으로 시작한다. 기존 탭·검색은 유지하고 페이지는 1로 되돌린다.
+const tagSortButtons = document.querySelectorAll('[data-tag-sort]');
+tagSortButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        const field = button.dataset.tagSort;
+        tagSortDirection = tagSortField === field && tagSortDirection === 'ascending' ? 'descending' : 'ascending';
+        tagSortField = field;
+        tagPage = 1;
+        tagSortButtons.forEach(function (item) {
+            const active = item === button;
+            item.closest('th').setAttribute('aria-sort', active ? tagSortDirection : 'none');
+            item.querySelector('span').textContent = active ? (tagSortDirection === 'ascending' ? '↑' : '↓') : '↕';
+        });
+        renderTags();
+    });
 });
 
 // 클릭과 키보드(좌우 방향키·Home·End)로 탭을 선택할 수 있도록 연결한다.

@@ -25,152 +25,162 @@
             </div>
             <section class="bg-white border rounded-3 p-4" aria-labelledby="user-list-heading">
                 <h2 id="user-list-heading" class="visually-hidden">회원 목록과 검색</h2>
-                <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto mb-4" aria-label="회원 검색">
-                    <div class="user-search-setting">
-                        <label class="visually-hidden" for="user-search-type">검색 유형</label>
-                        <select class="form-select" id="user-search-type" name="searchType">
-                            <option value="">검색 유형</option>
-                            <option value="userId">회원 번호</option>
-                            <option value="nickname">닉네임</option>
-                            <option value="email">이메일</option>
-                        </select>
-                    </div>
-                    <div class="flex-grow-1">
-                        <label class="visually-hidden" for="user-keyword">검색어</label>
-                        <div class="input-group">
-                            <input class="form-control" id="user-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
-                            <button class="btn btn-outline-primary" type="submit">검색</button>
-                        </div>
-                    </div>
-                </form>
                 <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
-                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-3">
-                    <p class="small text-secondary mb-0" id="user-result-count" role="status">전체 11건 · 검색 결과 11건</p>
-                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2 ms-auto" role="group" aria-label="선택한 회원 상태 변경">
+                <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
+                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group" aria-label="선택한 회원 상태 변경">
                         <label class="small text-secondary me-1" for="user-bulk-status">선택 항목</label>
                         <select class="form-select form-select-sm list-bulk-status" id="user-bulk-status" name="bulkStatus">
                             <option value="">변경할 상태</option>
                                 <option value="suspended">정지</option>
-                                <option value="active">해제</option>
+                                <option value="active">활동</option>
                         </select>
                         <button class="btn btn-primary btn-sm" type="button" data-bulk-action="user">상태 변경</button>
                     </div>
+                    <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="회원 검색">
+                        <div class="user-search-setting">
+                            <label class="visually-hidden" for="user-search-type">검색 유형</label>
+                            <select class="form-select" id="user-search-type" name="searchType">
+                                <option value="">검색 유형</option>
+                                <option value="nickname">닉네임</option>
+
+                            </select>
+                        </div>
+                        <div class="flex-grow-1">
+                            <label class="visually-hidden" for="user-keyword">검색어</label>
+                            <div class="input-group">
+                                <input class="form-control" id="user-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
+                                <button class="btn btn-outline-primary" type="submit">검색</button>
+                            </div>
+                        </div>
+                    </form>
                 </div>
+                <p class="small text-secondary mb-2" id="user-result-count" role="status">전체 11건 · 검색 결과 11건</p>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle user-table mb-0">
-                        <caption class="visually-hidden">회원 관리 예시 목록, 페이지당 10개</caption>
+                        <caption class="visually-hidden">회원 상태 예시 목록, 페이지당 10개</caption>
                         <thead class="table-light text-center">
                             <tr>
                                 <th scope="col" class="list-selection-column">
                                     <input class="form-check-input list-selection-input" type="checkbox" id="user-select-all" aria-label="현재 페이지 회원 전체 선택">
                                 </th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="userId" aria-label="번호 정렬">번호 <span aria-hidden="true">↕</span></button></th>
+                                <th scope="col">번호</th>
+                                <th scope="col">상태</th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="nickname" aria-label="닉네임 정렬">닉네임 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="email" aria-label="이메일 정렬">이메일 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도 <span aria-hidden="true">↕</span></button></th>
                                 <th scope="col"><button type="button" class="column-sort" data-sort="joinedAt" aria-label="가입날짜 정렬">가입날짜 <span aria-hidden="true">↕</span></button></th>
-                                <th scope="col">관리</th>
                             </tr>
                         </thead>
                         <tbody class="text-center" id="user-list">
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="1" aria-label="회원 1번 선택"></td>
                                 <td data-field="userId">1</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=1">김축제</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=1">festival.kim@example.com</a></td>
                                 <td data-sort-field="popularity">128</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-01"><time datetime="2026-09-01">2026.09.01</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="1" aria-label="김축제 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="suspended">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="2" aria-label="회원 2번 선택"></td>
                                 <td data-field="userId">2</td>
+                                <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=2">이음식</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=2">food.lee@example.com</a></td>
                                 <td data-sort-field="popularity">42</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-12"><time datetime="2026-09-12">2026.09.12</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="2" aria-label="이음식 회원 정지 해제">해제</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="3" aria-label="회원 3번 선택"></td>
                                 <td data-field="userId">3</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=3">박재즈</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=3">jazz.park@example.com</a></td>
                                 <td data-sort-field="popularity">95</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-02"><time datetime="2026-10-02">2026.10.02</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="3" aria-label="박재즈 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="4" aria-label="회원 4번 선택"></td>
                                 <td data-field="userId">4</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=4">한문화</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=4">culture.han@example.com</a></td>
                                 <td data-sort-field="popularity">7</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-20"><time datetime="2026-08-20">2026.08.20</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="4" aria-label="한문화 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="5" aria-label="회원 5번 선택"></td>
                                 <td data-field="userId">5</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=5">최김밥</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=5">gimbap.choi@example.com</a></td>
                                 <td data-sort-field="popularity">210</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-15"><time datetime="2026-10-15">2026.10.15</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="5" aria-label="최김밥 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="suspended">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="6" aria-label="회원 6번 선택"></td>
                                 <td data-field="userId">6</td>
+                                <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=6">정수원</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=6">suwon.jung@example.com</a></td>
                                 <td data-sort-field="popularity">33</td>
                                 <td data-field="joinedAt" data-sort-value="2026-07-30"><time datetime="2026-07-30">2026.07.30</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="6" aria-label="정수원 회원 정지 해제">해제</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="7" aria-label="회원 7번 선택"></td>
                                 <td data-field="userId">7</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=7">송바다</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=7">sea.song@example.com</a></td>
                                 <td data-sort-field="popularity">86</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="7" aria-label="송바다 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="8" aria-label="회원 8번 선택"></td>
                                 <td data-field="userId">8</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=8">오춘천</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=8">chuncheon.oh@example.com</a></td>
                                 <td data-sort-field="popularity">15</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-22"><time datetime="2026-09-22">2026.09.22</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="8" aria-label="오춘천 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="suspended">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="9" aria-label="회원 9번 선택"></td>
                                 <td data-field="userId">9</td>
+                                <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=9">유가을</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=9">autumn.yoo@example.com</a></td>
                                 <td data-sort-field="popularity">160</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-11"><time datetime="2026-08-11">2026.08.11</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="9" aria-label="유가을 회원 정지 해제">해제</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="10" aria-label="회원 10번 선택"></td>
                                 <td data-field="userId">10</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=10">임전주</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=10">jeonju.lim@example.com</a></td>
                                 <td data-sort-field="popularity">64</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="10" aria-label="임전주 회원 정지">정지</button></td>
+
                             </tr>
                             <tr data-status="active">
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="11" aria-label="회원 11번 선택"></td>
                                 <td data-field="userId">11</td>
+                                <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=11">서봄</a></td>
                                 <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=11">spring.seo@example.com</a></td>
                                 <td data-sort-field="popularity">102</td>
                                 <td data-field="joinedAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
-                                <td><button class="btn btn-sm user-suspend" type="button" data-user-id="11" aria-label="서봄 회원 정지">정지</button></td>
+
                             </tr>
                             <tr id="user-empty" hidden>
                                 <td colspan="7" class="py-5 text-secondary">조건에 맞는 회원이 없습니다.</td>
