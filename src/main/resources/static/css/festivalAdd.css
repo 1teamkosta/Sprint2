@@ -1,0 +1,51 @@
+.festival-add-card {
+    padding: 32px;
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    background: var(--admin-surface);
+}
+.festival-add-field { display: grid; grid-template-columns: 120px minmax(0, 1fr); gap: 16px; align-items: center; }
+.festival-add-field .form-label { margin: 0; }
+.festival-add-overview { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 32px; }
+.festival-add-image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    height: 270px;
+    border: 1px dashed var(--admin-yellow-border);
+    border-radius: 8px;
+    color: var(--admin-ink);
+    background: var(--admin-yellow);
+}
+.festival-add-preview { width: 100%; height: 270px; object-fit: contain; border: 1px solid var(--admin-border); border-radius: 8px; }
+.festival-add-image[hidden] { display: none; }
+.festival-tag-add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: 1px solid var(--admin-yellow-border);
+    border-radius: 50%;
+    background: var(--admin-yellow);
+    color: var(--admin-ink);
+    font-size: 1.25rem;
+    cursor: pointer;
+}
+.festival-tag-add:hover { background: var(--admin-yellow-hover); }
+.festival-tag-add:focus-visible { outline: 2px solid var(--admin-ink); outline-offset: 3px; }
+.festival-selected-tags { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; min-height: 125px; padding: 16px; border: 1px solid var(--admin-border); border-radius: 8px; }
+.festival-selected-tag { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border: 1px solid var(--admin-yellow-border); border-radius: 20px; background: var(--admin-yellow); color: var(--admin-ink); font-size: 0.875rem; }
+.festival-selected-tag button { border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
+.festival-tag-dialog { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 0; overflow-y: auto; color: inherit; background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 12px; }
+.festival-tag-dialog::backdrop { background: var(--admin-overlay); }
+.festival-tag-dialog-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 24px; border-bottom: 1px solid var(--admin-border); }
+.festival-tag-results { max-height: 340px; overflow: auto; }
+.festival-tag-results th { white-space: nowrap; }
+@media (max-width: 575.98px) {
+    .festival-add-card { padding: 20px; }
+    .festival-add-field, .festival-add-overview { grid-template-columns: 1fr; gap: 16px; }
+    .festival-add-overview > div:first-child { width: 100%; max-width: 240px; margin: 0 auto; }
+}
