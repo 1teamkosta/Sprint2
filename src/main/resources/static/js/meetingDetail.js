@@ -32,8 +32,16 @@ async function loadMeetingDetail() {
         festivalLink.textContent = festival.textContent.trim();
         festivalLink.href = festival.getAttribute('href');
         document.querySelector('#meeting-detail-purpose').textContent = purpose;
-        document.querySelector('#meeting-detail-host').textContent = host;
-        document.querySelector('#meeting-detail-member').textContent = host === '윤축제' ? '최메이트' : '윤축제';
+        const hostSource = row.querySelector('[data-field="host"] a');
+        const hostLink = document.querySelector('#meeting-detail-host');
+        hostLink.textContent = host;
+        hostLink.href = hostSource.getAttribute('href');
+        // 참여자는 실제 회원 상세로 연결할 수 있는 더미 회원을 사용하며 개설자와 겹치지 않게 한다.
+        const hostId = new URL(hostLink.href, document.baseURI).searchParams.get('id');
+        const demoMember = hostId === '1' ? { id: '2', nickname: '이음식' } : { id: '1', nickname: '김축제' };
+        const memberLink = document.querySelector('#meeting-detail-member');
+        memberLink.textContent = demoMember.nickname;
+        memberLink.href = `../users/userDetail.html?id=${demoMember.id}`;
         const created = row.querySelector('[data-sort-field="createdAt"] time');
         const createdTarget = document.querySelector('#meeting-detail-created');
         createdTarget.textContent = created.textContent;

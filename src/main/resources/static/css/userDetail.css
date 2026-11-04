@@ -1,0 +1,36 @@
+/* 회원 상세도 공통 root.css의 색상으로 구성한다. */
+.user-detail-card { padding: 32px; border: 1px solid var(--admin-border); border-radius: 12px; background: var(--admin-surface); }
+.user-detail-profile > div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--admin-border); }
+.user-detail-profile dt { color: var(--admin-muted); font-weight: 500; }
+.user-detail-profile dd { margin: 0; overflow-wrap: anywhere; }
+.user-detail-active { background: var(--admin-status-visible-bg); color: var(--admin-status-visible-text); }
+.user-detail-suspended { background: var(--admin-status-hidden-bg); color: var(--admin-status-hidden-text); }
+#user-detail-status { padding: 6px 12px; }
+.user-detail-suspend {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-bg: var(--admin-sidebar-bg);
+    --bs-btn-border-color: var(--admin-sidebar-bg);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-sidebar-hover);
+    --bs-btn-hover-border-color: var(--admin-sidebar-hover);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-sidebar-hover);
+    --bs-btn-active-border-color: var(--admin-sidebar-hover);
+    --bs-btn-disabled-color: var(--admin-sidebar-text);
+    --bs-btn-disabled-bg: var(--admin-sidebar-bg);
+    --bs-btn-disabled-border-color: var(--admin-sidebar-bg);
+}
+.user-detail-meetings { width: 100%; table-layout: fixed; }
+.user-meeting-number { width: 10%; }
+.user-meeting-festival { width: 24%; }
+.user-meeting-role { width: 12%; }
+.user-meeting-name { width: 36%; }
+.user-meeting-purpose { width: 18%; }
+.user-detail-meetings th, .user-detail-meetings td { padding: 18px 8px; overflow-wrap: anywhere; }
+.user-detail-meetings a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
+.user-detail-meetings a:hover { color: var(--bs-link-hover-color); }
+@media (max-width: 575.98px) {
+    .user-detail-card { padding: 20px; }
+    .user-detail-profile > div { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
+    .user-detail-meetings th, .user-detail-meetings td { padding: 12px 4px; font-size: 0.75rem; }
+}
