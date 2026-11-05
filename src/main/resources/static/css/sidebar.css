@@ -11,6 +11,7 @@
     background-color: var(--admin-sidebar-bg);
     border-right: 1px solid var(--admin-sidebar-border);
     --bs-border-color: var(--admin-sidebar-border);
+    font-weight: 800;
 }
 
 .admin-brand {

@@ -75,6 +75,8 @@
     display: flex;
     flex: 1;
     flex-direction: column;
+    min-width: 0;
+    overflow: visible;
 }
 
 .dashboard-activity > dl {
@@ -323,11 +325,21 @@
 }
 
 .dashboard-low-popularity-table {
-    min-width: 240px;
+    min-width: 0;
     width: 100%;
-    height: 100%;
+    table-layout: fixed;
     flex: 1;
     font-size: 0.95rem;
+}
+
+.dashboard-low-popularity-table th:first-child { width: 40%; }
+.dashboard-low-popularity-table th:nth-child(2) { width: 28%; }
+.dashboard-low-popularity-table th:last-child { width: 32%; }
+.dashboard-low-popularity-table .list-detail-link {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 @media (max-width: 575.98px) {

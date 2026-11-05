@@ -30,7 +30,6 @@
     padding: 18px 6px;
     overflow-wrap: anywhere;
 }
-.festival-table th { font-size: 0.875rem; }
 .festival-table .list-selection-column,
 .festival-table .festival-number-heading,
 .festival-table [data-field="festivalId"],

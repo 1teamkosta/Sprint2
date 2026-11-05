@@ -100,7 +100,17 @@
                                 <th scope="col">
                                     <button type="button" class="column-sort" data-sort="startDate" aria-label="시작일 기준 일정 정렬">일정 <span aria-hidden="true">↕</span></button>
                                 </th>
-                                <th scope="col" class="festival-progress-column">진행상황</th>
+                                <th scope="col" class="festival-progress-column">
+                                    <details class="festival-status-filter" id="festival-progress-filter">
+                                        <summary>진행상황 <span aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                        <div class="festival-status-options" role="group" aria-label="진행상황 필터">
+                                            <button type="button" data-progress-filter="all" aria-pressed="true">전체</button>
+                                            <button type="button" data-progress-filter="ongoing" aria-pressed="false">진행중</button>
+                                            <button type="button" data-progress-filter="ended" aria-pressed="false">종료</button>
+                                            <button type="button" data-progress-filter="upcoming" aria-pressed="false">예정</button>
+                                        </div>
+                                    </details>
+                                </th>
                                 <th scope="col">
                                     장소
                                 </th>

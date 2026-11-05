@@ -6,6 +6,7 @@ document.querySelectorAll('.festival-table tbody tr[data-status]').forEach(funct
     const start = dates[0].getAttribute('datetime');
     const end = dates[1].getAttribute('datetime');
     const progress = festivalTodayKey < start ? 'upcoming' : festivalTodayKey > end ? 'ended' : 'ongoing';
+    row.dataset.progress = progress;
     const badge = row.querySelector('[data-festival-progress]');
     badge.textContent = { upcoming: '예정', ongoing: '진행중', ended: '종료' }[progress];
     badge.className = `badge festival-progress-${progress}`;
@@ -15,9 +16,37 @@ document.querySelectorAll('.festival-table tbody tr[data-status]').forEach(funct
 shortenListText('.festival-title', 30);
 shortenListText('.festival-location', 15);
 
-setupList({
+let selectedFestivalProgress = 'all';
+const festivalList = setupList({
     prefix: 'festival',
     tableSelector: '.festival-table',
     idField: 'festivalId',
-    exactFields: ['festivalId']
+    exactFields: ['festivalId'],
+    extraFilter: function (row) {
+        return selectedFestivalProgress === 'all' || row.dataset.progress === selectedFestivalProgress;
+    }
+});
+
+// 공개 상태·검색·정렬을 유지한 채 진행상황을 바꾸고 1페이지로 돌아간다.
+const festivalProgressFilter = document.querySelector('#festival-progress-filter');
+const festivalProgressButtons = festivalProgressFilter.querySelectorAll('[data-progress-filter]');
+festivalProgressButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        selectedFestivalProgress = button.dataset.progressFilter;
+        festivalProgressButtons.forEach(function (item) {
+            item.setAttribute('aria-pressed', String(item === button));
+        });
+        festivalList.refresh();
+        festivalProgressFilter.open = false;
+        festivalProgressFilter.querySelector('summary').focus();
+    });
+});
+document.addEventListener('click', function (event) {
+    if (!festivalProgressFilter.contains(event.target)) festivalProgressFilter.open = false;
+});
+festivalProgressFilter.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        festivalProgressFilter.open = false;
+        festivalProgressFilter.querySelector('summary').focus();
+    }
 });
