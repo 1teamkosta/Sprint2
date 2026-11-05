@@ -44,10 +44,12 @@
                         </div>
                         <div>
                             <div class="mb-4">
-                                <label class="form-label fw-semibold" for="festival-genre">대표 축제 장르</label>
-                                <select class="form-select" id="festival-genre" name="genre" required>
-                                    <option value="">대표 축제 장르를 선택하세요</option>
-                                </select>
+                                <div class="d-flex align-items-center gap-2 mb-2">
+                                    <h3 class="h6 fw-semibold mb-0" id="festival-genre-heading">대표 축제 장르</h3>
+                                    <button class="festival-tag-add" type="button" id="festival-genre-open" aria-label="대표 축제 장르 선택" aria-haspopup="dialog" aria-controls="festival-tag-dialog">+</button>
+                                </div>
+                                <input type="hidden" id="festival-genre" name="genre">
+                                <div class="festival-selected-genre" id="festival-selected-genre" role="group" aria-labelledby="festival-genre-heading"></div>
                             </div>
                             <div>
                                 <div class="d-flex align-items-center gap-2 mb-2">
@@ -63,7 +65,7 @@
                         <div class="col-md-6"><label class="form-label fw-semibold" for="festival-start-date">시작일</label><input class="form-control" id="festival-start-date" name="startDate" type="date" required></div>
                         <div class="col-md-6"><label class="form-label fw-semibold" for="festival-end-date">종료일</label><input class="form-control" id="festival-end-date" name="endDate" type="date" required></div>
                         <div class="col-12"><label class="form-label fw-semibold" for="festival-place">장소</label><input class="form-control" id="festival-place" name="place" placeholder="축제가 열리는 장소를 입력하세요" maxlength="200" required></div>
-                        <div class="col-12"><label class="form-label fw-semibold" for="festival-description">행사 소개</label><textarea class="form-control" id="festival-description" name="description" rows="9" placeholder="축제 프로그램과 행사 내용을 입력하세요" maxlength="2000"></textarea></div>
+                        <div class="col-12"><label class="form-label fw-semibold" for="festival-description">축제 소개</label><textarea class="form-control" id="festival-description" name="description" rows="9" placeholder="축제 프로그램과 축제 내용을 입력하세요" maxlength="2000"></textarea></div>
                     </div>
                     <p class="small text-secondary mt-3 mb-0" id="festival-save-feedback" role="status" hidden></p>
                 </section>

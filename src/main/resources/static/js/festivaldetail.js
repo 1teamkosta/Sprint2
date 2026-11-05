@@ -1,5 +1,21 @@
 // 현재는 목록 HTML의 더미 데이터를 재사용한다.
 // 서버 연동 시 id로 상세 API를 호출하거나 Thymeleaf 모델로 렌더링하도록 교체한다.
+// 태그 관리와 같은 더미 색상. 서버 연동 시 각 태그의 color 값으로 교체한다.
+const festivalDetailTagColors = {
+    '음악': '#FADADD', '먹거리': '#FFE0B2', '문화': '#FFF0AD',
+    '전통문화': '#FFF0AD', '가족': '#E6DDD2', '친구': '#F2D9EB', '연인': '#F5DEDE'
+};
+function renderFestivalDetailTagColors() {
+    document.querySelectorAll('.festival-detail-tag').forEach(function (badge) {
+        const color = festivalDetailTagColors[badge.textContent.trim()] || '#E2E7ED';
+        // 태그 데이터는 CSS 변수에 등록하지 않고 배지에 직접 적용한다.
+        badge.style.backgroundColor = color;
+        badge.style.color = '#' + [1, 3, 5].map(function (offset) {
+            return Math.round(parseInt(color.slice(offset, offset + 2), 16) * 0.3)
+                .toString(16).padStart(2, '0');
+        }).join('').toUpperCase();
+    });
+}
 async function loadFestivalDetail() {
     const festivalId = new URLSearchParams(window.location.search).get('id') || '1';
     document.querySelector('#festival-edit-link').href = `festivalEdit.html?id=${encodeURIComponent(festivalId)}`;
@@ -19,6 +35,7 @@ async function loadFestivalDetail() {
         document.title = `${title} | 축제메이트`;
         document.querySelector('#festival-title').textContent = title;
         document.querySelector('#festival-genre').textContent = genre;
+        renderFestivalDetailTagColors();
         document.querySelector('#festival-place').textContent = place;
         // 목록에서 가져온 time 요소를 유지해 날짜의 기계 판독용 값도 보존한다.
         const schedule = document.querySelector('#festival-schedule');

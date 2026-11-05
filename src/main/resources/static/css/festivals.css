@@ -55,6 +55,10 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.festival-table .festival-title,
+.festival-table th:has([data-sort="title"]) {
+    padding-inline: 12px;
+}
 .festival-table [data-sort-field="startDate"] { font-size: 0.875rem; }
 .festival-table time { display: inline-block; }
 
@@ -125,13 +129,13 @@
     border: 0;
     border-radius: 4px;
     background: transparent;
-    color: var(--admin-ink);
+    color: var(--admin-text);
     text-align: left;
 }
 
 .festival-status-options button:hover,
 .festival-status-options button[aria-pressed="true"] {
-    background-color: var(--admin-yellow);
+    background-color: var(--admin-primary-soft);
 }
 
 
@@ -150,4 +154,19 @@
 .festival-progress-upcoming {
     background-color: var(--admin-progress-upcoming-bg);
     color: var(--admin-progress-upcoming-text);
+}
+
+.festival-genre-tag {
+    display: inline-block;
+    width: 104px;
+    max-width: 100%;
+    padding: 6px 8px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-align: center;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

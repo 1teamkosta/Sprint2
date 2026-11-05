@@ -20,17 +20,50 @@ const festivalGenre = document.querySelector('#festival-genre');
 const festivalStartDate = document.querySelector('#festival-start-date');
 const festivalEndDate = document.querySelector('#festival-end-date');
 
-festivalTagCatalog.filter(function (tag) { return tag.type === '축제 장르'; }).forEach(function (tag) {
-    const option = document.createElement('option');
-    option.value = tag.name;
-    option.textContent = tag.name;
-    festivalGenre.append(option);
-});
+// 같은 모달을 대표 장르(하나 선택)와 일반 태그(여러 개 선택)에 재사용한다.
+let festivalTagMode = 'tags';
+function renderSelectedFestivalGenre() {
+    const container = document.querySelector('#festival-selected-genre');
+    container.replaceChildren();
+    if (!festivalGenre.value) {
+        const empty = document.createElement('span');
+        empty.className = 'small text-secondary';
+        empty.textContent = '대표 축제 장르를 선택하세요.';
+        container.append(empty);
+        return;
+    }
+    const chip = document.createElement('span');
+    chip.className = 'festival-selected-tag';
+    const label = document.createElement('span');
+    label.textContent = festivalGenre.value;
+    const remove = document.createElement('button');
+    remove.type = 'button';
+    remove.textContent = '×';
+    remove.setAttribute('aria-label', '대표 축제 장르 제거');
+    remove.addEventListener('click', function () {
+        festivalGenre.value = '';
+        renderSelectedFestivalGenre();
+        document.querySelector('#festival-genre-open').focus();
+    });
+    chip.append(label, remove);
+    container.append(chip);
+}
+function openFestivalTagDialog(mode) {
+    festivalTagMode = mode;
+    festivalTagSearch.value = '';
+    document.querySelector('#festival-tag-dialog-title').textContent = mode === 'genre' ? '대표 축제 장르 선택' : '태그 추가';
+    document.querySelector('#festival-tag-close').setAttribute('aria-label', mode === 'genre' ? '대표 축제 장르 선택 닫기' : '태그 추가 닫기');
+    renderFestivalTagOptions();
+    festivalTagDialog.showModal();
+}
 
 // 모달의 선택 상태와 본문의 선택 태그를 함께 갱신한다. 텍스트는 textContent로 넣는다.
 function renderFestivalTagOptions() {
     const keyword = festivalTagSearch.value.trim().toLocaleLowerCase();
-    const results = festivalTagCatalog.filter(function (tag) { return tag.name.toLocaleLowerCase().includes(keyword); });
+    const results = festivalTagCatalog.filter(function (tag) {
+        return (festivalTagMode !== 'genre' || tag.type === '축제 장르')
+            && tag.name.toLocaleLowerCase().includes(keyword);
+    });
     festivalTagOptions.replaceChildren();
     results.forEach(function (tag) {
         const row = document.createElement('tr');
@@ -42,13 +75,19 @@ function renderFestivalTagOptions() {
         const actions = document.createElement('td');
         actions.className = 'text-end';
         const button = document.createElement('button');
-        const selected = selectedFestivalTags.has(tag.id);
+        const selected = festivalTagMode === 'genre' ? festivalGenre.value === tag.name : selectedFestivalTags.has(tag.id);
         button.type = 'button';
         button.className = 'btn btn-outline-primary btn-sm';
         button.textContent = selected ? '선택됨' : '선택';
         button.disabled = selected;
         button.setAttribute('aria-label', `${tag.name} 태그 ${selected ? '선택됨' : '선택'}`);
         button.addEventListener('click', function () {
+            if (festivalTagMode === 'genre') {
+                festivalGenre.value = tag.name;
+                renderSelectedFestivalGenre();
+                festivalTagDialog.close();
+                return;
+            }
             selectedFestivalTags.add(tag.id);
             renderSelectedFestivalTags();
             renderFestivalTagOptions();
@@ -59,7 +98,9 @@ function renderFestivalTagOptions() {
         row.append(actions);
         festivalTagOptions.append(row);
     });
-    document.querySelector('#festival-tag-feedback').textContent = results.length ? `검색 결과 ${results.length}개 · 선택한 태그 ${selectedFestivalTags.size}개` : '검색 결과가 없습니다.';
+    document.querySelector('#festival-tag-feedback').textContent = !results.length ? '검색 결과가 없습니다.'
+        : festivalTagMode === 'genre' ? `검색 결과 ${results.length}개 · 대표 장르는 하나만 선택할 수 있습니다.`
+        : `검색 결과 ${results.length}개 · 선택한 태그 ${selectedFestivalTags.size}개`;
 }
 function renderSelectedFestivalTags() {
     festivalTagContainer.replaceChildren();
@@ -87,11 +128,8 @@ function renderSelectedFestivalTags() {
         festivalTagContainer.append(chip);
     });
 }
-document.querySelector('#festival-tag-open').addEventListener('click', function () {
-    festivalTagSearch.value = '';
-    renderFestivalTagOptions();
-    festivalTagDialog.showModal();
-});
+document.querySelector('#festival-tag-open').addEventListener('click', function () { openFestivalTagDialog('tags'); });
+document.querySelector('#festival-genre-open').addEventListener('click', function () { openFestivalTagDialog('genre'); });
 document.querySelector('#festival-tag-close').addEventListener('click', function () { festivalTagDialog.close(); });
 festivalTagSearch.addEventListener('input', renderFestivalTagOptions);
 // dialog의 기본 동작으로 Escape 닫기와 모달 외부 포커스 차단을 제공한다.
@@ -135,6 +173,13 @@ document.querySelector('#festival-add-form').addEventListener('submit', function
     const place = document.querySelector('#festival-place');
     [title, place].forEach(function (input) { input.value = input.value.trim(); });
     validateFestivalDates();
+    if (!festivalGenre.value) {
+        const feedback = document.querySelector('#festival-save-feedback');
+        feedback.textContent = '대표 축제 장르를 선택해 주세요.';
+        feedback.hidden = false;
+        document.querySelector('#festival-genre-open').focus();
+        return;
+    }
     if (!event.currentTarget.reportValidity()) return;
     const feedback = document.querySelector('#festival-save-feedback');
     feedback.textContent = document.body.dataset.festivalMode === 'edit'
@@ -143,3 +188,4 @@ document.querySelector('#festival-add-form').addEventListener('submit', function
     feedback.hidden = false;
 });
 renderSelectedFestivalTags();
+renderSelectedFestivalGenre();

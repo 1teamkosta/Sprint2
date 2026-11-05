@@ -12,6 +12,19 @@ document.querySelectorAll('.festival-table tbody tr[data-status]').forEach(funct
     badge.className = `badge festival-progress-${progress}`;
 });
 
+// 태그 관리의 음악·먹거리·전통문화 색상에 맞춘 시연용 장르 배지.
+// 서버 연동 시 축제의 장르 태그 color 값을 그대로 사용한다.
+const festivalGenreColors = { '음악': '#FADADD', '먹거리': '#FFE0B2', '문화': '#FFF0AD' };
+document.querySelectorAll('.festival-genre-tag').forEach(function (badge) {
+    const color = festivalGenreColors[badge.textContent.trim()];
+    if (!color) return;
+    badge.style.backgroundColor = color;
+    badge.style.color = '#' + [1, 3, 5].map(function (offset) {
+        return Math.round(parseInt(color.slice(offset, offset + 2), 16) * 0.3)
+            .toString(16).padStart(2, '0');
+    }).join('').toUpperCase();
+});
+
 // 축제 관리 화면의 말줄임과 공통 목록 설정
 shortenListText('.festival-title', 30);
 shortenListText('.festival-location', 15);

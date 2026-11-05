@@ -6,7 +6,7 @@
 
 body {
     margin: 0;
-    color: #252b36;
+    color: var(--admin-text);
     background-color: #f5f6f8;
     font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
 }
@@ -16,53 +16,53 @@ body {
     padding: calc(72px + 36px) 24px 40px;
 }
 
-/* Bootstrap 기본 색 변경 */
+/* 버튼·페이지 선택·입력 포커스를 파란색으로 통일한다. */
 .btn-primary {
-    --bs-btn-color: var(--admin-ink);
-    --bs-btn-bg: var(--admin-yellow);
-    --bs-btn-border-color: var(--admin-yellow-border);
-    --bs-btn-hover-color: var(--admin-ink);
-    --bs-btn-hover-bg: var(--admin-yellow-hover);
-    --bs-btn-hover-border-color: #d1b453;
-    --bs-btn-active-color: var(--admin-ink);
-    --bs-btn-active-bg: #ffde70;
-    --bs-btn-active-border-color: #d1b453;
-    --bs-btn-disabled-color: var(--admin-ink);
-    --bs-btn-disabled-bg: var(--admin-yellow);
-    --bs-btn-disabled-border-color: var(--admin-yellow-border);
-    --bs-btn-focus-shadow-rgb: 190, 149, 35;
+    --bs-btn-color: var(--admin-on-primary);
+    --bs-btn-bg: var(--admin-primary);
+    --bs-btn-border-color: var(--admin-primary);
+    --bs-btn-hover-color: var(--admin-on-primary);
+    --bs-btn-hover-bg: var(--admin-primary-hover);
+    --bs-btn-hover-border-color: var(--admin-primary-hover);
+    --bs-btn-active-color: var(--admin-on-primary);
+    --bs-btn-active-bg: var(--admin-primary-active);
+    --bs-btn-active-border-color: var(--admin-primary-active);
+    --bs-btn-disabled-color: var(--admin-on-primary);
+    --bs-btn-disabled-bg: var(--admin-primary);
+    --bs-btn-disabled-border-color: var(--admin-primary);
+    --bs-btn-focus-shadow-rgb: 22, 93, 255;
 }
 
 .btn-outline-primary {
-    --bs-btn-color: #705719;
-    --bs-btn-border-color: var(--admin-yellow-border);
-    --bs-btn-hover-color: var(--admin-ink);
-    --bs-btn-hover-bg: var(--admin-yellow);
-    --bs-btn-hover-border-color: var(--admin-yellow-border);
-    --bs-btn-active-color: var(--admin-ink);
-    --bs-btn-active-bg: var(--admin-yellow-hover);
-    --bs-btn-active-border-color: #d1b453;
-    --bs-btn-disabled-color: #705719;
-    --bs-btn-disabled-border-color: var(--admin-yellow-border);
-    --bs-btn-focus-shadow-rgb: 190, 149, 35;
+    --bs-btn-color: var(--admin-primary);
+    --bs-btn-border-color: var(--admin-primary);
+    --bs-btn-hover-color: var(--admin-on-primary);
+    --bs-btn-hover-bg: var(--admin-primary);
+    --bs-btn-hover-border-color: var(--admin-primary);
+    --bs-btn-active-color: var(--admin-on-primary);
+    --bs-btn-active-bg: var(--admin-primary-hover);
+    --bs-btn-active-border-color: var(--admin-primary-hover);
+    --bs-btn-disabled-color: var(--admin-primary);
+    --bs-btn-disabled-border-color: var(--admin-primary);
+    --bs-btn-focus-shadow-rgb: 22, 93, 255;
 }
 
 .pagination {
-    --bs-pagination-color: #705719;
-    --bs-pagination-hover-color: var(--admin-ink);
-    --bs-pagination-hover-bg: #fff7d6;
-    --bs-pagination-focus-color: var(--admin-ink);
-    --bs-pagination-focus-bg: #fff7d6;
-    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem rgba(190, 149, 35, 0.25);
-    --bs-pagination-active-color: var(--admin-ink);
-    --bs-pagination-active-bg: var(--admin-yellow);
-    --bs-pagination-active-border-color: var(--admin-yellow-border);
+    --bs-pagination-color: var(--admin-primary);
+    --bs-pagination-hover-color: var(--admin-primary-hover);
+    --bs-pagination-hover-bg: var(--admin-primary-soft);
+    --bs-pagination-focus-color: var(--admin-primary-hover);
+    --bs-pagination-focus-bg: var(--admin-primary-soft);
+    --bs-pagination-focus-box-shadow: 0 0 0 0.25rem var(--admin-focus-ring);
+    --bs-pagination-active-color: var(--admin-on-primary);
+    --bs-pagination-active-bg: var(--admin-primary);
+    --bs-pagination-active-border-color: var(--admin-primary);
 }
 
 .form-control:focus,
 .form-select:focus {
-    border-color: var(--admin-yellow-border);
-    box-shadow: 0 0 0 0.25rem rgba(190, 149, 35, 0.2);
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 0.25rem var(--admin-focus-ring);
 }
 
 .skip-link:focus {
@@ -113,13 +113,25 @@ body {
 }
 
 .list-selection-input:checked {
-    background-color: var(--admin-ink);
-    border-color: var(--admin-ink);
+    background-color: var(--admin-primary);
+    border-color: var(--admin-primary);
 }
 
 .list-selection-input:focus {
-    border-color: var(--admin-yellow-border);
+    border-color: var(--admin-primary-border);
     box-shadow: 0 0 0 0.25rem var(--bs-focus-ring-color);
+}
+
+/* 모임·회원 목록은 내부 스크롤 동작을 유지하고 스크롤바 표시만 숨긴다. */
+body[data-admin-page="meeting"] .table-responsive,
+body[data-admin-page="users"] .table-responsive {
+    scrollbar-width: none;
+}
+body[data-admin-page="meeting"] .table-responsive::-webkit-scrollbar,
+body[data-admin-page="users"] .table-responsive::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
 }
 
 /* 관리 목록의 열 이름은 동일한 글자 크기를 사용한다. */
@@ -138,7 +150,7 @@ body {
 
 .list-detail-link:hover,
 .list-detail-link:focus-visible {
-    color: var(--admin-ink);
+    color: var(--admin-primary);
     text-decoration: underline;
 }
 
@@ -161,7 +173,7 @@ body {
 }
 
 .column-sort:focus-visible {
-    outline: 2px solid var(--admin-ink);
+    outline: 2px solid var(--admin-text);
     outline-offset: 4px;
     border-radius: 2px;
 }

@@ -12,7 +12,7 @@ function renderUserDetailStatus() {
     badge.textContent = active ? '활동' : '정지';
     badge.className = `badge user-detail-${active ? 'active' : 'suspended'}`;
     userDetailAction.textContent = active ? '정지' : '활동';
-    userDetailAction.className = active ? 'btn user-detail-suspend' : 'btn btn-primary';
+    userDetailAction.className = active ? 'btn user-detail-suspend' : 'btn user-detail-activate';
     userDetailAction.disabled = false;
     userDetailAction.setAttribute('aria-label', active ? '회원 활동 정지' : '회원 활동 재개');
 }
@@ -56,48 +56,71 @@ async function loadUserMeetings(userId, nickname) {
         if (!response.ok) throw new Error('모임 목록을 불러오지 못했습니다.');
         const listDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
         const rows = Array.from(listDocument.querySelectorAll('tbody tr[data-meeting-type]'));
-        // 개설자는 목록의 닉네임을 기준으로 연결하고, 일반 참여는 회원당 모임 하나를 더미로 연결한다.
+        // 김축제(1번)는 페이지네이션 시연을 위해 전체 11개 모임에 참여한 것으로 연결한다.
+        // 개설자 역할은 실제 목록의 닉네임으로 구분하고, 다른 회원은 일반 참여 하나를 연결한다.
         const hosted = rows.filter(function (row) { return row.querySelector('[data-field="host"]').textContent.trim() === nickname; });
         const otherMeetings = rows.filter(function (row) { return !hosted.includes(row); });
-        const joined = otherMeetings.length ? [otherMeetings[(Number(userId) - 1) % otherMeetings.length]] : [];
+        const joined = userId === '1'
+            ? otherMeetings
+            : otherMeetings.length ? [otherMeetings[(Number(userId) - 1) % otherMeetings.length]] : [];
         const memberships = [...hosted.map(function (row) { return { row, role: '개설자' }; }), ...joined.map(function (row) { return { row, role: '참여자' }; })];
-        body.replaceChildren();
-        memberships.forEach(function (membership) {
-            const row = membership.row;
-            const tr = document.createElement('tr');
-            const id = row.querySelector('[data-field="meetingId"]').textContent.trim();
-            function cell(text, className = '') {
+        let currentPage = 1;
+        // 전체 참여 내역을 10개씩 나눈다. 링크와 역할은 각 페이지를 그릴 때 그대로 유지한다.
+        function renderMembershipPage() {
+            const pageData = paginateItems(memberships, currentPage, 10);
+            currentPage = pageData.currentPage;
+            body.replaceChildren();
+            pageData.items.forEach(function (membership) {
+                const row = membership.row;
+                const tr = document.createElement('tr');
+                const id = row.querySelector('[data-field="meetingId"]').textContent.trim();
+                function cell(text, className = '') {
+                    const td = document.createElement('td');
+                    td.className = className;
+                    td.textContent = text;
+                    return td;
+                }
+                const festivalCell = cell('', 'text-center');
+                const originalFestival = row.querySelector('[data-field="festival"] a');
+                const festivalLink = document.createElement('a');
+                festivalLink.textContent = originalFestival.textContent.trim();
+                festivalLink.title = festivalLink.textContent;
+                festivalLink.href = originalFestival.getAttribute('href');
+                festivalCell.append(festivalLink);
+                const titleCell = cell('', 'text-center');
+                const meetingLink = document.createElement('a');
+                meetingLink.textContent = row.querySelector('[data-field="title"]').textContent.trim();
+                meetingLink.title = meetingLink.textContent;
+                meetingLink.href = `../meeting/meetingDetail.html?id=${encodeURIComponent(id)}`;
+                titleCell.append(meetingLink);
+                tr.append(cell(id), festivalCell, titleCell, cell(membership.role), cell(row.dataset.meetingType === 'food' ? '음식메이트' : '축제메이트'));
+                body.append(tr);
+            });
+            document.querySelector('#user-detail-meeting-count').textContent = `(${memberships.length}개)`;
+            if (!memberships.length) {
+                const tr = document.createElement('tr');
                 const td = document.createElement('td');
-                td.className = className;
-                td.textContent = text;
-                return td;
+                td.colSpan = 5;
+                td.className = 'text-secondary py-4';
+                td.textContent = '참여한 모임이 없습니다.';
+                tr.append(td);
+                body.append(tr);
             }
-            const festivalCell = cell('', 'text-center');
-            const originalFestival = row.querySelector('[data-field="festival"] a');
-            const festivalLink = document.createElement('a');
-            festivalLink.textContent = originalFestival.textContent.trim();
-            festivalLink.title = festivalLink.textContent;
-            festivalLink.href = originalFestival.getAttribute('href');
-            festivalCell.append(festivalLink);
-            const titleCell = cell('', 'text-center');
-            const meetingLink = document.createElement('a');
-            meetingLink.textContent = row.querySelector('[data-field="title"]').textContent.trim();
-            meetingLink.title = meetingLink.textContent;
-            meetingLink.href = `../meeting/meetingDetail.html?id=${encodeURIComponent(id)}`;
-            titleCell.append(meetingLink);
-            tr.append(cell(id), festivalCell, titleCell, cell(membership.role), cell(row.dataset.meetingType === 'food' ? '음식메이트' : '축제메이트'));
-            body.append(tr);
-        });
-        document.querySelector('#user-detail-meeting-count').textContent = `(${memberships.length}개)`;
-        if (!memberships.length) {
-            const tr = document.createElement('tr');
-            const td = document.createElement('td');
-            td.colSpan = 5;
-            td.className = 'text-secondary py-4';
-            td.textContent = '참여한 모임이 없습니다.';
-            tr.append(td);
-            body.append(tr);
+            renderPagination({
+                containerSelector: '#user-detail-meetings-pagination',
+                pagesSelector: '#user-detail-meetings-pages',
+                currentPage,
+                pageCount: pageData.pageCount,
+                totalCount: pageData.totalCount,
+                onPageChange: function (page) {
+                    currentPage = page;
+                    renderMembershipPage();
+                }
+            });
+            // 10개 이하면 한 페이지이므로 페이지 버튼을 표시하지 않는다.
+            document.querySelector('#user-detail-meetings-pagination').hidden = pageData.pageCount <= 1;
         }
+        renderMembershipPage();
         feedback.hidden = true;
     } catch (error) {
         feedback.textContent = '참여 모임을 불러오지 못했습니다.';

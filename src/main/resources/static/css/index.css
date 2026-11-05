@@ -24,8 +24,8 @@
 .dashboard-summary-mark {
     width: 12px;
     height: 12px;
-    background-color: var(--admin-yellow);
-    border: 1px solid var(--admin-yellow-border);
+    background-color: var(--admin-primary);
+    border: 1px solid var(--admin-primary-border);
     border-radius: 50%;
 }
 
@@ -108,7 +108,7 @@
 
 .dashboard-more:hover,
 .dashboard-more:focus-visible {
-    color: var(--admin-ink);
+    color: var(--admin-text);
     text-decoration: underline;
 }
 
@@ -123,11 +123,18 @@
     overflow: visible;
 }
 
-.dashboard-table th:first-child { width: 29%; }
-.dashboard-table th:nth-child(2) { width: 11%; }
-.dashboard-table th:nth-child(3) { width: 26%; }
-.dashboard-table th:nth-child(4) { width: 17%; }
-.dashboard-table th:nth-child(5) { width: 17%; }
+.dashboard-table th:first-child { width: 30%; }
+.dashboard-table th:nth-child(2) { width: 24%; }
+.dashboard-table th:nth-child(3) { width: 28%; }
+.dashboard-table th:nth-child(4) { width: 18%; }
+
+.dashboard-festival-place,
+.dashboard-table .list-detail-link {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.dashboard-table .list-detail-link { display: block; }
 
 .dashboard-table td {
     overflow-wrap: anywhere;
@@ -135,19 +142,6 @@
 
 .dashboard-table time {
     font-size: 0.75rem;
-}
-
-.dashboard-suspend {
-    --bs-btn-color: var(--admin-surface);
-    --bs-btn-bg: var(--admin-action-muted-bg);
-    --bs-btn-border-color: var(--admin-action-muted-bg);
-    --bs-btn-hover-color: var(--admin-surface);
-    --bs-btn-hover-bg: var(--admin-action-muted-hover);
-    --bs-btn-hover-border-color: var(--admin-action-muted-hover);
-    --bs-btn-active-color: var(--admin-surface);
-    --bs-btn-active-bg: var(--admin-action-muted-hover);
-    --bs-btn-active-border-color: var(--admin-action-muted-hover);
-    cursor: pointer;
 }
 
 .dashboard-table th,
@@ -194,7 +188,7 @@
     min-height: 240px;
 }
 
-/* 화면 초안용 고정 비율. 실제 데이터 연동 시 각 구간 비율도 함께 변경한다. */
+/* 도넛 구간과 범례 색상은 dashboard.js의 태그 데이터로 함께 렌더링한다. */
 .dashboard-donut {
     position: relative;
     display: grid;
@@ -205,21 +199,14 @@
     aspect-ratio: 1;
     justify-self: center;
     border-radius: 50%;
-    background: conic-gradient(
-        var(--admin-yellow) 0% 42%,
-        var(--admin-status-visible-bg) 42% 66%,
-        var(--admin-border) 66% 84%,
-        var(--admin-action-muted-bg) 84% 100%
-    );
+
 }
 
-.dashboard-donut::before {
+.dashboard-donut-chart {
     position: absolute;
-    width: 70%;
-    height: 70%;
-    border-radius: 50%;
-    background: var(--admin-surface);
-    content: "";
+    inset: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .dashboard-donut-label {
@@ -263,10 +250,6 @@
     border-radius: 50%;
 }
 
-.dashboard-legend-music { background: var(--admin-yellow); }
-.dashboard-legend-food { background: var(--admin-status-visible-bg); }
-.dashboard-legend-exhibition { background: var(--admin-border); }
-.dashboard-legend-other { background: var(--admin-action-muted-bg); }
 
 .dashboard-ranking {
     display: grid;
@@ -277,7 +260,8 @@
 }
 
 .dashboard-ranking li {
-    display: flex;
+    display: grid;
+    grid-template-columns: 28px minmax(0, 1fr) auto;
     align-items: center;
     gap: 12px;
 }
@@ -288,8 +272,8 @@
     flex-shrink: 0;
     width: 28px;
     height: 28px;
-    color: var(--admin-ink);
-    background: var(--admin-yellow);
+    color: var(--admin-text);
+    background: var(--admin-primary-soft);
     border-radius: 8px;
     font-size: 0.8rem;
     font-weight: 600;
@@ -318,6 +302,14 @@
     font-weight: 400;
 }
 
+.dashboard-activity-icon {
+    display: block;
+    width: 30px;
+    height: 30px;
+    margin: 0 auto 12px;
+    color: var(--admin-primary);
+}
+
 .dashboard-activity-item dd {
     margin: 0;
     font-size: clamp(1.3rem, 2vw, 2rem);
@@ -332,9 +324,10 @@
     font-size: 0.95rem;
 }
 
-.dashboard-low-popularity-table th:first-child { width: 40%; }
-.dashboard-low-popularity-table th:nth-child(2) { width: 28%; }
-.dashboard-low-popularity-table th:last-child { width: 32%; }
+.dashboard-low-popularity-table th:first-child { width: 65%; }
+.dashboard-low-popularity-table th:last-child { width: 35%; }
+.dashboard-low-popularity-table th:first-child,
+.dashboard-low-popularity-table td:first-child { text-align: center; }
 .dashboard-low-popularity-table .list-detail-link {
     display: block;
     overflow: hidden;
@@ -385,4 +378,21 @@
     .dashboard-card {
         padding: 20px;
     }
+}
+
+/* 관심사 태그는 태그 관리와 같은 고정 너비의 둥근 배지로 표시한다. */
+.dashboard-interest-tag {
+    display: inline-block;
+    justify-self: center;
+    flex-shrink: 0;
+    width: 104px;
+    max-width: 100%;
+    padding: 6px 14px;
+    border-radius: 999px;
+    text-align: center;
+    font-size: 0.875rem;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
