@@ -58,3 +58,5 @@
     border: 1px solid var(--admin-border);
     border-radius: 8px;
 }
+
+.festival-required { color: var(--admin-required); }
