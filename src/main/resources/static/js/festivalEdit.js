@@ -25,14 +25,8 @@ async function loadFestivalEdit() {
         document.querySelector('#festival-place').value = place;
         festivalStartDate.value = dates[0].getAttribute('datetime');
         festivalEndDate.value = dates[1].getAttribute('datetime');
-        // 기존 데이터의 장르가 현재 선택지에 없어도 원래 값을 표시한다.
-        if (!Array.from(festivalGenre.options).some(function (option) { return option.value === genre; })) {
-            const option = document.createElement('option');
-            option.value = genre;
-            option.textContent = genre;
-            festivalGenre.append(option);
-        }
         festivalGenre.value = genre;
+        renderSelectedFestivalGenre();
         document.querySelector('#festival-description').value = `${title}에서 다양한 ${genre} 프로그램을 만나 보세요.\n${place}에서 축제메이트와 함께 즐거운 추억을 만들어 보세요.`;
         // 추천 대상은 상세 화면에 표시되는 태그의 시연용 초기값이다.
         festivalTagCatalog.filter(function (tag) { return ['친구', '연인', '가족'].includes(tag.name); }).forEach(function (tag) {

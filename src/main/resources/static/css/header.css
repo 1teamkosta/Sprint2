@@ -6,8 +6,8 @@
     left: 220px;
     z-index: 1020;
     height: 72px;
-    background-color: #fff;
-    border-bottom: 1px solid #dee2e6;
+    background-color: var(--admin-surface);
+    border-bottom: 1px solid var(--admin-border);
 }
 
 .admin-avatar {
@@ -16,8 +16,8 @@
     justify-content: center;
     width: 32px;
     height: 32px;
-    color: var(--admin-ink);
-    background-color: var(--admin-yellow);
+    color: var(--admin-on-primary);
+    background-color: var(--admin-primary);
     border-radius: 50%;
     font-size: 14px;
 }

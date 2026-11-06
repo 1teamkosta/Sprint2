@@ -17,7 +17,19 @@
 // DB연결 후 삭제 예정
 // 더미 태그와 추가 모달의 기본 색상이다. 선택한 색상은 :root 변수로 등록하지 않는다.
 // 나중에 DB에서 color: '#FFF0AD' 같은 HEX 문자열을 받아도 아래 표시 코드를 사용할 수 있다.
-const tagPalette = ['#FFF0AD', '#FBE5D6', '#D9EEE5', '#ECE5F5', '#DCEAF5', '#F1DCE5'];
+// 파스텔 팔레트: 실제 태그 색상 데이터이며 CSS 변수나 저장소에 등록하지 않는다.
+const tagPalette = [
+    '#FADADD', '#FBE5D6', '#FFE0B2', '#FFF0AD', '#F1F4B8',
+    '#DDECCB', '#CDEBDD', '#CCEFEB', '#D3EFF5', '#DCEAF5',
+    '#D8DEFA', '#E2D9F3', '#ECDDF4', '#F2D9EB', '#F5DEDE',
+    '#E6DDD2', '#E2E7ED'
+];
+const tagPaletteNames = [
+    '연분홍', '살구', '연주황', '연노랑', '연레몬',
+    '연두', '민트', '연청록', '하늘', '연파랑',
+    '연남색', '라벤더', '연보라', '연자주', '로즈',
+    '베이지', '회청색'
+];
 const tagTypeNames = { all: '전체', genre: '축제 장르', target: '추천 대상' };
 // 더미 원본: [태그명, 종류, 설명, 사용 중인 축제 수].
 // 아래 map()에서 { id, name, type, description, usage, color } 객체로 변환한다.
@@ -48,6 +60,7 @@ let tags = [
 // 실제 ID는 서버·DB가 발급한다. nextTagId는 시연용이다.
 let nextTagId = tags.length + 1;
 let selectedTagType = 'all';
+let selectedTagStatus = 'all';
 let tagKeyword = '';
 let tagPage = 1;
 let tagSortField = null;
@@ -63,7 +76,7 @@ const tagNameInput = document.querySelector('#tag-name');
 const tagTypeInput = document.querySelector('#tag-type');
 const tagStatusInput = document.querySelector('#tag-status');
 const tagColorInput = document.querySelector('#tag-color');
-const tagColorCode = document.querySelector('#tag-color-code');
+const tagColorPalette = document.querySelector('#tag-color-palette');
 const tagDescription = document.querySelector('#tag-description');
 const tagTabs = Array.from(document.querySelectorAll('[data-tag-type]'));
 
@@ -76,10 +89,19 @@ function tagElement(tagName, className, text) {
     return element;
 }
 
+// 파스텔 배경의 색상 계열을 유지하면서 글자색을 자동으로 짙게 만든다.
+function getTagTextColor(color) {
+    return '#' + [1, 3, 5].map(function (offset) {
+        const channel = parseInt(color.slice(offset, offset + 2), 16);
+        return Math.round(channel * 0.3).toString(16).padStart(2, '0');
+    }).join('').toUpperCase();
+}
+
 // 종류·검색·정렬 조건을 적용한 전체 결과. 화면 표시와 저장 후 페이지 계산에 함께 쓴다.
 function getTagResults() {
     const results = tags.filter(function (tag) {
         return (selectedTagType === 'all' || tag.type === selectedTagType)
+            && (selectedTagStatus === 'all' || (tag.isPublic === false ? 'hidden' : 'visible') === selectedTagStatus)
             && tag.name.toLocaleLowerCase().includes(tagKeyword);
     });
     // 페이지를 나누기 전에 전체 결과를 정렬한다. 같은 값은 ID순으로 유지한다.
@@ -101,6 +123,9 @@ function getTagResults() {
  * 행을 새로 만들기 때문에 수정 버튼 이벤트도 여기서 연결한다. 상태는 수정 모달에서 변경한다.
  */
 function renderTags() {
+    document.querySelectorAll('[data-tag-status-filter]').forEach(function (button) {
+        button.setAttribute('aria-pressed', String(button.dataset.tagStatusFilter === selectedTagStatus));
+    });
     document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
     document.querySelector('#tag-target-count').textContent = tags.filter(function (tag) { return tag.type === 'target'; }).length;
     document.querySelector('#tag-total-count').textContent = tags.length;
@@ -118,17 +143,15 @@ function renderTags() {
         const statusCell = document.createElement('td');
         const isPublic = tag.isPublic !== false;
         statusCell.append(tagElement('span', `badge tag-status-${isPublic ? 'visible' : 'hidden'}`, isPublic ? '공개' : '비공개'));
-        row.append(tagElement('td', '', tag.id), statusCell, tagElement('td', 'fw-medium', tag.name));
-        const colorCell = document.createElement('td');
-        const colorDisplay = tagElement('span', 'tag-color-display');
-        const swatch = tagElement('span', 'tag-color-swatch');
-        // 선택한 색상은 견본 요소에 직접 적용한다.
-        // 색상은 견본에만 직접 적용한다. CSS 변수나 var()는 사용하지 않는다.
-        swatch.style.backgroundColor = tag.color;
-        swatch.setAttribute('aria-hidden', 'true');
-        colorDisplay.append(swatch, tagElement('span', 'tag-code', tag.color));
-        colorCell.append(colorDisplay);
-        row.append(colorCell, tagElement('td', 'tag-description text-start', tag.description || '—'), tagElement('td', '', tag.usage));
+        const nameCell = document.createElement('td');
+        const nameBadge = tagElement('span', 'tag-name-badge', tag.name);
+        // 태그별 색상은 요소에 직접 적용하며 공통 CSS 변수로 등록하지 않는다.
+        nameBadge.style.backgroundColor = tag.color;
+        nameBadge.style.color = getTagTextColor(tag.color);
+        nameBadge.title = tag.name;
+        nameCell.append(nameBadge);
+        row.append(tagElement('td', '', tag.id), statusCell, nameCell,
+            tagElement('td', 'tag-description text-start', tag.description || '—'), tagElement('td', '', tag.usage));
         // 각 행의 버튼은 해당 tag 객체를 기억한다. 수정은 같은 추가 모달을 재사용한다.
         const actions = document.createElement('td');
         const group = tagElement('div', 'tag-actions');
@@ -145,7 +168,7 @@ function renderTags() {
     if (results.length === 0) {
         const row = document.createElement('tr');
         const cell = tagElement('td', 'py-5 text-secondary', '조건에 맞는 태그가 없습니다.');
-        cell.colSpan = 7;
+        cell.colSpan = 6;
         row.append(cell);
         body.append(row);
     }
@@ -180,6 +203,31 @@ function selectTagType(type) {
     renderTags();
 }
 
+// 색상을 누르면 숨겨진 입력값과 선택 표시만 바꾼다. 저장 전에는 목록에 반영하지 않는다.
+function renderTagPalette() {
+    tagColorPalette.replaceChildren();
+    const colors = tagPalette.includes(tagColorInput.value) ? tagPalette : [...tagPalette, tagColorInput.value];
+    colors.forEach(function (color, index) {
+        const selected = color === tagColorInput.value;
+        const name = tagPaletteNames[index] || '기존 색상';
+        const button = tagElement('button', 'tag-color-option', selected ? '✓' : '');
+        button.type = 'button';
+        button.style.backgroundColor = color;
+        button.style.color = getTagTextColor(color);
+        button.title = name;
+        button.setAttribute('aria-label', name);
+        button.setAttribute('aria-pressed', String(selected));
+        button.addEventListener('click', function () {
+            tagColorInput.value = color;
+            renderTagPalette();
+            // 다시 생성된 동일 버튼으로 포커스를 복원한다.
+            tagColorPalette.children[index].focus();
+        });
+        tagColorPalette.append(button);
+        if (selected) document.querySelector('#tag-color-selection').textContent = `${name} 선택됨`;
+    });
+}
+
 // 인자가 없으면 새 태그, tag 객체가 있으면 수정 모드로 같은 모달을 연다.
 // 이전 입력·오류를 지우고 기본값 또는 기존 값을 채워 취소한 내용이 다음 작업에 남지 않게 한다.
 // showModal()은 배경 클릭 차단·포커스 제한을 맡고, Escape 닫기는 dialog 기본 동작이다.
@@ -187,12 +235,11 @@ function openTagDialog(tag) {
     editingTagId = tag ? tag.id : null;
     tagForm.reset();
     tagNameInput.setCustomValidity('');
-    tagColorCode.setCustomValidity('');
     tagNameInput.value = tag ? tag.name : '';
     // '전체'는 조회용 탭이므로 새 태그의 기본 종류는 실제 값인 '축제 장르'로 설정한다.
     tagTypeInput.value = tag ? tag.type : selectedTagType === 'all' ? 'genre' : selectedTagType;
     tagColorInput.value = tag ? tag.color : tagPalette[0];
-    tagColorCode.value = tag ? tag.color : tagPalette[0];
+    renderTagPalette();
     tagDescription.value = tag ? tag.description : '';
     // 새 태그는 공개가 기본값이며 수정 시 기존 공개 상태를 그대로 표시한다.
     tagStatusInput.value = tag && tag.isPublic === false ? 'hidden' : 'visible';
@@ -243,19 +290,6 @@ document.querySelector('#tag-search-form').addEventListener('submit', function (
 document.querySelector('#tag-add-button').addEventListener('click', function () { openTagDialog(); });
 document.querySelector('#tag-dialog-close').addEventListener('click', function () { tagDialog.close(); });
 document.querySelector('#tag-dialog-cancel').addEventListener('click', function () { tagDialog.close(); });
-// 색상 선택기 → 코드 입력창: 선택한 HEX를 대문자로 표시하고 기존 오류를 해제한다.
-tagColorInput.addEventListener('input', function () {
-    tagColorCode.value = tagColorInput.value.toUpperCase();
-    tagColorCode.setCustomValidity('');
-});
-// 코드 입력창 → 색상 선택기: # + 6자리 HEX가 완성됐을 때만 선택기에 반영한다.
-// setCustomValidity('')는 오류 해제, 메시지가 있으면 유효하지 않은 입력으로 처리한다.
-tagColorCode.addEventListener('input', function () {
-    const color = tagColorCode.value.trim();
-    const valid = /^#[0-9a-f]{6}$/i.test(color);
-    tagColorCode.setCustomValidity(valid ? '' : '#으로 시작하는 6자리 색상 코드를 입력해 주세요.');
-    if (valid) tagColorInput.value = color;
-});
 // 이름이나 종류를 고치면 이전 중복 오류를 해제하고 제출 시 다시 검사한다.
 tagNameInput.addEventListener('input', function () { tagNameInput.setCustomValidity(''); });
 tagTypeInput.addEventListener('change', function () { tagNameInput.setCustomValidity(''); });
@@ -269,19 +303,24 @@ tagForm.addEventListener('submit', function (event) {
     event.preventDefault();
     const name = tagNameInput.value.trim();
     const type = tagTypeInput.value;
-    const color = tagColorCode.value.trim().toUpperCase();
+    const color = tagColorInput.value;
     // 수정 대상 자기 자신은 제외한다. 같은 종류 안에서만 중복을 막고 다른 종류는 허용한다.
     const duplicate = tags.some(function (tag) {
         return tag.id !== editingTagId && tag.type === type && tag.name.toLocaleLowerCase() === name.toLocaleLowerCase();
     });
     tagNameInput.setCustomValidity(!name ? '태그명을 입력해 주세요.' : duplicate ? '같은 종류에 이미 등록된 태그명입니다.' : '');
-    tagColorCode.setCustomValidity(/^#[0-9a-f]{6}$/i.test(color) ? '' : '#으로 시작하는 6자리 색상 코드를 입력해 주세요.');
+    if (!/^#[0-9a-f]{6}$/i.test(color)) {
+        document.querySelector('#tag-color-selection').textContent = '팔레트에서 색상을 선택해 주세요.';
+        return;
+    }
     if (!tagForm.reportValidity()) return;
     // 현재는 메모리 배열만 변경한다. 수정 시 기존 ID와 사용 축제 수를 유지한다.
     const existing = tags.find(function (tag) { return tag.id === editingTagId; });
     const item = { id: existing ? existing.id : nextTagId++, name, type, color, isPublic: tagStatusInput.value === 'visible', description: tagDescription.value.trim(), usage: existing ? existing.usage : 0 };
     if (existing) Object.assign(existing, item);
     else tags.push(item);
+    // 저장한 항목이 필터에 가려지지 않도록 선택된 상태 필터도 저장한 상태에 맞춘다.
+    if (selectedTagStatus !== 'all') selectedTagStatus = item.isPublic ? 'visible' : 'hidden';
     // 저장한 항목이 검색 조건 때문에 숨지 않도록 검색을 비우고 해당 탭으로 이동한다.
     tagKeyword = '';
     document.querySelector('#tag-search').value = '';
@@ -293,6 +332,27 @@ tagForm.addEventListener('submit', function (event) {
     tagPage = Math.floor(category.findIndex(function (tag) { return tag.id === item.id; }) / tagsPerPage) + 1;
     renderTags();
     document.querySelector('#tag-feedback').textContent = `‘${name}’ 태그를 ${existing ? '수정' : '추가'}했습니다.`;
+});
+
+// 공개 상태 필터는 종류·검색·정렬 조건과 함께 적용하고 변경 시 1페이지로 돌아간다.
+const tagStatusFilter = document.querySelector('#tag-status-filter');
+tagStatusFilter.querySelectorAll('[data-tag-status-filter]').forEach(function (button) {
+    button.addEventListener('click', function () {
+        selectedTagStatus = button.dataset.tagStatusFilter;
+        tagPage = 1;
+        renderTags();
+        tagStatusFilter.open = false;
+        tagStatusFilter.querySelector('summary').focus();
+    });
+});
+document.addEventListener('click', function (event) {
+    if (!tagStatusFilter.contains(event.target)) tagStatusFilter.open = false;
+});
+tagStatusFilter.addEventListener('keydown', function (event) {
+    if (event.key === 'Escape') {
+        tagStatusFilter.open = false;
+        tagStatusFilter.querySelector('summary').focus();
+    }
 });
 
 // 이벤트 연결을 마친 뒤 초기 집계·목록·페이지 버튼을 표시한다.

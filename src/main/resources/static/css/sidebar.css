@@ -11,6 +11,8 @@
     background-color: var(--admin-sidebar-bg);
     border-right: 1px solid var(--admin-sidebar-border);
     --bs-border-color: var(--admin-sidebar-border);
+    font-weight: 800;
+    font-size: 1.125rem;
 }
 
 .admin-brand {
@@ -18,23 +20,27 @@
     color: var(--admin-sidebar-text);
 }
 
+.admin-brand strong { font-size: 1.625rem; }
+
 .admin-brand:hover,
 .admin-brand:focus-visible {
     color: var(--admin-sidebar-text);
 }
 
 .admin-brand-subtitle {
+    font-size: 0.9375rem;
     color: var(--admin-sidebar-muted);
 }
 
 .admin-sidebar .nav-link {
     padding: 12px 16px;
+    font-size: 1.125rem;
     color: var(--admin-sidebar-text);
 }
 
 .admin-sidebar .nav-pills {
-    --bs-nav-pills-link-active-bg: var(--admin-yellow);
-    --bs-nav-pills-link-active-color: var(--admin-ink);
+    --bs-nav-pills-link-active-bg: var(--admin-primary);
+    --bs-nav-pills-link-active-color: var(--admin-on-primary);
 }
 
 .admin-sidebar .nav-link:not(:disabled):hover {
@@ -43,16 +49,16 @@
 }
 
 .admin-sidebar .nav-link.active {
-    color: var(--admin-ink);
+    color: var(--admin-on-primary);
 }
 
 .admin-sidebar .nav-link.active:hover {
-    color: var(--admin-ink);
-    background-color: var(--admin-yellow-hover);
+    color: var(--admin-on-primary);
+    background-color: var(--admin-primary-hover);
 }
 
 .admin-sidebar .nav-link:focus-visible {
-    outline: 2px solid var(--admin-yellow);
+    outline: 2px solid var(--admin-primary-border);
     outline-offset: 2px;
     box-shadow: none;
 }
@@ -67,6 +73,7 @@
 }
 
 .admin-account .btn-outline-secondary {
+    font-size: 1rem;
     --bs-btn-color: var(--admin-sidebar-text);
     --bs-btn-border-color: var(--admin-sidebar-muted);
     --bs-btn-hover-color: var(--admin-sidebar-text);

@@ -85,12 +85,12 @@
     border: 0;
     border-radius: 4px;
     background: transparent;
-    color: var(--admin-ink);
+    color: var(--admin-text);
     text-align: left;
 }
 .user-status-options button:hover,
 .user-status-options button[aria-pressed="true"] {
-    background-color: var(--admin-yellow);
+    background-color: var(--admin-primary-soft);
 }
 .user-status-options button[aria-pressed="true"]::after { content: '✓'; }
 

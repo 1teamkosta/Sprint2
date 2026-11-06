@@ -1,10 +1,10 @@
 /* 모임 관리 목록 */
 .meeting-tabs {
     --bs-nav-link-color: var(--admin-muted);
-    --bs-nav-link-hover-color: var(--admin-ink);
-    --bs-nav-tabs-link-active-color: var(--admin-ink);
-    --bs-nav-tabs-link-active-bg: var(--admin-yellow);
-    --bs-nav-tabs-link-active-border-color: var(--admin-yellow-border);
+    --bs-nav-link-hover-color: var(--admin-text);
+    --bs-nav-tabs-link-active-color: var(--admin-on-primary);
+    --bs-nav-tabs-link-active-bg: var(--admin-primary);
+    --bs-nav-tabs-link-active-border-color: var(--admin-primary);
 }
 
 .meeting-status-visible {
@@ -113,13 +113,13 @@
     border: 0;
     border-radius: 4px;
     background: transparent;
-    color: var(--admin-ink);
+    color: var(--admin-text);
     text-align: left;
 }
 
 .meeting-status-options button:hover,
 .meeting-status-options button[aria-pressed="true"] {
-    background-color: var(--admin-yellow);
+    background-color: var(--admin-primary-soft);
 }
 
 @media (max-width: 575.98px) {

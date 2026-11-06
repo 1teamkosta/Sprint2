@@ -1,4 +1,16 @@
 /* 태그 관리: 공통 색상은 root.css에서 가져온다. */
+/* 표와 모달의 내부 스크롤바만 숨기고 바깥쪽 페이지 스크롤바는 유지한다. */
+body[data-admin-page="tags"] .table-responsive,
+body[data-admin-page="tags"] .tag-dialog {
+    scrollbar-width: none;
+}
+body[data-admin-page="tags"] .table-responsive::-webkit-scrollbar,
+body[data-admin-page="tags"] .tag-dialog::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;
+}
+
 .tag-stat {
     height: 100%;
     padding: 24px;
@@ -22,10 +34,10 @@
 
 .tag-tabs {
     --bs-nav-link-color: var(--admin-muted);
-    --bs-nav-link-hover-color: var(--admin-ink);
-    --bs-nav-tabs-link-active-color: var(--admin-ink);
-    --bs-nav-tabs-link-active-bg: var(--admin-yellow);
-    --bs-nav-tabs-link-active-border-color: var(--admin-yellow-border);
+    --bs-nav-link-hover-color: var(--admin-text);
+    --bs-nav-tabs-link-active-color: var(--admin-on-primary);
+    --bs-nav-tabs-link-active-bg: var(--admin-primary);
+    --bs-nav-tabs-link-active-border-color: var(--admin-primary);
 }
 
 .tag-search {
@@ -39,12 +51,12 @@
     table-layout: fixed;
 }
 
+
 /* 탭·검색·페이지가 바뀌어도 열 너비를 유지하고 설명 열에 남는 공간을 배분한다. */
 .tag-column-id { width: 88px; }
 .tag-column-status { width: 92px; }
-.tag-column-name { width: 144px; }
-.tag-column-color { width: 160px; }
-.tag-column-description { width: calc(100% - 752px); }
+.tag-column-name { width: 180px; }
+.tag-column-description { width: calc(100% - 628px); }
 .tag-column-usage { width: 180px; }
 .tag-column-actions { width: 88px; }
 
@@ -66,26 +78,19 @@
     overflow-wrap: anywhere;
 }
 
-.tag-color-display {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    white-space: nowrap;
-}
-
-.tag-color-swatch {
+.tag-name-badge {
     display: inline-block;
-    flex-shrink: 0;
-    width: 24px;
-    height: 24px;
-    border: 1px solid var(--admin-border);
-    border-radius: 6px;
-}
-
-.tag-code {
-    color: var(--admin-muted);
-    font-size: 0.85rem;
-    font-family: ui-monospace, monospace;
+    width: 104px;
+    max-width: 100%;
+    text-align: center;
+    padding: 6px 14px;
+    border-radius: 999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    vertical-align: middle;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .tag-actions {
@@ -100,11 +105,11 @@
 
 /* 기본 dialog의 배경·포커스 관리와 Escape 닫기를 사용한다. */
 .tag-dialog {
-    width: min(520px, calc(100% - 32px));
-    max-height: calc(100dvh - 48px);
+    width: min(560px, calc(100% - 24px));
+    max-height: none;
     margin: auto;
     padding: 0;
-    overflow-y: auto;
+    overflow: visible;
     color: inherit;
     background: var(--admin-surface);
     border: 1px solid var(--admin-border);
@@ -120,8 +125,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    padding: 20px 24px;
+    gap: 12px;
+    padding: 14px 20px;
 }
 
 .tag-dialog-header {
@@ -134,13 +139,44 @@
 }
 
 .tag-dialog-body {
-    padding: 24px;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 16px;
+    padding: 16px 20px;
 }
+.tag-dialog-body > :first-child,
+.tag-dialog-body > fieldset,
+.tag-dialog-body > :last-child { grid-column: 1 / -1; }
+.tag-dialog-body > .mb-3 { margin-bottom: 0 !important; }
+.tag-dialog-body .form-label { margin-bottom: 4px; }
+.tag-dialog-body .form-control,
+.tag-dialog-body .form-select { padding: 5px 10px; font-size: 0.875rem; }
+.tag-dialog-body textarea { resize: none; }
 
-.tag-color-input {
-    width: 54px;
-    height: 42px;
+.tag-color-palette {
+    display: grid;
+    grid-template-columns: repeat(9, minmax(0, 1fr));
+    gap: 10px;
+    padding: 6px;
+}
+.tag-color-option {
+    width: 100%;
+    max-width: 32px;
+    justify-self: center;
+    aspect-ratio: 1;
+    border: 1px solid var(--admin-border);
+    border-radius: 50%;
+    font-size: 1.125rem;
+    font-weight: 700;
     cursor: pointer;
+}
+.tag-color-option[aria-pressed="true"] {
+    outline: 2px solid var(--admin-text);
+    outline-offset: 3px;
+}
+.tag-color-option:focus-visible {
+    outline: 3px solid var(--admin-primary);
+    outline-offset: 3px;
 }
 
 .tag-required {
@@ -155,4 +191,61 @@
 .tag-status-hidden {
     background-color: var(--admin-status-hidden-bg);
     color: var(--admin-status-hidden-text);
+}
+
+/* 다른 목록과 동일한 공개 상태 필터 */
+.tag-status-filter {
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+.tag-status-filter summary {
+    cursor: pointer;
+    list-style: none;
+}
+.tag-status-filter summary::-webkit-details-marker { display: none; }
+.tag-status-filter summary span {
+    color: var(--admin-muted);
+    font-size: 0.8em;
+}
+.tag-status-options {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 1;
+    width: 140px;
+    padding: 6px;
+    transform: translateX(-50%);
+    background-color: var(--admin-surface);
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+}
+.tag-status-options button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 8px 12px;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: var(--admin-text);
+    text-align: left;
+}
+.tag-status-options button:hover,
+.tag-status-options button[aria-pressed="true"] {
+    background-color: var(--admin-primary-soft);
+}
+.tag-status-options button[aria-pressed="true"]::after { content: '✓'; }
+
+/* 높이가 낮은 화면에서도 모달 내부 스크롤 없이 버튼까지 들어오도록 조정한다. */
+@media (max-height: 650px) {
+    .tag-dialog-header, .tag-dialog-footer { padding: 10px 16px; }
+    .tag-dialog-body { gap: 8px 12px; padding: 12px 16px; }
+    .tag-dialog-body .form-label { font-size: 0.875rem !important; }
+    .tag-dialog-body .form-control, .tag-dialog-body .form-select { padding: 3px 8px; }
+    .tag-dialog-body textarea { height: 46px; }
+    .tag-color-option { max-width: 26px; }
+    .tag-color-palette { gap: 8px; }
+    #tag-color-help { font-size: 0.75rem; }
 }

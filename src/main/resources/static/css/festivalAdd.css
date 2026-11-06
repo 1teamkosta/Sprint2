@@ -14,10 +14,10 @@
     justify-content: center;
     gap: 12px;
     height: 270px;
-    border: 1px dashed var(--admin-yellow-border);
+    border: 1px dashed var(--admin-primary-border);
     border-radius: 8px;
-    color: var(--admin-ink);
-    background: var(--admin-yellow);
+    color: var(--admin-text);
+    background: var(--admin-primary-soft);
 }
 .festival-add-preview { width: 100%; height: 270px; object-fit: contain; border: 1px solid var(--admin-border); border-radius: 8px; }
 .festival-add-image[hidden] { display: none; }
@@ -27,17 +27,17 @@
     justify-content: center;
     width: 30px;
     height: 30px;
-    border: 1px solid var(--admin-yellow-border);
+    border: 1px solid var(--admin-primary-border);
     border-radius: 50%;
-    background: var(--admin-yellow);
-    color: var(--admin-ink);
+    background: var(--admin-primary-soft);
+    color: var(--admin-text);
     font-size: 1.25rem;
     cursor: pointer;
 }
-.festival-tag-add:hover { background: var(--admin-yellow-hover); }
-.festival-tag-add:focus-visible { outline: 2px solid var(--admin-ink); outline-offset: 3px; }
+.festival-tag-add:hover { background: var(--admin-primary-soft); }
+.festival-tag-add:focus-visible { outline: 2px solid var(--admin-text); outline-offset: 3px; }
 .festival-selected-tags { display: flex; flex-wrap: wrap; align-content: flex-start; gap: 10px; min-height: 125px; padding: 16px; border: 1px solid var(--admin-border); border-radius: 8px; }
-.festival-selected-tag { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border: 1px solid var(--admin-yellow-border); border-radius: 20px; background: var(--admin-yellow); color: var(--admin-ink); font-size: 0.875rem; }
+.festival-selected-tag { display: inline-flex; align-items: center; gap: 8px; padding: 5px 12px; border: 1px solid var(--admin-primary-border); border-radius: 20px; background: var(--admin-primary-soft); color: var(--admin-text); font-size: 0.875rem; }
 .festival-selected-tag button { border: 0; background: transparent; color: inherit; font: inherit; cursor: pointer; }
 .festival-tag-dialog { width: min(560px, calc(100% - 32px)); max-height: calc(100dvh - 48px); margin: auto; padding: 0; overflow-y: auto; color: inherit; background: var(--admin-surface); border: 1px solid var(--admin-border); border-radius: 12px; }
 .festival-tag-dialog::backdrop { background: var(--admin-overlay); }
@@ -49,3 +49,14 @@
     .festival-add-field, .festival-add-overview { grid-template-columns: 1fr; gap: 16px; }
     .festival-add-overview > div:first-child { width: 100%; max-width: 240px; margin: 0 auto; }
 }
+
+.festival-selected-genre {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+    padding: 8px 12px;
+    border: 1px solid var(--admin-border);
+    border-radius: 8px;
+}
+
+.festival-required { color: var(--admin-required); }

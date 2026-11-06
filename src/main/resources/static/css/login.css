@@ -1,0 +1,86 @@
+@import url("./root.css");
+
+/* 로그인은 공통 헤더·사이드바 없이 독립된 화면으로 구성한다. */
+.login-page {
+    margin: 0;
+    color: var(--admin-text);
+    background-color: #f5f6f8;
+    font-family: system-ui, -apple-system, "Malgun Gothic", sans-serif;
+}
+
+.login-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100dvh;
+    padding: 40px 20px;
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 28px;
+    font-size: 1.625rem;
+    letter-spacing: -0.04em;
+}
+
+.login-brand-mark {
+    display: grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    border-radius: 12px;
+    color: var(--admin-on-primary);
+    background: var(--admin-primary);
+}
+
+.login-brand-mark svg { width: 26px; height: 26px; }
+
+.login-card {
+    width: 100%;
+    max-width: 440px;
+    padding: 40px;
+    border: 1px solid var(--admin-border);
+    border-radius: 16px;
+    background: var(--admin-surface);
+}
+
+.login-heading { margin-bottom: 32px; }
+.login-eyebrow { margin-bottom: 8px; color: var(--admin-primary); font-size: 0.875rem; font-weight: 600; }
+.login-heading h1 { margin-bottom: 12px; font-size: 1.75rem; font-weight: 700; letter-spacing: -0.04em; }
+.login-description { margin: 0; color: var(--admin-muted); font-size: 0.875rem; line-height: 1.7; }
+.login-field + .login-field { margin-top: 20px; }
+.login-field .form-label { margin-bottom: 8px; font-size: 0.875rem; font-weight: 600; }
+.login-field .form-control { min-height: 48px; padding: 12px 14px; font-size: 0.9375rem; }
+.login-field .form-control::placeholder { color: var(--admin-muted); }
+.login-field .form-control:focus {
+    border-color: var(--admin-primary);
+    box-shadow: 0 0 0 0.25rem var(--admin-focus-ring);
+}
+
+.login-submit {
+    --bs-btn-color: var(--admin-on-primary);
+    --bs-btn-bg: var(--admin-primary);
+    --bs-btn-border-color: var(--admin-primary);
+    --bs-btn-hover-color: var(--admin-on-primary);
+    --bs-btn-hover-bg: var(--admin-primary-hover);
+    --bs-btn-hover-border-color: var(--admin-primary-hover);
+    --bs-btn-active-color: var(--admin-on-primary);
+    --bs-btn-active-bg: var(--admin-primary-active);
+    --bs-btn-active-border-color: var(--admin-primary-active);
+    --bs-btn-focus-shadow-rgb: 22, 93, 255;
+    width: 100%;
+    min-height: 48px;
+    margin-top: 28px;
+    font-weight: 600;
+}
+
+.login-footer { margin: 24px 0 0; color: var(--admin-muted); font-size: 0.8125rem; }
+
+@media (max-width: 575.98px) {
+    .login-main { padding: 28px 16px; }
+    .login-card { padding: 28px 24px; }
+}

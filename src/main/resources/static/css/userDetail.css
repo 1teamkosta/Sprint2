@@ -6,6 +6,17 @@
 .user-detail-active { background: var(--admin-status-visible-bg); color: var(--admin-status-visible-text); }
 .user-detail-suspended { background: var(--admin-status-hidden-bg); color: var(--admin-status-hidden-text); }
 #user-detail-status { padding: 6px 12px; }
+.user-detail-activate {
+    --bs-btn-color: var(--admin-text);
+    --bs-btn-bg: var(--admin-surface);
+    --bs-btn-border-color: var(--admin-border);
+    --bs-btn-hover-color: var(--admin-text);
+    --bs-btn-hover-bg: var(--admin-status-hidden-bg);
+    --bs-btn-hover-border-color: var(--admin-muted);
+    --bs-btn-active-color: var(--admin-text);
+    --bs-btn-active-bg: var(--admin-status-hidden-bg);
+    --bs-btn-active-border-color: var(--admin-muted);
+}
 .user-detail-suspend {
     --bs-btn-color: var(--admin-sidebar-text);
     --bs-btn-bg: var(--admin-sidebar-bg);
