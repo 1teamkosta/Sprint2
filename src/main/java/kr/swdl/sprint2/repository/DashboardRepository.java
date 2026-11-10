@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 @Mapper
-public interface DashboardDAO {
+public interface DashboardRepository {
     int countFestival();
     int countUser();
     int countTodayNewUser();
