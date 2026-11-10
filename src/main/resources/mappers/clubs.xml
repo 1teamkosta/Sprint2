@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.ClubRepository">
+    <select id="getClubList" resultType="kr.swdl.sprint2.domain.Club">
+        SELECT c.club_number, c.status, f.festival_number, f.festival_name, c.club_name, c.purpose, a.account_number, a.nickname, c.created_at
+        FROM clubs c
+        JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+        JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER AND atd.attendee_role = 0
+        JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
+        ORDER BY c.CLUB_NUMBER DESC
+        LIMIT #{pageSize} OFFSET #{offset};
+    </select>
+</mapper>
