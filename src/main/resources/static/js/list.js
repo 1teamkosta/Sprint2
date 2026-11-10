@@ -158,7 +158,7 @@ function setupTableSort(tableSelector, rows, idField, onSort = function () {}) {
     });
 }
 
-// prefix는 HTML 요소 ID의 공통 앞부분(festival, meeting, user)이다.
+// prefix는 HTML 요소 ID의 공통 앞부분(festival, club, user)이다.
 /**
  * [화면별 설정]
  * prefix: HTML ID·클래스의 앞부분. user라면 .user-search, #user-keyword 등과 연결된다.

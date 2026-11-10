@@ -1,0 +1,48 @@
+/* 기존 관리 화면과 같은 공통 색상 변수를 사용한다. */
+.club-detail-private {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-bg: var(--admin-sidebar-bg);
+    --bs-btn-border-color: var(--admin-sidebar-bg);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-sidebar-hover);
+    --bs-btn-hover-border-color: var(--admin-sidebar-hover);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-sidebar-hover);
+    --bs-btn-active-border-color: var(--admin-sidebar-hover);
+    --bs-btn-disabled-color: var(--admin-sidebar-text);
+    --bs-btn-disabled-bg: var(--admin-sidebar-bg);
+    --bs-btn-disabled-border-color: var(--admin-sidebar-bg);
+}
+.club-detail-card { padding: 32px; border: 1px solid var(--admin-border); border-radius: 12px; background: var(--admin-surface); }
+.club-detail-layout { display: grid; grid-template-columns: minmax(0, 1fr) 260px; gap: 32px; }
+.club-detail-main { min-width: 0; }
+#club-detail-title { overflow-wrap: anywhere; line-height: 1.5; }
+.club-detail-visible { padding: 6px 12px; color: var(--admin-status-visible-text); background: var(--admin-status-visible-bg); }
+.club-detail-hidden { padding: 6px 12px; color: var(--admin-status-hidden-text); background: var(--admin-status-hidden-bg); }
+.club-detail-info-row { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-top: 1px solid var(--admin-border); }
+.club-detail-info dt { color: var(--admin-muted); font-weight: 500; }
+.club-detail-info dd { margin: 0; overflow-wrap: anywhere; }
+.club-detail-festival { color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
+.club-detail-festival:hover { color: var(--bs-link-hover-color); }
+.club-detail-description-row { min-height: 240px; }
+#club-detail-description { line-height: 1.9; white-space: pre-line; }
+.club-detail-summary { display: grid; grid-template-columns: 1fr 1fr 1.4fr; margin: 0; border-top: 1px solid var(--admin-border); border-bottom: 1px solid var(--admin-border); }
+.club-detail-summary > div { padding: 22px 12px; text-align: center; }
+.club-detail-summary > div + div { border-left: 1px solid var(--admin-border); }
+.club-detail-summary dt { color: var(--admin-muted); font-size: 0.875rem; font-weight: 500; }
+.club-detail-summary dd { margin: 10px 0 0; font-weight: 600; }
+.club-detail-date { border-top: 0; }
+.club-detail-dates { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px; }
+.club-detail-dates .club-detail-date { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
+.club-detail-members { padding: 20px; border: 1px solid var(--admin-border); border-radius: 8px; }
+.club-detail-members li { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding: 16px 0; }
+.club-detail-members li + li { border-top: 1px solid var(--admin-border); }
+.club-member-name { min-width: 0; overflow-wrap: anywhere; }
+.club-member-role { flex-shrink: 0; color: var(--admin-muted); font-size: 0.875rem; }
+@media (max-width: 991.98px) { .club-detail-layout { grid-template-columns: 1fr; gap: 24px; } }
+@media (max-width: 575.98px) {
+    .club-detail-dates { grid-template-columns: 1fr; gap: 0; }
+    .club-detail-card { padding: 20px; }
+    .club-detail-info-row { grid-template-columns: 1fr; gap: 10px; }
+    .club-detail-summary > div { padding: 16px 6px; }
+}

@@ -123,11 +123,11 @@ body {
 }
 
 /* 모임·회원 목록은 내부 스크롤 동작을 유지하고 스크롤바 표시만 숨긴다. */
-body[data-admin-page="meeting"] .table-responsive,
+body[data-admin-page="club"] .table-responsive,
 body[data-admin-page="users"] .table-responsive {
     scrollbar-width: none;
 }
-body[data-admin-page="meeting"] .table-responsive::-webkit-scrollbar,
+body[data-admin-page="club"] .table-responsive::-webkit-scrollbar,
 body[data-admin-page="users"] .table-responsive::-webkit-scrollbar {
     width: 0;
     height: 0;
@@ -136,7 +136,7 @@ body[data-admin-page="users"] .table-responsive::-webkit-scrollbar {
 
 /* 관리 목록의 열 이름은 동일한 글자 크기를 사용한다. */
 .festival-table thead th,
-.meeting-table thead th,
+.club-table thead th,
 .user-table thead th,
 .tag-table thead th {
     font-size: 0.875rem;
