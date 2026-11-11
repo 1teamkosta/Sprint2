@@ -14,8 +14,9 @@ public interface FestivalsRepository {
 //    List<FestivalVO> getFestivalsByProgressStatus(String progressStatus);
 //    List<FestivalVO> getFestivalsByDate(String sort);
 //    List<FestivalVO> getFestivalsByFestivalLikes(String sort);
-//    List<Festival> getFestivalDetail(int festivalNumber);
-    public void setFestivalsStatus(int status);
-//    public void setFestival(int festivalNumber,String festivalName,String startDate,String endDate,String address,String contents,String imageUrl);
-    public void addFestival(String festivalName,String startDate,String endDate,String address,String contents,String imageUrl);
+    List<Festival> getFestivalDetail(int festivalNumber);
+    void setFestivalStatus(int festivalNumber);
+    void setFestival(Festival festival);
+    void addFestival(Festival festival);
+//    void addFestival(String festivalName,String startDate,String endDate,String address,String contents,String imageURL,int progressStatus);
 }

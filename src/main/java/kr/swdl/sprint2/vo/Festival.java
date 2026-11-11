@@ -12,7 +12,7 @@ import java.util.List;
 public class Festival {
     private int festivalNumber;
     private int status;
-    private String genreTag;
+    private String mainTag;
     private String festivalName;
     private String startDate;
     private String endDate;
@@ -21,7 +21,7 @@ public class Festival {
     private int festivalLikes;
     private String contents;
     private String imageUrl;
-    private List<String> tagetTag;
+    private List<String> addTag;
     private int festivalReviewLike;
     private int festivalReviewDislike;
     private String orderBy;

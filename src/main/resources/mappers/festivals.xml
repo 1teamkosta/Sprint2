@@ -52,44 +52,81 @@
             </otherwise>
         </choose>
     </select>
-<!--    <select id="getFestivalDetail" parameterType="kr.swdl.sprint2.vo.Festival" resultType="kr.swdl.sprint2.vo.Festival">-->
-<!--        SELECT-->
-<!--            f.contents,-->
-<!--            f.image_url imageUrl,-->
-<!--            f.status,-->
-<!--            t.tag_name genreTag,-->
-<!--            f.festival_name festivalName,-->
-<!--            f.start_date startDate,-->
-<!--            f.end_date endDate,-->
-<!--            f.progress_status progressStatus,-->
-<!--            f.address,-->
-<!--            (-->
-<!--                SELECT COUNT(*)-->
-<!--                FROM festival_likes fl-->
-<!--                WHERE fl.festival_number = f.festival_number-->
-<!--            ) festivalLikes-->
-<!--        FROM festivals f-->
-<!--        JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1-->
-<!--        JOIN tags t ON at.tag_number = t.tag_number-->
-<!--        WHERE f.festival_number = ${festivalNumber}-->
+    <select id="getFestivalDetail" parameterType="kr.swdl.sprint2.vo.Festival" resultType="kr.swdl.sprint2.vo.Festival">
+        SELECT
+            f.contents,
+            f.image_url imageUrl,
+            f.status,
+            t.tag_name genreTag,
+            f.festival_name festivalName,
+            f.start_date startDate,
+            f.end_date endDate,
+            f.progress_status progressStatus,
+            f.address,
+            (
+                SELECT COUNT(*)
+                FROM festival_likes fl
+                WHERE fl.festival_number = f.festival_number
+            ) festivalLikes
+        FROM festivals f
+        JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1
+        JOIN tags t ON at.tag_number = t.tag_number
+        WHERE f.festival_number = ${festivalNumber}
 
-<!--        SELECT t.tag_name targetTag-->
-<!--        FROM add_tags at-->
-<!--        JOIN tags t ON at.tag_number = t.tag_number-->
-<!--        WHERE at.festival_number = ${festivalNumber}-->
-<!--        AND at.is_main = 0;-->
+        SELECT t.tag_name targetTag
+        FROM add_tags at
+        JOIN tags t ON at.tag_number = t.tag_number
+        WHERE at.festival_number = ${festivalNumber}
+        AND at.is_main = 0;
 
-<!--        SELECT COUNT(festival_number) AS festivalReviewDislike-->
-<!--        FROM festival_reviews-->
-<!--        WHERE festival_number = ${festivalNumber}-->
-<!--        AND review = 0;-->
+        SELECT COUNT(festival_number) AS festivalReviewDislike
+        FROM festival_reviews
+        WHERE festival_number = ${festivalNumber}
+        AND review = 0;
 
-<!--        SELECT COUNT(festival_number) AS festivalReviewLike-->
-<!--        FROM festival_reviews-->
-<!--        WHERE festival_number = ${festivalNumber}-->
-<!--        AND review = 1;-->
-<!--    </select>-->
+        SELECT COUNT(festival_number) AS festivalReviewLike
+        FROM festival_reviews
+        WHERE festival_number = ${festivalNumber}
+        AND review = 1;
+    </select>
     <insert id="addFestival" parameterType="kr.swdl.sprint2.vo.Festival">
-        
+        INSERT INTO festivals (
+            festival_number,
+            festival_name,
+            start_date,
+            end_date,
+            progress_status,
+            address,
+            contents,
+            image_URL,
+            status)
+        VALUES (
+            NEXTVAL(festivals_seq),
+            #{festivalName},
+            #{startDate},
+            #{endDate},
+            #{progressStatus},
+            #{address},
+            #{contents},
+            #{imageUrl},
+            1)
     </insert>
+    <update id="setFestival" parameterType="kr.swdl.sprint2.vo.Festival">
+        UPDATE festivals
+        SET
+            festival_name = #{festivalName},
+            start_date = #{startDate},
+            end_date = #{endDate},
+            address = #{address},
+            contents = #{contents},
+            image_url = #{imageUrl}
+        WHERE festival_number = #{festivalNumber};
+    </update>
+    <update id="setFestivalStatus" parameterType="kr.swdl.sprint2.vo.Festival">
+        UPDATE festivals
+        SET
+            status = IF(status = 0, 1, 0)
+        WHERE festival_number = #{festivalNumber}
+    </update>
+
 </mapper>

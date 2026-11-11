@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
 public class FestivalRepositoryTest {
@@ -27,10 +28,10 @@ public class FestivalRepositoryTest {
 
     @Test
     void getFestivalsSearchByGenreTag(){
-        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().genreTag("음식").build()));
-        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().genreTag("청소년").build()));
-        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().genreTag("칠칠칠").build()));
-        System.out.println(festivalsRepository.getFestivals(Festival.builder().genreTag("음식").build()));
+        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().mainTag("음식").build()));
+        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().mainTag("청소년").build()));
+        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().mainTag("칠칠칠").build()));
+        System.out.println(festivalsRepository.getFestivals(Festival.builder().mainTag("음식").build()));
     }
 
     @Test
@@ -65,6 +66,37 @@ public class FestivalRepositoryTest {
     @Test
     void getFestivalDetail(){
         Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().festivalNumber(1).build()));
+    }
+    @Test
+    @Transactional
+    void addFestival(){
+        festivalsRepository.addFestival(Festival.builder()
+                .festivalName("testFestivalName")
+                .startDate("2026-06-01")
+                .endDate("2026-06-05")
+                .address("testAddress")
+                .contents("testContents")
+                .imageUrl("testImageUrl")
+                .progressStatus(1).build());
+    }
+    @Test
+    @Transactional
+    void setFestival(){
+        festivalsRepository.setFestival(Festival.builder()
+                .festivalName("testFestivalName")
+                .startDate("2026-06-01")
+                .endDate("2026-06-05")
+                .address("testAddress")
+                .contents("testContents")
+                .imageUrl("testImageUrl")
+                .festivalNumber(141105)
+                .build());
+    }
+
+    @Test
+    @Transactional
+    void setFestivalStatus(){
+        festivalsRepository.setFestivalStatus(141105);
     }
 
 }
