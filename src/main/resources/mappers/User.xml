@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.UserRepository">
+    <select id="getUsers" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE account_role = 1
+        ORDER BY account_number ASC
+    </select>
+    <select id="getUsersByNickname" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE nickname LIKE CONCAT('%', #{keyword}, '%') and account_role = 1
+        ORDER BY account_number ASC
+    </select>
+    <select id="getUsersByStatus" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE status = #{status} and account_role = #{roleUser}
+        ORDER BY account_number DESC
+    </select>
+    <select id="sortByPopularity" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE account_role = 1
+        ORDER BY popularity DESC
+    </select>
+    <select id="sortByInDate" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE account_role = 1
+        ORDER BY in_date DESC
+    </select>
+    <select id="getUserDetail" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number,id,nickname,email,popularity,in_date,status
+        FROM accounts
+        WHERE account_number = #{accountNumber};
+    </select>
+    <select id="getClubsByUser" resultType="kr.swdl.sprint2.vo.User">
+        SELECT
+            (SELECT COUNT(ATTENDEE_ID) FROM attendees at WHERE a.account_number = at.account_number) AS COUNT,
+            c.club_number,
+            a.attendee_role,
+            c.club_name,
+            f.festival_number,
+            f.festival_name
+        FROM attendees a
+                 JOIN clubs c ON a.club_number = c.club_number
+                 JOIN festivals f ON c.festival_number = f.festival_number
+                 JOIN attendees attd ON a.account_number = attd.account_number
+        WHERE a.account_number = #{accountNumber};
+    </select>
+</mapper>
