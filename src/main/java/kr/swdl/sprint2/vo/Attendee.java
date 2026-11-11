@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attend {
+public class Attendee {
         private int attendeeId;
-        private String attendRole;
+        private String attendeeRole;
         private int clubNumber;
         private int accountNumber;
         private String nickname;
