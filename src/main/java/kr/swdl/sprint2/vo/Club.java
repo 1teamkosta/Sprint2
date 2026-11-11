@@ -17,8 +17,9 @@ public class Club {
     private String purpose;
     private Timestamp createdAt;
     private Integer status;
-    private String content;
+    private String contents;
     private Integer maxCount;
     private Integer festivalNumber;
     private String festivalName;
+    private Integer curCount;
 }
