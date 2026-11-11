@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Attends {
-        private Integer attendeeId;
+public class Attend {
+        private int attendeeId;
         private String attendRole;
-        private Integer clubNumber;
-        private Integer accountNumber;
+        private int clubNumber;
+        private int accountNumber;
         private String nickname;
 }

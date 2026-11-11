@@ -12,14 +12,14 @@ import java.sql.Timestamp;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Club {
-    private Integer clubNumber;
+    private int clubNumber;
     private String clubName;
     private String purpose;
     private Timestamp createdAt;
-    private Integer status;
+    private int status;
     private String contents;
-    private Integer maxCount;
-    private Integer festivalNumber;
+    private int maxCount;
+    private int festivalNumber;
     private String festivalName;
-    private Integer curCount;
+    private int curCount;
 }
