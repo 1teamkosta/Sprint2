@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Attendee {
         private int attendeeId;
-        private String attendeeRole;
+        private int attendeeRole;
         private int clubNumber;
         private int accountNumber;
         private String nickname;

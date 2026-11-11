@@ -29,9 +29,6 @@
                 AND a.nickname LIKE CONCAT('%', #{nickname}, '%')
             </if>
 
-
-
-
         </where>
 
         <choose>
@@ -62,4 +59,41 @@
                  JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
         ORDER BY c.created_at DESC;
     </select>
+
+    <select id="getClubDetail" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, c.club_name as clubName, c.meeting_date as meetingDate, c.created_at as createdAt, f.festival_number as festivalNumber, f.festival_name as festivalName, c.CONTENTS, c.purpose, COUNT(atd.ATTENDEE_ID) as curCount, c.MAX_COUNT as maxCount
+        FROM clubs c
+                 JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+                 JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER
+        WHERE c.CLUB_NUMBER = #{clubNumber};
+
+    </select>
+
+    <select id="getClubUser" resultType="kr.swdl.sprint2.vo.Attendee">
+        SELECT a.account_number as accountNumber, a.NICKNAME, atd.ATTENDEE_ROLE as attendeeRole
+        FROM accounts a
+                 JOIN attendees atd ON atd.ACCOUNT_NUMBER = a.ACCOUNT_NUMBER
+                 JOIN clubs c ON c.CLUB_NUMBER = atd.CLUB_NUMBER
+        WHERE c.CLUB_NUMBER = #{clubNumber};
+    </select>
+
+    <update id="setCulbStatus" >
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number = #{clubNumber};
+    </update>
+
+    <update id="setCulbsStatus">
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number IN
+        <foreach collection="clubNumbers"
+                 item="clubNumber"
+                 open="("
+                 separator=","
+                 close=")">
+            #{clubNumber}
+        </foreach>
+    </update>
+
+
+
 </mapper>
