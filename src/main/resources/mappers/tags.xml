@@ -2,20 +2,33 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.swdl.sprint2.repository.TagsRepository">
-    <select id="getTagsCountByTagType" resultType="java.lang.Integer" parameterMap="java.lang.String">
-        select COUNT(TAG_NUMBER) tagCount FROM tags WHERE TAG_TYPE = #{tagType}
+    <select id="CountTagByTagType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select COUNT(tag_number) tagCount FROM tags
+        <where>
+            <if test="tagType != null">
+                tag_type = #{tagType.code}
+            </if>
+        </where>
     </select>
-    <select id="get" resultType="java.lang.String">
-        select user_id from user_data
+
+    <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
+        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        <where>
+            <choose>
+                <when test=""></when>
+            </choose>
+        </where>
     </select>
-    <select id="getUsersByName" resultType="java.util.Map" parameterType="java.lang.String">
-        select user_id, in_date from user_data where name = #{name}
+
+    <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
+        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags ORDER BY tag_number DESC
     </select>
-    <insert id="addUser" parameterType="kr.swdl.mybatisweb.vo.User">
-        insert into user_data(user_id, pw, name, in_date)
-        values(#{userId}, #{pwd}, #{name}, sysdate)
-    </insert>
-    <select id="getUserByUserId" parameterType="java.lang.String" resultType="kr.swdl.mybatisweb.vo.User">
-        select user_id as userId, name, in_date as inDate from user_data where user_id = #{userId}
+    <select id="getTagsByTagType" resultType="kr.swdl.sprint2.vo.Tag" parameterType="java.lang.Integer">
+        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        WHERE tag_type = #{tagType.code} ORDER BY tag_number DESC
+    </select>
+    <select id="getTagsByTagName" resultType="kr.swdl.sprint2.vo.Tag" parameterType="java.lang.String">
+        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        WHERE tag_name LIKE CONCAT("%", #{keyword}, "%") ORDER BY tag_number DESC
     </select>
 </mapper>
