@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.FestivalsRepository">
+    <select id="getFestivals" parameterType="kr.swdl.sprint2.vo.FestivalVO" resultType="kr.swdl.sprint2.vo.FestivalVO">
+        SELECT
+        f.festival_number festivalNumber,
+        f.status,
+        t.tag_name genreTag,
+        f.festival_name festivalName,
+        f.start_date startDate,
+        f.end_date endDate,
+        f.progress_status progressStatus,
+        f.address,
+        (
+        SELECT COUNT(*)
+        FROM festival_likes fl
+        WHERE fl.festival_number = f.festival_number
+        ) festivalLikes
+        FROM festivals f
+        JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1
+        JOIN tags t ON at.tag_number = t.tag_number
+        <where>
+            <if test="festivalName != null and festivalName != ''">
+                AND f.festival_name LIKE CONCAT('%', #{festivalName}, '%')
+            </if>
+            <if test="genreTag != null and genreTag != ''">
+                AND t.tag_name LIKE CONCAT('%', #{genreTag}, '%')
+            </if>
+        </where>
+    </select>
+</mapper>
