@@ -21,74 +21,69 @@
         JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1
         JOIN tags t ON at.tag_number = t.tag_number
         <where>
-            <if test="festivalName != null and festivalName != ''">
-                AND f.festival_name LIKE CONCAT('%', #{festivalName}, '%')
-            </if>
             <if test="status != null and status != ''">
                 AND f.status = #{status}
-            </if>
-            <if test="genreTag != null and genreTag != ''">
-                AND t.tag_name LIKE CONCAT('%', #{genreTag}, '%')
             </if>
             <if test="progressStatus != null and progressStatus != ''">
                 AND f.progress_status = #{progressStatus}
             </if>
+            <choose>
+                <when test="festivalName != null and festivalName != ''">
+                    AND f.festival_name LIKE CONCAT('%', #{festivalName}, '%')
+                </when>
+                <when test="mainTag != null and mainTag != ''">
+                    AND t.tag_name LIKE CONCAT('%', #{mainTag}, '%')
+                </when>
+            </choose>
         </where>
-        <choose>
-            <when test="orderBy == 'startDateDesc'">
-                ORDER BY f.start_date DESC
-            </when>
-            <when test="orderBy == 'startDateAsc'">
-                ORDER BY f.start_date ASC
-            </when>
-            <when test="orderBy == 'likesDesc'">
-                ORDER BY festivalLikes DESC
-            </when>
-            <when test="orderBy == 'likesAsc'">
-                ORDER BY festivalLikes ASC
-            </when>
-            <otherwise>
-                ORDER BY f.festival_number DESC
-            </otherwise>
-        </choose>
+<!--        <choose>-->
+<!--            <when test="orderBy == 'startDateDesc'">-->
+<!--                ORDER BY f.start_date DESC-->
+<!--            </when>-->
+<!--            <when test="orderBy == 'startDateAsc'">-->
+<!--                ORDER BY f.start_date ASC-->
+<!--            </when>-->
+<!--            <when test="orderBy == 'likesDesc'">-->
+<!--                ORDER BY festivalLikes DESC-->
+<!--            </when>-->
+<!--            <when test="orderBy == 'likesAsc'">-->
+<!--                ORDER BY festivalLikes ASC-->
+<!--            </when>-->
+<!--            <otherwise>-->
+<!--                ORDER BY f.festival_number DESC-->
+<!--            </otherwise>-->
+<!--        </choose>-->
     </select>
-    <select id="getFestivalDetail" parameterType="kr.swdl.sprint2.vo.Festival" resultType="kr.swdl.sprint2.vo.Festival">
-        SELECT
-            f.contents,
-            f.image_url imageUrl,
-            f.status,
-            t.tag_name genreTag,
-            f.festival_name festivalName,
-            f.start_date startDate,
-            f.end_date endDate,
-            f.progress_status progressStatus,
-            f.address,
-            (
-                SELECT COUNT(*)
-                FROM festival_likes fl
-                WHERE fl.festival_number = f.festival_number
-            ) festivalLikes
-        FROM festivals f
-        JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1
-        JOIN tags t ON at.tag_number = t.tag_number
-        WHERE f.festival_number = ${festivalNumber}
 
-        SELECT t.tag_name targetTag
-        FROM add_tags at
-        JOIN tags t ON at.tag_number = t.tag_number
-        WHERE at.festival_number = ${festivalNumber}
+    <select id="getMainTag" resultType="java.lang.String">
+        SELECT t.tag_name
+        FROM tags t
+        JOIN add_tags at ON at.tag_number = t.tag_number
+        WHERE at.festival_number = #{festivalNumber}
+        AND at.is_main = 1;
+    </select>
+
+    <select id="getAddTag" resultType="java.lang.String">
+        SELECT t.tag_name
+        FROM tags t
+        JOIN add_tags at ON at.tag_number = t.tag_number
+        WHERE at.festival_number = #{festivalNumber}
         AND at.is_main = 0;
-
-        SELECT COUNT(festival_number) AS festivalReviewDislike
-        FROM festival_reviews
-        WHERE festival_number = ${festivalNumber}
-        AND review = 0;
-
-        SELECT COUNT(festival_number) AS festivalReviewLike
-        FROM festival_reviews
-        WHERE festival_number = ${festivalNumber}
-        AND review = 1;
     </select>
+
+    <select id="countByFestivalLikes" resultType="int">
+        SELECT COUNT(*)
+        FROM festival_likes fl
+        WHERE fl.festival_number = #{festivalNumber};
+    </select>
+
+    <select id="countByFestivalReview" resultType="int">
+        SELECT COUNT(fr_like.festival_number)
+        FROM festival_reviews fr_like
+        WHERE fr_like.festival_number = #{festivalNumber}
+        AND fr_like.review = #{review};
+    </select>
+
     <insert id="addFestival" parameterType="kr.swdl.sprint2.vo.Festival">
         INSERT INTO festivals (
             festival_number,
@@ -111,6 +106,31 @@
             #{imageUrl},
             1)
     </insert>
+    <insert id="addAddtag" parameterType="kr.swdl.sprint2.vo.Addtag">
+        INSERT INTO add_tags (
+            add_tag_number,
+            is_main,
+            festival_number,
+            tag_number
+        ) VALUES (
+            NEXTVAL(add_tags_seq),
+            #{isMain},
+            #{festivalNumber},
+            #{tagNumber});
+    </insert>
+    <update id="setTagFestivalCount" parameterType="int">
+        UPDATE tags
+        SET
+            <choose>
+                <when test="isIncrease == true">festival_count = festival_count + 1</when>
+                <otherwise>festival_count = festival_count - 1</otherwise>
+            </choose>
+        WHERE tag_number IN (
+            SELECT tag_number
+            FROM add_tags
+            WHERE festival_number = #{festivalNumber}
+        )
+    </update>
     <update id="setFestival" parameterType="kr.swdl.sprint2.vo.Festival">
         UPDATE festivals
         SET
@@ -124,9 +144,12 @@
     </update>
     <update id="setFestivalStatus" parameterType="kr.swdl.sprint2.vo.Festival">
         UPDATE festivals
-        SET
-            status = IF(status = 0, 1, 0)
-        WHERE festival_number = #{festivalNumber}
+        SET status = 1 - status
+        WHERE festival_number = #{festivalNumber};
     </update>
+    <delete id="delAddtags" parameterType="kr.swdl.sprint2.vo.Addtag">
+        DELETE FROM add_tags
+        WHERE festival_number = #{festivalNumber};
+    </delete>
 
 </mapper>
