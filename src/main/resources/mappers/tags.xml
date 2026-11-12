@@ -14,21 +14,12 @@
     <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
         SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
         <where>
-            <choose>
-                <when test=""></when>
-            </choose>
+        <if test="query.filterByStatus != null">
+            AND status = #{query.filterByStatus}
+        </if>
+        <choose>
+            <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
+        </choose>
         </where>
-    </select>
-
-    <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
-        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags ORDER BY tag_number DESC
-    </select>
-    <select id="getTagsByTagType" resultType="kr.swdl.sprint2.vo.Tag" parameterType="java.lang.Integer">
-        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
-        WHERE tag_type = #{tagType.code} ORDER BY tag_number DESC
-    </select>
-    <select id="getTagsByTagName" resultType="kr.swdl.sprint2.vo.Tag" parameterType="java.lang.String">
-        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
-        WHERE tag_name LIKE CONCAT("%", #{keyword}, "%") ORDER BY tag_number DESC
     </select>
 </mapper>

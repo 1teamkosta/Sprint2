@@ -3,6 +3,7 @@ package kr.swdl.sprint2.repository;
 import kr.swdl.sprint2.global.enums.TagType;
 import kr.swdl.sprint2.vo.Tag;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -12,7 +13,5 @@ public interface TagsRepository {
     default int countTags() {
         return CountTagByTagType(null);
     }
-    List<Tag> getTags ();
-    List<Tag> getTagsByTagType(TagType tagType);
-    List<Tag> getTagsByTagName(String keyword);
+    List<Tag> getTags (@Param("query") TagListQuery query);
 }
