@@ -48,6 +48,7 @@ async function loadFestivalDetail() {
         status.className = `badge festival-detail-${isPublic ? 'visible' : 'hidden'}`;
         // 비공개인 축제에는 같은 상태를 적용하는 버튼을 비활성화한다.
         document.querySelector('#festival-visibility').disabled = !isPublic;
+        renderFestivalProgress();
     } catch (error) {
         document.querySelector('.festival-detail-card').hidden = true;
         document.querySelector('#festival-visibility').disabled = true;
@@ -55,6 +56,21 @@ async function loadFestivalDetail() {
         feedback.hidden = false;
         console.error(error);
     }
+}
+
+function renderFestivalProgress() {
+    const times = document.querySelectorAll('#festival-schedule time');
+    const badge = document.querySelector('#festival-progress-status');
+    if (!badge || times.length < 2) return;
+
+    const now = new Date();
+    const today = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    const start = times[0].getAttribute('datetime');
+    const end = times[1].getAttribute('datetime');
+
+    const progress = today < start ? 'upcoming' : today > end ? 'ended' : 'ongoing';
+    badge.textContent = { upcoming: '예정', ongoing: '진행중', ended: '종료' }[progress];
+    badge.className = `badge festival-progress-${progress}`;
 }
 
 loadFestivalDetail();

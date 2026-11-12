@@ -3,7 +3,7 @@
 .user-detail-profile > div { display: grid; grid-template-columns: 110px minmax(0, 1fr); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--admin-border); }
 .user-detail-profile dt { color: var(--admin-muted); font-weight: 500; }
 .user-detail-profile dd { margin: 0; overflow-wrap: anywhere; }
-.user-detail-active { background: var(--admin-status-visible-bg); color: var(--admin-status-visible-text); }
+.user-detail-active { background: var(--admin-progress-ongoing-bg); color: var(--admin-progress-ongoing-text); }
 .user-detail-suspended { background: var(--admin-status-hidden-bg); color: var(--admin-status-hidden-text); }
 #user-detail-status { padding: 6px 12px; }
 .user-detail-activate {
@@ -38,8 +38,8 @@
 .user-club-name { width: 36%; }
 .user-club-purpose { width: 18%; }
 .user-detail-clubs th, .user-detail-clubs td { padding: 18px 8px; overflow-wrap: anywhere; }
-.user-detail-clubs a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
-.user-detail-clubs a:hover { color: var(--bs-link-hover-color); }
+.user-detail-clubs a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--admin-sidebar-bg); text-decoration: none; text-underline-offset: 3px; }
+.user-detail-clubs a:hover { color: var(--bs-link-color); text-decoration: underline; }
 @media (max-width: 575.98px) {
     .user-detail-card { padding: 20px; }
     .user-detail-profile > div { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }

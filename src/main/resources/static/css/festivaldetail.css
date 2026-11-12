@@ -11,6 +11,18 @@
     --bs-btn-active-border-color: var(--admin-sidebar-hover);
 }
 
+.festival-detail-edit {
+    --bs-btn-color: var(--admin-primary);
+    --bs-btn-bg: var(--admin-sidebar-text);
+    --bs-btn-border-color: var(--admin-primary);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-primary);
+    --bs-btn-hover-border-color: var(--admin-primary);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-primary);
+    --bs-btn-active-border-color: var(--admin-primary);
+}
+
 .festival-detail-card {
     padding: 32px;
     border: 1px solid var(--admin-border);
@@ -58,6 +70,24 @@
     color: var(--admin-text);
     font-size: 0.875rem;
 }
+
+/* 공개 상태와 별개로 축제 일정에 따른 진행상황을 표시한다. */
+.festival-progress-column {
+    white-space: nowrap;
+}
+.festival-progress-ongoing {
+    background: var(--admin-progress-ongoing-bg);
+    color: var(--admin-progress-ongoing-text);
+}
+.festival-progress-ended {
+    background-color: var(--admin-progress-ended-bg);
+    color: var(--admin-progress-ended-text);
+}
+.festival-progress-upcoming {
+    background-color: var(--admin-progress-upcoming-bg);
+    color: var(--admin-progress-upcoming-text);
+}
+
 .festival-detail-description {
     min-height: 220px;
     padding: 24px;

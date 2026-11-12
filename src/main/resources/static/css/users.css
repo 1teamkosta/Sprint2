@@ -40,8 +40,8 @@
 
 /* 회원 상태는 모임 목록과 같은 배지 형태로 표시한다. */
 .user-status-active {
-    background-color: var(--admin-status-visible-bg);
-    color: var(--admin-status-visible-text);
+    background-color: var(--admin-progress-ongoing-bg);
+    color: var(--admin-progress-ongoing-text);
 }
 
 .user-status-suspended {
