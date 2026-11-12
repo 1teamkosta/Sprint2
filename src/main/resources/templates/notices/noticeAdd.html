@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>공지 추가 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/noticeAdd.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/noticeAdd.js" defer></script>
+</head>
+<body data-admin-page="notices">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <form id="notice-add-form" method="post">
+                <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                    <h1 class="h3 fw-bold mb-0">공지 추가</h1>
+                    <div class="d-flex gap-2">
+                        <a class="btn btn-outline-secondary notice-add-action" href="notices.html">취소</a>
+                        <button class="btn btn-primary notice-add-action" type="submit">저장</button>
+                    </div>
+                </div>
+                <section class="notice-add-card" aria-labelledby="notice-form-heading">
+                    <h2 class="visually-hidden" id="notice-form-heading">공지 내용 입력</h2>
+                    <div class="notice-add-title-field">
+                        <label class="form-label fw-semibold" for="notice-title">제목 <span class="notice-required" aria-hidden="true">*</span></label>
+                        <input class="form-control" id="notice-title" name="title" type="text" maxlength="200" placeholder="공지 제목을 입력하세요" required>
+                    </div>
+                    <div class="notice-add-content-field">
+                        <label class="form-label fw-semibold" for="notice-content">내용 <span class="notice-required" aria-hidden="true">*</span></label>
+                        <textarea class="form-control" id="notice-content" name="content" rows="12" placeholder="공지 내용을 입력하세요" required></textarea>
+                    </div>
+                    <p class="small text-secondary mt-3 mb-0" id="notice-save-feedback" role="status" hidden></p>
+                </section>
+            </form>
+        </div>
+    </main>
+</body>
+</html>

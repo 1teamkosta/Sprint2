@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>공지 상세 | 축제메이트</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link href="../../static/css/component.css" rel="stylesheet">
+    <link href="../../static/css/noticeDetail.css" rel="stylesheet">
+    <script src="../../static/js/component.js" defer></script>
+    <script src="../../static/js/noticeDetail.js" defer></script>
+</head>
+<body data-admin-page="notices">
+    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+    <div id="header-container"></div>
+    <div id="sidebar-container"></div>
+    <main id="main-content" class="admin-main" tabindex="-1">
+        <div class="container-fluid">
+            <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+                <h1 class="h3 fw-bold mb-0">공지 상세</h1>
+                <!-- 삭제·수정 처리는 추후 서버 연동과 수정 화면 구현 시 연결한다. -->
+                <div class="d-flex gap-2" role="group" aria-label="공지 관리">
+                    <button class="btn notice-detail-delete notice-detail-action" id="notice-delete" type="button">삭제</button>
+                    <button class="btn btn-secondary notice-detail-action" id="notice-edit" type="button">수정</button>
+                    <a class="btn btn-primary notice-detail-action" href="notices.html">목록으로</a>
+                </div>
+            </div>
+            <p class="small text-secondary" id="notice-detail-feedback" role="status" hidden></p>
+            <article class="notice-detail-card" aria-labelledby="notice-detail-title">
+                <header class="notice-detail-heading">
+                    <h2 class="h4 fw-bold" id="notice-detail-title">축제메이트 이용가이드</h2>
+                    <p class="notice-detail-date"><span class="visually-hidden">작성일 </span><time id="notice-detail-created" datetime="2026-11-12">2026.11.12</time></p>
+                </header>
+                <div class="notice-detail-content" id="notice-detail-content">
+                    <p>안녕하세요. 축제메이트입니다.</p>
+                    <p>관심 있는 축제를 찾아보고, 함께 즐길 모임에 참여하는 방법을 안내드립니다.</p>
+                    <p>축제 목록에서 장르와 제목으로 축제를 찾고, 상세 화면에서 일정과 장소를 확인해 주세요.</p>
+                    <p>함께 공연을 즐기고 싶다면 축제메이트 모임을, 먹거리를 나누고 싶다면 음식메이트 모임을 찾아보세요.</p>
+                    <p>축제메이트와 함께 즐거운 축제 경험을 만들어 보세요. 감사합니다.</p>
+                </div>
+            </article>
+        </div>
+    </main>
+</body>
+</html>
