@@ -3,6 +3,7 @@ package kr.swdl.sprint2.repository;
 import kr.swdl.sprint2.global.enums.Status;
 import kr.swdl.sprint2.global.enums.TagType;
 import kr.swdl.sprint2.vo.Tag;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +17,9 @@ public class TagRepositoryTest {
 
     @Test
     public void countByTagType() {
-        System.out.println("genreCnt: " + tagRepo.countTags(TagType.GENRE));
+        Assertions.assertTrue(tagRepo.countTags(TagType.GENRE) > 0);
+        Assertions.assertTrue(tagRepo.countTags(TagType.TARGET) > 0);
+
         System.out.println("targeteCnt: " + tagRepo.countTags(TagType.TARGET));
     }
 
@@ -62,14 +65,14 @@ public class TagRepositoryTest {
     }
 
     @Test
-    public void getTagsBytagNameAndStatus() {
+    public void getTags_SearchByTagName_FilterByStatus() {
         tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
                         .searchBy("tagName").keyword("데이트").build())
                 .forEach(tag -> System.out.println(tag));
     }
 
     @Test
-    public void getTagsBytagNameAndStatusAndTagType() {
+    public void getTags_SearchByTagName_FilterByStatusAndTagType() {
         tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
                         .filterByTagType(TagType.GENRE.getCode())
                         .searchBy("tagName").keyword("축제").build())
