@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.ClubRepository">
+    <select id="getClubList" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, f.festival_number as festivalNumber , f.festival_name as festivalName, c.club_name as clubName, c.purpose, a.account_number as accountNumber, a.nickname, c.created_at as createdAt
+        FROM clubs c
+        JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+        JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER AND atd.attendee_role = 0
+        JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
+        <where>
+            <if test="status != null" >
+                AND c.status = #{status}
+            </if>
+
+            <if test="purpose != null">
+                AND c.purpose = #{purpose}
+            </if>
+
+            <if test="clubName != null and clubName != ''">
+                AND c.club_name LIKE CONCAT('%', #{clubName}, '%')
+            </if>
+
+            <if test="festivalName !=null and festivalName !=''">
+                AND f.festival_name LIKE CONCAT('%', #{festivalName}, '%')
+            </if>
+        
+            <if test="nickname != null and nickname !=''">
+                AND a.nickname LIKE CONCAT('%', #{nickname}, '%')
+            </if>
+
+        </where>
+
+        <choose>
+            <when test="sortByCreatedAt">
+                ORDER BY c.created_at DESC, c.club_number DESC
+            </when>
+            <otherwise>
+                ORDER BY c.club_number DESC
+            </otherwise>
+        </choose>
+    </select>
+
+    <select id="getClubListByStatus" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, f.festival_number as festivalNumber , f.festival_name as festivalName, c.club_name as clubName, c.purpose, a.account_number as accountNumber, a.nickname, c.created_at as createdAt
+        FROM clubs c
+                 JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+                 JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER AND atd.attendee_role = 0
+                 JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
+        WHERE c.status = #{status}
+        ORDER BY c.CLUB_NUMBER DESC;
+    </select>
+    
+    <select id="getClubListOrderByCreatedAtDesc" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, f.festival_number as festivalNumber , f.festival_name as festivalName, c.club_name as clubName, c.purpose, a.account_number as accountNumber, a.nickname, c.created_at as createdAt
+        FROM clubs c
+                 JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+                 JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER AND atd.attendee_role = 0
+                 JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
+        ORDER BY c.created_at DESC;
+    </select>
+
+    <select id="getClubDetail" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, c.club_name as clubName, c.meeting_date as meetingDate, c.created_at as createdAt, f.festival_number as festivalNumber, f.festival_name as festivalName, c.CONTENTS, c.purpose, COUNT(atd.ATTENDEE_ID) as curCount, c.MAX_COUNT as maxCount
+        FROM clubs c
+                 JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+                 JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER
+        WHERE c.CLUB_NUMBER = #{clubNumber};
+
+    </select>
+
+    <select id="getClubUser" resultType="kr.swdl.sprint2.vo.Attendee">
+        SELECT a.account_number as accountNumber, a.NICKNAME, atd.ATTENDEE_ROLE as attendeeRole
+        FROM accounts a
+                 JOIN attendees atd ON atd.ACCOUNT_NUMBER = a.ACCOUNT_NUMBER
+                 JOIN clubs c ON c.CLUB_NUMBER = atd.CLUB_NUMBER
+        WHERE c.CLUB_NUMBER = #{clubNumber};
+    </select>
+
+    <update id="setCulbStatus" >
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number = #{clubNumber};
+    </update>
+
+    <update id="setCulbsStatus">
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number IN
+        <foreach collection="clubNumbers"
+                 item="clubNumber"
+                 open="("
+                 separator=","
+                 close=")">
+            #{clubNumber}
+        </foreach>
+    </update>
+
+
+
+</mapper>

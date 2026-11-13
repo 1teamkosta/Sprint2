@@ -21,5 +21,5 @@ public class Club {
     private int maxCount;
     private int festivalNumber;
     private String festivalName;
-    private Integer curCount;
+    private int curCount;
 }
