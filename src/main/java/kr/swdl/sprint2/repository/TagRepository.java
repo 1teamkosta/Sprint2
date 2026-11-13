@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 @Mapper
-public interface TagsRepository {
+public interface TagRepository {
     int countTags(@Param("tagType")TagType tagType);
     List<Tag> getTags (@Param("query") TagListQuery query);
     Tag getTag (@Param("tagNumber") int tagNumber);

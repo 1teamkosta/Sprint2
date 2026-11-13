@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class TagRepositoryTest {
     @Autowired
-    private TagsRepository tagRepo;
+    private TagRepository tagRepo;
 
     @Test
     public void countByTagType() {
@@ -79,6 +79,7 @@ public class TagRepositoryTest {
     @Test
     public void getTag() {
         System.out.println(tagRepo.getTag(11));
+        System.out.println(tagRepo.getTag(-1));
     }
 
     @Test
