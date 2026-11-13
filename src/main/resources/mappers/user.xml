@@ -15,14 +15,14 @@
     <select id="getUsersByStatus" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
-        WHERE status = #{status} and account_role = #{roleUser}
+        WHERE status = #{status} and account_role = 1
     </select>
-    <select id="sortByPopularity" resultType="kr.swdl.sprint2.vo.User">
+    <select id="sortUsersByPoopularity" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE account_role = 1
     </select>
-    <select id="sortByInDate" resultType="kr.swdl.sprint2.vo.User">
+    <select id="sortUsersByInDate" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE account_role = 1

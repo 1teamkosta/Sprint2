@@ -5,7 +5,6 @@ import kr.swdl.sprint2.vo.UserActivities;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface UserRepository  {
@@ -15,6 +14,7 @@ public interface UserRepository  {
     List<User> sortUsersByPoopularity();
     List<User> sortUsersByInDate();
     List<UserActivities> getClubByUser(int accountNumber);
-
+    boolean setUserStatus(int accountNumber, int status);
+    //void setUserStatusByCheckbox(int accountNumber, int status);
 
 }
