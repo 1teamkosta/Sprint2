@@ -1,6 +1,5 @@
 package kr.swdl.sprint2.repository;
 
-import kr.swdl.sprint2.global.enums.Purpose;
 import kr.swdl.sprint2.global.enums.Status;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

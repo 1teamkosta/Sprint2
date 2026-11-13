@@ -3,18 +3,13 @@ package kr.swdl.sprint2.repository;
 import kr.swdl.sprint2.vo.Attendee;
 import kr.swdl.sprint2.vo.Club;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 @Mapper
 public interface ClubRepository {
-    List<Club> getClubList(
-            Integer status,
-            String purpose,
-            String clubName,
-            String festivalName,
-            String nickname,
-            boolean sortByCreatedAt);
+    List<Club> getClubList(@Param("query") ClubListQuery query);
 
     Club getClubDetail(int clubNumber);
 
