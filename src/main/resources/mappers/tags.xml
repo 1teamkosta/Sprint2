@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.swdl.sprint2.repository.TagsRepository">
-    <select id="CountTagByTagType" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+    <select id="countTags" resultType="java.lang.Integer">
         select COUNT(tag_number) tagCount FROM tags
         <where>
             <if test="tagType != null">
@@ -10,16 +10,32 @@
             </if>
         </where>
     </select>
-
     <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
         SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
-        <where>
-        <if test="query.filterByStatus != null">
-            AND status = #{query.filterByStatus}
+        <if test="query != null">
+            <where>
+                <if test="query.filterByStatus != null">
+                    AND status = #{query.filterByStatus}
+                </if>
+                <if test="query.filterByTagType != null">
+                    AND tag_type = #{query.filterByTagType}
+                </if>
+                <choose>
+                    <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
+                </choose>
+            </where>
         </if>
-        <choose>
-            <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
-        </choose>
-        </where>
     </select>
+    <select id="getTag" resultType="kr.swdl.sprint2.vo.Tag">
+        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        WHERE tag_number = #{tagNumber}
+    </select>
+    <insert id="addTag">
+        INSERT INTO tags(tag_number, status, tag_name, contents, tag_type, color,festival_count)
+        VALUES(NEXT VALUE FOR tags_seq, #{tag.status}, #{tag.tagName}, #{tag.contents}, #{tag.tagType}, #{tag.color}, 0)
+    </insert>
+    <update id="setTag">
+        UPDATE tags SET status = #{tag.status},  tag_name = #{tag.tagName}, contents = #{tag.contents}, tag_type = #{tag.tagType}, color = #{tag.color}
+        WHERE tag_number = #{tag.tagNumber}
+    </update>
 </mapper>

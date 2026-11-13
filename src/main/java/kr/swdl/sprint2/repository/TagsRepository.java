@@ -9,9 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface TagsRepository {
-    int CountTagByTagType(TagType tagType);
-    default int countTags() {
-        return CountTagByTagType(null);
-    }
+    int countTags(@Param("tagType")TagType tagType);
     List<Tag> getTags (@Param("query") TagListQuery query);
+    Tag getTag (@Param("tagNumber") int tagNumber);
+    void addTag(@Param("tag") Tag tag);
+    void setTag(@Param("tag") Tag tag);
 }
