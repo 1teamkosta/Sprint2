@@ -3,6 +3,7 @@ package kr.swdl.sprint2.repository;
 import kr.swdl.sprint2.vo.User;
 import kr.swdl.sprint2.vo.UserActivities;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface UserRepository  {
     List<User> sortUsersByPoopularity();
     List<User> sortUsersByInDate();
     List<UserActivities> getClubByUser(int accountNumber);
-    boolean setUserStatus(int accountNumber, int status);
-    //void setUserStatusByCheckbox(int accountNumber, int status);
-
+    void setUserStatus(int accountNumber, int status);
+    User getUser(int accountNumber);
+    boolean setUsersStatus(List<Integer> accountNumbers, int status);
 }

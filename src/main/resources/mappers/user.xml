@@ -28,7 +28,7 @@
         WHERE account_role = 1
         ORDER BY in_date DESC
     </select>
-    <select id="getUserDetail" resultType="kr.swdl.sprint2.vo.User">
+    <select id="getUser" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number,id,nickname,email,popularity,in_date,status
         FROM accounts
         WHERE account_number = #{accountNumber};
@@ -47,7 +47,15 @@
                  JOIN attendees attd ON a.account_number = attd.account_number
         WHERE a.account_number = #{accountNumber};
     </select>
-    <select id="setUserStatus" resultType="kr.swdl.sprint2.vo.User">
+    <update id="setUserStatus">
         UPDATE ACCOUNTS SET  STATUS = #{status} WHERE ACCOUNT_NUMBER =#{accountNumber};
-    </select>
+    </update>
+    <update id="setUsersStatus">
+        UPDATE accounts
+        SET status = #{status}
+        WHERE account_number IN
+        <foreach item="accountNumber" collection="accountNumbers" open="(" separator="," close=")">
+            #{accountNumber}
+        </foreach>
+    </update>
 </mapper>
