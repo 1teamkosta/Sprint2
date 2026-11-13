@@ -2,15 +2,15 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.swdl.sprint2.repository.FestivalsRepository">
-    <select id="getFestivals" parameterType="kr.swdl.sprint2.vo.Festival" resultType="kr.swdl.sprint2.vo.Festival">
+    <select id="getFestivals" resultType="kr.swdl.sprint2.vo.Festival">
         SELECT
-        f.festival_number festivalNumber,
+        f.festival_number,
         f.status,
-        t.tag_name genreTag,
-        f.festival_name festivalName,
-        f.start_date startDate,
-        f.end_date endDate,
-        f.progress_status progressStatus,
+        t.tag_name,
+        f.festival_name,
+        f.start_date,
+        f.end_date,
+        f.progress_status,
         f.address,
         (
         SELECT COUNT(*)
@@ -18,21 +18,21 @@
         WHERE fl.festival_number = f.festival_number
         ) festivalLikes
         FROM festivals f
-        JOIN add_tags at ON f.festival_number = at.festival_number AND at.is_main = 1
-        JOIN tags t ON at.tag_number = t.tag_number
+        LEFT JOIN add_tags at ON at.festival_number = f.festival_number AND at.is_main = 1
+        LEFT JOIN tags t ON t.tag_number = at.tag_number
         <where>
-            <if test="status != null and status != ''">
-                AND f.status = #{status}
+            <if test="query.filterByStatus != null">
+                AND f.status = #{query.filterByStatus}
             </if>
-            <if test="progressStatus != null and progressStatus != ''">
-                AND f.progress_status = #{progressStatus}
+            <if test="query.filterByProgressStatus != null">
+                AND f.progress_status = #{query.filterByProgressStatus}
             </if>
             <choose>
-                <when test="festivalName != null and festivalName != ''">
-                    AND f.festival_name LIKE CONCAT('%', #{festivalName}, '%')
+                <when test="query.searchBy == 'festivalName' ">
+                    AND f.festival_name LIKE CONCAT('%', #{query.keyword}, '%')
                 </when>
-                <when test="mainTag != null and mainTag != ''">
-                    AND t.tag_name LIKE CONCAT('%', #{mainTag}, '%')
+                <when test="query.searchBy == 'mainTag'">
+                    AND t.tag_name LIKE CONCAT('%', #{query.keyword}, '%')
                 </when>
             </choose>
         </where>
@@ -53,6 +53,21 @@
 <!--                ORDER BY f.festival_number DESC-->
 <!--            </otherwise>-->
 <!--        </choose>-->
+    </select>
+
+    <select id="getFestival" resultType="kr.swdl.sprint2.vo.Festival">
+        SELECT
+            f.festival_number,
+            f.status,
+            f.festival_name,
+            f.start_date,
+            f.end_date,
+            f.progress_status,
+            f.address,
+            f.contents,
+            f.image_url
+        FROM festivals f
+        WHERE f.festival_number = #{festivalNumber};
     </select>
 
     <select id="getMainTag" resultType="java.lang.String">

@@ -2,6 +2,7 @@ package kr.swdl.sprint2.vo;
 
 import lombok.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -24,5 +25,4 @@ public class Festival {
     private List<String> addTag;
     private int festivalReviewLike;
     private int festivalReviewDislike;
-    private String orderBy;
 }
