@@ -15,9 +15,9 @@ public interface ClubRepository {
 
     List<Attendee> getClubUser(int clubNumber);
 
-    boolean setCulbStatus(int clubNumber, int status);
+    boolean setClubStatus(int clubNumber, int status);
 
-    boolean setCulbsStatus(List<Integer> clubNumbers, int status);
+    boolean setClubsStatus(List<Integer> clubNumbers, int status);
 
 
 }

@@ -61,12 +61,12 @@
         WHERE c.CLUB_NUMBER = #{clubNumber};
     </select>
 
-    <update id="setCulbStatus" >
+    <update id="setClubStatus" >
         UPDATE clubs SET STATUS = #{status}
         WHERE club_number = #{clubNumber};
     </update>
 
-    <update id="setCulbsStatus">
+    <update id="setClubsStatus">
         UPDATE clubs SET STATUS = #{status}
         WHERE club_number IN
         <foreach collection="clubNumbers"

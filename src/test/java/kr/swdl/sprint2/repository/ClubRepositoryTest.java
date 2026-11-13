@@ -35,22 +35,22 @@ public class ClubRepositoryTest {
     //모임 상태변경
     @Test
     void 특정_모임_상태_공개로_변경(){
-        assertTrue(clubRepository.setCulbStatus(2,Status.PUBLIC.getCode()));
+        assertTrue(clubRepository.setClubStatus(2,Status.PUBLIC.getCode()));
     }
 
     @Test
     void 특정_모임_상태_비공개로_변경(){
-        assertTrue(clubRepository.setCulbStatus(2,Status.PRIVATE.getCode()));
+        assertTrue(clubRepository.setClubStatus(2,Status.PRIVATE.getCode()));
     }
 
     @Test
     void 여러_모임_상태_공개로_변경(){
-        assertTrue(clubRepository.setCulbsStatus(List.of(2,4),Status.PUBLIC.getCode()));
+        assertTrue(clubRepository.setClubsStatus(List.of(2,4),Status.PUBLIC.getCode()));
     }
 
     @Test
     void 여러_모임_상태_비공개로_변경(){
-        assertTrue(clubRepository.setCulbsStatus(List.of(1,3,8),Status.PRIVATE.getCode()));
+        assertTrue(clubRepository.setClubsStatus(List.of(1,3,8),Status.PRIVATE.getCode()));
     }
 
     //리스트 조회
