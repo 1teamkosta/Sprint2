@@ -158,13 +158,14 @@ function setupTableSort(tableSelector, rows, idField, onSort = function () {}) {
     });
 }
 
-// prefix는 HTML 요소 ID의 공통 앞부분(festival, meeting, user)이다.
+// prefix는 HTML 요소 ID의 공통 앞부분(festival, club, user)이다.
 /**
  * [화면별 설정]
  * prefix: HTML ID·클래스의 앞부분. user라면 .user-search, #user-keyword 등과 연결된다.
  * tableSelector: 테이블 선택자. 예: '.user-table'.
  * idField: 같은 값인 행의 순서를 결정할 고유 번호 필드. 예: 'userId'.
  * exactFields: 부분 일치 대신 정확히 일치시킬 검색 필드. 예: ['userId'].
+ * defaultSearchType: 검색 유형 선택창이 없을 때 사용할 고정 검색 필드. 예: 'title'.
  * pageSize: 한 페이지 표시 개수. 기본값은 10개다.
  * extraFilter: 화면별 추가 필터 함수. 행을 받아 표시 대상이면 true를 반환한다.
  * 반환 객체의 refresh()는 검색·정렬을 유지한 채 추가 필터를 다시 적용하고 1페이지로 이동한다.
@@ -172,14 +173,15 @@ function setupTableSort(tableSelector, rows, idField, onSort = function () {}) {
  * [HTML 연결 규칙]
  * - 데이터 행: data-status. 상태 필터가 없는 회원 화면도 행 구분용으로 붙인다.
  * - 검색 셀: data-field. 검색 select의 option value와 같은 이름을 사용한다.
- * - 필수 요소: .접두사-search, #접두사-search-type / -keyword / -result-count / -empty / -pagination.
+ * - 필수 요소: .접두사-search, #접두사-keyword / -result-count / -empty / -pagination.
+ * - 검색 유형 선택창: #접두사-search-type. 없으면 defaultSearchType을 사용한다.
  * - 결과 없음 행은 data-status 없이 tbody 마지막에 둔다.
  * - 상태 필터는 선택 사항. #접두사-status-filter 내부의 data-status-filter 버튼을 사용한다.
  *
  * 초기화 시 수집한 행을 계속 사용하므로 HTML 준비 후 한 번만 호출한다.
  * 이후 행을 새로 만드는 동적 목록은 별도 처리가 필요하다. tags.js가 그 예다.
  */
-function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize = 10, extraFilter = function () { return true; } }) {
+function setupList({ prefix, tableSelector, idField, exactFields = [], defaultSearchType = '', pageSize = 10, extraFilter = function () { return true; } }) {
     const table = document.querySelector(tableSelector);
     const rows = Array.from(table.querySelectorAll('tbody tr[data-status]'));
     const form = document.querySelector(`.${prefix}-search`);
@@ -191,7 +193,7 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize 
     const statusButtons = statusFilter ? statusFilter.querySelectorAll('[data-status-filter]') : [];
     // 각 setupList() 호출 내부에서 상태를 관리하므로 화면별 검색 조건이 섞이지 않는다.
     let selectedStatus = 'all';
-    let selectedSearchType = '';
+    let selectedSearchType = defaultSearchType;
     let searchKeyword = '';
     let currentPage = 1;
 
@@ -245,7 +247,7 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], pageSize 
     // trim()은 앞뒤 공백 제거, 소문자 변환은 영문 대소문자 구분 없는 검색을 위한 처리다.
     form.addEventListener('submit', function (event) {
         event.preventDefault();
-        selectedSearchType = searchType.value;
+        selectedSearchType = searchType ? searchType.value : defaultSearchType;
         searchKeyword = keyword.value.trim().toLocaleLowerCase();
         currentPage = 1;
         filterRows();

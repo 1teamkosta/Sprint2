@@ -1,5 +1,5 @@
 /* 모임 관리 목록 */
-.meeting-tabs {
+.club-tabs {
     --bs-nav-link-color: var(--admin-muted);
     --bs-nav-link-hover-color: var(--admin-text);
     --bs-nav-tabs-link-active-color: var(--admin-on-primary);
@@ -7,93 +7,93 @@
     --bs-nav-tabs-link-active-border-color: var(--admin-primary);
 }
 
-.meeting-status-visible {
+.club-status-visible {
     background-color: var(--admin-status-visible-bg);
     color: var(--admin-status-visible-text);
 }
 
-.meeting-status-hidden {
+.club-status-hidden {
     background-color: var(--admin-status-hidden-bg);
     color: var(--admin-status-hidden-text);
 }
 
-.meeting-search {
+.club-search {
     width: 100%;
     max-width: 640px;
 }
 
-.meeting-search-setting {
+.club-search-setting {
     flex: 0 0 150px;
 }
 
-.meeting-search .form-select,
-.meeting-search .form-control,
-.meeting-search .btn {
+.club-search .form-select,
+.club-search .form-control,
+.club-search .btn {
     min-height: 42px;
 }
 
-.meeting-search .btn {
+.club-search .btn {
     padding-right: 22px;
     padding-left: 22px;
 }
 
-.meeting-table {
+.club-table {
     width: 100%;
     min-width: 1050px;
     table-layout: fixed;
 }
 
 /* 이름 두 열은 남는 공간을 반씩 나눠 쓰고, 나머지 열은 고정 너비를 사용한다. */
-.meeting-column-select { width: 48px; }
-.meeting-column-number { width: 76px; }
-.meeting-column-status { width: 92px; }
-.meeting-column-name { width: calc((100% - 594px) / 2); }
-.meeting-column-purpose { width: 112px; }
-.meeting-column-host { width: 130px; }
-.meeting-purpose { white-space: nowrap; }
-.meeting-column-date { width: 136px; }
+.club-column-select { width: 48px; }
+.club-column-number { width: 76px; }
+.club-column-status { width: 92px; }
+.club-column-name { width: calc((100% - 594px) / 2); }
+.club-column-purpose { width: 112px; }
+.club-column-host { width: 130px; }
+.club-purpose { white-space: nowrap; }
+.club-column-date { width: 136px; }
 
-.meeting-table [data-sort-field="createdAt"] {
+.club-table [data-sort-field="createdAt"] {
     white-space: nowrap;
 }
 
-.meeting-table th,
-.meeting-table td {
+.club-table th,
+.club-table td {
     padding: 18px 12px;
 }
 
-.meeting-table .meeting-title,
-.meeting-table .meeting-festival {
+.club-table .club-title,
+.club-table .club-festival {
     overflow-wrap: anywhere;
 }
 
-.meeting-table .meeting-host-heading,
-.meeting-table [data-field="host"] {
+.club-table .club-host-heading,
+.club-table [data-field="host"] {
     min-width: 130px;
     white-space: nowrap;
 }
 
-.meeting-status-filter {
+.club-status-filter {
     position: relative;
     display: inline-block;
     white-space: nowrap;
 }
 
-.meeting-status-filter summary {
+.club-status-filter summary {
     cursor: pointer;
     list-style: none;
 }
 
-.meeting-status-filter summary::-webkit-details-marker {
+.club-status-filter summary::-webkit-details-marker {
     display: none;
 }
 
-.meeting-status-filter summary span {
+.club-status-filter summary span {
     color: var(--admin-muted);
     font-size: 0.8em;
 }
 
-.meeting-status-options {
+.club-status-options {
     position: absolute;
     top: calc(100% + 10px);
     left: 50%;
@@ -106,7 +106,7 @@
     border-radius: 8px;
 }
 
-.meeting-status-options button {
+.club-status-options button {
     display: block;
     width: 100%;
     padding: 8px 12px;
@@ -117,13 +117,13 @@
     text-align: left;
 }
 
-.meeting-status-options button:hover,
-.meeting-status-options button[aria-pressed="true"] {
+.club-status-options button:hover,
+.club-status-options button[aria-pressed="true"] {
     background-color: var(--admin-primary-soft);
 }
 
 @media (max-width: 575.98px) {
-    .meeting-search-setting {
+    .club-search-setting {
         flex-basis: auto;
     }
 }

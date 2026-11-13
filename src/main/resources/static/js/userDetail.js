@@ -41,28 +41,28 @@ async function loadUserDetail() {
         renderUserDetailStatus();
         document.querySelector('#user-detail-card').hidden = false;
         userDetailFeedback.hidden = true;
-        await loadUserMeetings(userId, nickname);
+        await loadUserClubs(userId, nickname);
     } catch (error) {
         userDetailFeedback.textContent = '회원 정보를 표시할 수 없습니다. 목록으로 돌아가 다시 선택해 주세요.';
         userDetailFeedback.hidden = false;
         console.error(error);
     }
 }
-async function loadUserMeetings(userId, nickname) {
-    const feedback = document.querySelector('#user-meetings-feedback');
-    const body = document.querySelector('#user-detail-meetings');
+async function loadUserClubs(userId, nickname) {
+    const feedback = document.querySelector('#user-clubs-feedback');
+    const body = document.querySelector('#user-detail-clubs');
     try {
-        const response = await fetch('../meeting/meetings.html');
+        const response = await fetch('../club/clubs.html');
         if (!response.ok) throw new Error('모임 목록을 불러오지 못했습니다.');
         const listDocument = new DOMParser().parseFromString(await response.text(), 'text/html');
-        const rows = Array.from(listDocument.querySelectorAll('tbody tr[data-meeting-type]'));
+        const rows = Array.from(listDocument.querySelectorAll('tbody tr[data-club-type]'));
         // 김축제(1번)는 페이지네이션 시연을 위해 전체 11개 모임에 참여한 것으로 연결한다.
         // 개설자 역할은 실제 목록의 닉네임으로 구분하고, 다른 회원은 일반 참여 하나를 연결한다.
         const hosted = rows.filter(function (row) { return row.querySelector('[data-field="host"]').textContent.trim() === nickname; });
-        const otherMeetings = rows.filter(function (row) { return !hosted.includes(row); });
+        const otherClubs = rows.filter(function (row) { return !hosted.includes(row); });
         const joined = userId === '1'
-            ? otherMeetings
-            : otherMeetings.length ? [otherMeetings[(Number(userId) - 1) % otherMeetings.length]] : [];
+            ? otherClubs
+            : otherClubs.length ? [otherClubs[(Number(userId) - 1) % otherClubs.length]] : [];
         const memberships = [...hosted.map(function (row) { return { row, role: '개설자' }; }), ...joined.map(function (row) { return { row, role: '참여자' }; })];
         let currentPage = 1;
         // 전체 참여 내역을 10개씩 나눈다. 링크와 역할은 각 페이지를 그릴 때 그대로 유지한다.
@@ -73,7 +73,7 @@ async function loadUserMeetings(userId, nickname) {
             pageData.items.forEach(function (membership) {
                 const row = membership.row;
                 const tr = document.createElement('tr');
-                const id = row.querySelector('[data-field="meetingId"]').textContent.trim();
+                const id = row.querySelector('[data-field="clubId"]').textContent.trim();
                 function cell(text, className = '') {
                     const td = document.createElement('td');
                     td.className = className;
@@ -88,15 +88,15 @@ async function loadUserMeetings(userId, nickname) {
                 festivalLink.href = originalFestival.getAttribute('href');
                 festivalCell.append(festivalLink);
                 const titleCell = cell('', 'text-center');
-                const meetingLink = document.createElement('a');
-                meetingLink.textContent = row.querySelector('[data-field="title"]').textContent.trim();
-                meetingLink.title = meetingLink.textContent;
-                meetingLink.href = `../meeting/meetingDetail.html?id=${encodeURIComponent(id)}`;
-                titleCell.append(meetingLink);
-                tr.append(cell(id), festivalCell, titleCell, cell(membership.role), cell(row.dataset.meetingType === 'food' ? '음식메이트' : '축제메이트'));
+                const clubLink = document.createElement('a');
+                clubLink.textContent = row.querySelector('[data-field="title"]').textContent.trim();
+                clubLink.title = clubLink.textContent;
+                clubLink.href = `../club/clubDetail.html?id=${encodeURIComponent(id)}`;
+                titleCell.append(clubLink);
+                tr.append(cell(id), festivalCell, titleCell, cell(membership.role), cell(row.dataset.clubType === 'food' ? '음식메이트' : '축제메이트'));
                 body.append(tr);
             });
-            document.querySelector('#user-detail-meeting-count').textContent = `(${memberships.length}개)`;
+            document.querySelector('#user-detail-club-count').textContent = `(${memberships.length}개)`;
             if (!memberships.length) {
                 const tr = document.createElement('tr');
                 const td = document.createElement('td');
@@ -107,8 +107,8 @@ async function loadUserMeetings(userId, nickname) {
                 body.append(tr);
             }
             renderPagination({
-                containerSelector: '#user-detail-meetings-pagination',
-                pagesSelector: '#user-detail-meetings-pages',
+                containerSelector: '#user-detail-clubs-pagination',
+                pagesSelector: '#user-detail-clubs-pages',
                 currentPage,
                 pageCount: pageData.pageCount,
                 totalCount: pageData.totalCount,
@@ -118,7 +118,7 @@ async function loadUserMeetings(userId, nickname) {
                 }
             });
             // 10개 이하면 한 페이지이므로 페이지 버튼을 표시하지 않는다.
-            document.querySelector('#user-detail-meetings-pagination').hidden = pageData.pageCount <= 1;
+            document.querySelector('#user-detail-clubs-pagination').hidden = pageData.pageCount <= 1;
         }
         renderMembershipPage();
         feedback.hidden = true;

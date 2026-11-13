@@ -31,17 +31,17 @@
     --bs-btn-disabled-bg: var(--admin-sidebar-bg);
     --bs-btn-disabled-border-color: var(--admin-sidebar-bg);
 }
-.user-detail-meetings { width: 100%; table-layout: fixed; }
-.user-meeting-number { width: 10%; }
-.user-meeting-festival { width: 24%; }
-.user-meeting-role { width: 12%; }
-.user-meeting-name { width: 36%; }
-.user-meeting-purpose { width: 18%; }
-.user-detail-meetings th, .user-detail-meetings td { padding: 18px 8px; overflow-wrap: anywhere; }
-.user-detail-meetings a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
-.user-detail-meetings a:hover { color: var(--bs-link-hover-color); }
+.user-detail-clubs { width: 100%; table-layout: fixed; }
+.user-club-number { width: 10%; }
+.user-club-festival { width: 24%; }
+.user-club-role { width: 12%; }
+.user-club-name { width: 36%; }
+.user-club-purpose { width: 18%; }
+.user-detail-clubs th, .user-detail-clubs td { padding: 18px 8px; overflow-wrap: anywhere; }
+.user-detail-clubs a { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
+.user-detail-clubs a:hover { color: var(--bs-link-hover-color); }
 @media (max-width: 575.98px) {
     .user-detail-card { padding: 20px; }
     .user-detail-profile > div { grid-template-columns: 72px minmax(0, 1fr); gap: 12px; }
-    .user-detail-meetings th, .user-detail-meetings td { padding: 12px 4px; font-size: 0.75rem; }
+    .user-detail-clubs th, .user-detail-clubs td { padding: 12px 4px; font-size: 0.75rem; }
 }
