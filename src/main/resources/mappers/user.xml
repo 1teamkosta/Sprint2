@@ -6,25 +6,21 @@
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE account_role = 1
-        ORDER BY account_number ASC
     </select>
     <select id="getUsersByNickname" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE nickname LIKE CONCAT('%', #{keyword}, '%') and account_role = 1
-        ORDER BY account_number ASC
     </select>
     <select id="getUsersByStatus" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE status = #{status} and account_role = #{roleUser}
-        ORDER BY account_number DESC
     </select>
     <select id="sortByPopularity" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
         WHERE account_role = 1
-        ORDER BY popularity DESC
     </select>
     <select id="sortByInDate" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
@@ -37,7 +33,7 @@
         FROM accounts
         WHERE account_number = #{accountNumber};
     </select>
-    <select id="getClubsByUser" resultType="kr.swdl.sprint2.vo.User">
+    <select id="getClubByUser" resultType="kr.swdl.sprint2.vo.UserActivities">
         SELECT
             (SELECT COUNT(ATTENDEE_ID) FROM attendees at WHERE a.account_number = at.account_number) AS COUNT,
             c.club_number,
@@ -50,5 +46,8 @@
                  JOIN festivals f ON c.festival_number = f.festival_number
                  JOIN attendees attd ON a.account_number = attd.account_number
         WHERE a.account_number = #{accountNumber};
+    </select>
+    <select id="setUserStatus" resultType="kr.swdl.sprint2.vo.User">
+        UPDATE ACCOUNTS SET  STATUS = #{status} WHERE ACCOUNT_NUMBER =#{accountNumber};
     </select>
 </mapper>

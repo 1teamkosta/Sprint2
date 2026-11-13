@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import kr.swdl.sprint2.vo.User;
+import org.jspecify.annotations.NonNull;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
@@ -28,16 +29,17 @@ public class UserRepositoryTest {
 
     @ParameterizedTest
     @ValueSource(strings = {"관자", "굿", "김", "","ㅂ","1"})
-    void 회원검색_닉네임(String keyword) {
+    void 회원검색_닉네임(@NonNull String keyword) {
         if (keyword.isEmpty() || keyword == "")
             assertFalse(true);
         List<User> users = userRepository.getUsersByNickname(keyword);
         assertFalse(users.isEmpty());    }
-    @Test
-    void 상태_필터링(){
-        System.out.println(userRepository.getUsersByStatus(1));
-        System.out.println(userRepository.getUsersByStatus(0));
-        System.out.println(userRepository.getUsersByStatus(-1));
+
+    @ParameterizedTest
+    @ValueSource(ints={1,11111,0,-1})
+    void 상태_필터링(@NonNull int status){
+        List<User> users = userRepository.getUsersByStatus(status);
+        assertFalse(users.isEmpty());
 
     }
     @Test
@@ -48,5 +50,6 @@ public class UserRepositoryTest {
     void 가입일_정렬(){
         System.out.println(userRepository.sortUsersByInDate());
     }
-
+    @Test
+    void 회원_모임조회(){ System.out.println(userRepository.getClubByUser(4));}
 }
