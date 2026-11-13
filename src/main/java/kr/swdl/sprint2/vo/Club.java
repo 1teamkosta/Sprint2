@@ -22,4 +22,5 @@ public class Club {
     private int festivalNumber;
     private String festivalName;
     private int curCount;
+    private String nickname;
 }

@@ -18,6 +18,7 @@ public class ClubRepositoryTest {
     @Autowired
     private ClubRepository clubRepository;
 
+    //모임상세
     @Test
     void 특정_모임_상세_조회(){
         System.out.println(clubRepository.getClubDetail(1));
@@ -30,6 +31,7 @@ public class ClubRepositoryTest {
         assertNotNull(clubRepository.getClubUser(1));
     }
 
+    //모임 상태변경
     @Test
     void 특정_모임_상태_공개로_변경(){
         assertTrue(clubRepository.setCulbStatus(2,Status.PUBLIC.getCode()));
@@ -37,7 +39,7 @@ public class ClubRepositoryTest {
 
     @Test
     void 특정_모임_상태_비공개로_변경(){
-        assertTrue(clubRepository.setCulbStatus(1,Status.PRIVATE.getCode()));
+        assertTrue(clubRepository.setCulbStatus(2,Status.PRIVATE.getCode()));
     }
 
     @Test
@@ -50,254 +52,157 @@ public class ClubRepositoryTest {
         assertTrue(clubRepository.setCulbsStatus(List.of(1,3,8),Status.PRIVATE.getCode()));
     }
 
+    //리스트 조회
     @Test
     void 기본_리스트_조회(){
-        System.out.println(clubRepository.getClubList(null,null,null,null,null, false));
-        assertNotNull(clubRepository.getClubList(null,null,null,null,null, false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().build()));
     }
 
     @Test
     void 공개상태_필터_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),null,null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),null,null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).build()));
     }
 
     @Test
     void 비공개상태_필터_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),null,null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),null,null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).build()));
     }
+
 
     @Test
     void 음식메이트_필터_리스트(){
-        System.out.println(clubRepository.getClubList(null, Purpose.FOOD.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(null,Purpose.FOOD.getLabel(),null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose("음식메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose("음식메이트").build()));
     }
 
     @Test
     void 축제메이트_필터_리스트(){
-        System.out.println(clubRepository.getClubList(null, Purpose.FESTIVAL.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(null,Purpose.FESTIVAL.getLabel(),null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose("축제메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose("축제메이트").build()));
     }
 
     @Test
     void 모임명_검색_리스트(){
-        System.out.println(clubRepository.getClubList(null, null,"추억",null,null,false));
-        assertNotNull(clubRepository.getClubList(null,null,"추억",null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().searchBy("clubName").keyword("추억").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().searchBy("clubName").keyword("추억").build()));
     }
 
     @Test
     void 축제_검색_리스트(){
-        System.out.println(clubRepository.getClubList(null,null,null,"국수",null, false));
-        assertNotNull(clubRepository.getClubList(null,null,null,"국수",null, false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().searchBy("festival").keyword("국수").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().searchBy("festival").keyword("국수").build()));
     }
 
     @Test
     void 개설자_검색_리스트(){
-        System.out.println(clubRepository.getClubList(null,null,null,null,"문화인", false));
-        assertNotNull(clubRepository.getClubList(null,null,null,null,"문화인", false));
-    }
-
-    @Test
-    void 개설일_내림차순_정렬_리스트(){
-        System.out.println(clubRepository.getClubList(null,null,null,null,null, true));
-        assertNotNull(clubRepository.getClubList(null,null,null,null,null, true));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("문화인").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("문화인").build()));
     }
 
     @Test
     void 공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").build()));
     }
 
     @Test
     void 공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").build()));
     }
 
     @Test
     void 비공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").build()));
     }
 
     @Test
     void 비공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,false));
-    }
-
-    @Test
-    void 공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,null,true));
-    }
-
-    @Test
-    void 공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,true));
-    }
-
-    @Test
-    void 비공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,null,true));
-    }
-
-    @Test
-    void 비공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,null,true));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").build()));
     }
 
     //모임이름 검색
     @Test
     void 모임이름_검색_공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),"즐거운",null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),"즐거운",null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("clubName").keyword("즐거운").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("clubName").keyword("즐거운").build()));
     }
 
     @Test
     void 모임이름_검색_공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),"맛있는",null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),"맛있는",null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("clubName").keyword("맛있는").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("clubName").keyword("맛있는").build()));
     }
 
     @Test
     void 모임이름_검색_비공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),"신나는",null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),"신나는",null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("clubName").keyword("신나는").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("clubName").keyword("신나는").build()));
     }
 
     @Test
     void 모임이름_검색_비공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),"힐링",null,null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),"힐링",null,null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("clubName").keyword("힐링").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("clubName").keyword("힐링").build()));
     }
 
-    @Test
-    void 모임이름_검색_공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),"즐거운",null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),"즐거운",null,null,true));
-    }
-
-    @Test
-    void 모임이름_검색_공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),"맛있는",null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),"맛있는",null,null,true));
-    }
-
-    @Test
-    void 모임이름_검색_비공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),"신나는",null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),"신나는",null,null,true));
-    }
-
-    @Test
-    void 모임이름_검색_비공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),"힐링",null,null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),"힐링",null,null,true));
-    }
 
     //축제 검색
     @Test
     void 축제이름_검색_공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,"공연",null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,"공연",null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("festivalName").keyword("공연").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("festivalName").keyword("공연").build()));
     }
 
     @Test
     void 축제이름_검색_공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,"광화문",null,false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,"광화문",null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("festivalName").keyword("광화문").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("festivalName").keyword("광화문").build()));
     }
 
     @Test
     void 축제이름_검색_비공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,"감악산",null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,"감악산",null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("festivalName").keyword("감악산").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("festivalName").keyword("감악산").build()));
     }
 
     @Test
     void 축제이름_검색_비공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,"감악산",null,false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,"감악산",null,false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("festivalName").keyword("감악산").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("festivalName").keyword("감악산").build()));
     }
 
-    @Test
-    void 축제이름_검색_공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,"공연",null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,"공연",null,true));
-    }
-
-    @Test
-    void 축제이름_검색_공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,"광화문",null,true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,"광화문",null,true));
-    }
-
-    @Test
-    void 축제이름_검색_비공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,"감악산",null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,"감악산",null,true));
-    }
-
-    @Test
-    void 축제이름_검색_비공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,"감악산",null,true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,"감악산",null,true));
-    }
 
     // 개설자검색
     @Test
     void 개설자_검색_공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,"축제요정",false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,"축제요정",false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("nickname").keyword("축제요정").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("음식메이트").searchBy("nickname").keyword("축제요정").build()));
     }
 
     @Test
     void 개설자_검색_공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"",false));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"사진작가최",false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("nickname").keyword("사진작가최").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(1).filterByPurpose("축제메이트").searchBy("nickname").keyword("사진작가최").build()));
     }
 
     @Test
     void 개설자_검색_비공개_음식메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,"문화인",false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,"문화인",false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("nickname").keyword("문화인").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("음식메이트").searchBy("nickname").keyword("문화인").build()));
     }
 
     @Test
     void 개설자_검색_비공개_축제메이트_리스트(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"드론러버",false));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"드론러버",false));
+        System.out.println(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("nickname").keyword("드론러버").build()));
+        assertNotNull(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(0).filterByPurpose("축제메이트").searchBy("nickname").keyword("드론러버").build()));
     }
 
-    @Test
-    void 개설자_검색_공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,"축제요정",true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FOOD.getLabel(),null,null,"축제요정",true));
-    }
-
-    @Test
-    void 개설자_검색_공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"사진작가최",true));
-        assertNotNull(clubRepository.getClubList(Status.PUBLIC.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"사진작가최",true));
-    }
-
-    @Test
-    void 개설자_검색_비공개_음식메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,"문화인",true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FOOD.getLabel(),null,null,"문화인",true));
-    }
-
-    @Test
-    void 개설자_검색_비공개_축제메이트_리스트_개설일내림차순(){
-        System.out.println(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"드론러버",true));
-        assertNotNull(clubRepository.getClubList(Status.PRIVATE.getCode(),Purpose.FESTIVAL.getLabel(),null,null,"드론러버",true));
-    }
 
 
 }

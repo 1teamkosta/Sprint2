@@ -9,7 +9,7 @@ import java.util.List;
 
 @Mapper
 public interface ClubRepository {
-    List<Club> getClubList(@Param("query") ClubListQuery query);
+    List<Club> getClubs(@Param("query") ClubListQuery query);
 
     Club getClubDetail(int clubNumber);
 

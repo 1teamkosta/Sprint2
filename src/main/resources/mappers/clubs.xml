@@ -2,7 +2,7 @@
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="kr.swdl.sprint2.repository.ClubRepository">
-    <select id="getClubList" resultType="kr.swdl.sprint2.vo.Club">
+    <select id="getClubs" resultType="kr.swdl.sprint2.vo.Club">
         SELECT c.club_number as clubNumber, c.status, f.festival_number as festivalNumber , f.festival_name as festivalName, c.club_name as clubName, c.purpose, a.account_number as accountNumber, a.nickname, c.created_at as createdAt
         FROM clubs c
         JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
