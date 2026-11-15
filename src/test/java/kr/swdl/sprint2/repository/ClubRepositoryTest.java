@@ -8,11 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
 @Transactional
@@ -28,8 +24,19 @@ public class ClubRepositoryTest {
     }
 
     @Test
-    void getClubAttend(){
+    void getClubDetail_NotFound(){
+//        Assertions.assertNull(clubRepository.getClubDetail(99999999)); // service에서 null로 변환.
+        Assertions.assertEquals(0,clubRepository.getClubDetail(99999999).getClubNumber());
+    }
+
+    @Test
+    void getClubAttendee(){
         Assertions.assertNotNull(clubRepository.getClubUser(1));
+    }
+
+    @Test
+    void getClubAttendee_NotFound(){
+        Assertions.assertTrue(clubRepository.getClubUser(99999999).isEmpty());
     }
 
 
@@ -108,13 +115,28 @@ public class ClubRepositoryTest {
     }
 
     @Test
+    void getClub_SearchByClubName_NotFound(){
+        Assertions.assertTrue((clubRepository.getClubs(ClubListQuery.builder().searchBy("clubName").keyword("없는클럽").build()).size())==0);
+    }
+
+    @Test
     void getClubs_SearchByFestivalName(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().searchBy("festival").keyword("국수").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("국수").build()).size()>0);
+    }
+
+    @Test
+    void getClubs_SearchByFestivalName_NotFound(){
+        Assertions.assertTrue((clubRepository.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("없는축제").build()).size())==0);
     }
 
     @Test
     void getClubs_SearchByNickname(){
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("문화인").build()).size()>0);
+    }
+
+    @Test
+    void getClubs_SearchByNickname_NotFound(){
+        Assertions.assertTrue((clubRepository.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("없는닉네임").build()).size())==0);
     }
 
     @Test
@@ -137,8 +159,6 @@ public class ClubRepositoryTest {
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).build()).size()>0);
     }
 
-
-    //모임이름 검색
     @Test
     void getClubs_SearchByClubName_FilterByPublicAndFood(){
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("clubName").keyword("즐거운").build()).size()>0);
@@ -159,8 +179,6 @@ public class ClubRepositoryTest {
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("clubName").keyword("힐링").build()).size()>0);
     }
 
-
-    //축제 검색
     @Test
     void getClubs_SearchByFestivalName_FilterByPublicAndFood(){
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("festivalName").keyword("공연").build()).size()>0);
@@ -181,8 +199,6 @@ public class ClubRepositoryTest {
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("festivalName").keyword("감악산").build()).size()>0);
     }
 
-
-    // 개설자검색
     @Test
     void getClubs_SearchByNickname_FilterByPublicAndFood(){
         Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("nickname").keyword("축제요정").build()).size()>0);
