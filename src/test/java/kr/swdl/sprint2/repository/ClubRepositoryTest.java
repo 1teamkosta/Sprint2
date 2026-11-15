@@ -28,7 +28,7 @@ public class ClubRepositoryTest {
     }
 
     @Test
-    void getClubAtten(){
+    void getClubAttend(){
         Assertions.assertNotNull(clubRepository.getClubUser(1));
     }
 
