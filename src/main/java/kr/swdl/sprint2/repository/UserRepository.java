@@ -18,4 +18,9 @@ public interface UserRepository  {
     void setUserStatus(int accountNumber, int status);
     User getUser(int accountNumber);
     boolean setUsersStatus(List<Integer> accountNumbers, int status);
+   //List<User> getUsersByConditionAndNickname(int status, String nickname);
+   List<User> getUsersByConditionAndNickname(
+           @Param("status") int status,
+           @Param("keyword") String nickname
+   );
 }

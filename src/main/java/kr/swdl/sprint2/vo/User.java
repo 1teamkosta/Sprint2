@@ -17,7 +17,7 @@ public class User {
     private String nickname;
     private String password;
     private String email;
-    private int Poopularity;
+    private int Popularity;
     private String inDate;
     private int status;
 }

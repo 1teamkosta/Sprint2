@@ -1,8 +1,5 @@
 package kr.swdl.sprint2.repository;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.setPrintAssertionsDescription;
-import static org.junit.jupiter.api.Assertions.*;
 
 import kr.swdl.sprint2.global.enums.Status;
 import kr.swdl.sprint2.vo.User;
@@ -27,23 +24,23 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    void 초기진입_회원조회() {
+    void getUsers() {
         List<User> users = userRepository.getUsers();
     }
 
     @ParameterizedTest
     @ValueSource(strings = {"관자", "굿", "김", "","ㅂ","1"})
-    void 회원검색_닉네임(String keyword) {
+    void getUser_SearchByNickname(String keyword) {
         if (keyword.isEmpty() || keyword == "")
-            assertFalse(true);
+            Assertions.assertFalse(true);
         List<User> users = userRepository.getUsersByNickname(keyword);
-        assertFalse(users.isEmpty());    }
+        Assertions.assertTrue(users.size() > 0);}
 
     @ParameterizedTest
     @ValueSource(ints={1,11111,0,-1})
-    void 상태_필터링(int status){
+    void getUser_FilterByStatus(int status){
         List<User> users = userRepository.getUsersByStatus(status);
-        assertFalse(users.isEmpty());
+        Assertions.assertTrue(users.size() > 0);
 
     }
     @Test
@@ -57,32 +54,35 @@ public class UserRepositoryTest {
 
     @ParameterizedTest
     @ValueSource(ints={0,111212121,-1,4})
-    void 회원_모임조회(int accountNumber){
+    void getClubs_SearchByUser(int accountNumber){
         List<UserActivities> users = userRepository.getClubByUser(accountNumber);
-        assertFalse(users.isEmpty());;}
+        Assertions.assertFalse(users.isEmpty());;}
 
    @Test
-    void 체크박스회원_상태변경()
+    void setStatus_Users()
    {
-       assertTrue(userRepository.setUsersStatus(List.of(2,4),Status.PUBLIC.getCode()));
+       Assertions.assertTrue(userRepository.setUsersStatus(List.of(2,4),Status.PUBLIC.getCode()));
    }
 
     @ParameterizedTest
     @ValueSource(ints={0,111212121,-1,3})
-    void 회원상세조회(int accountNumber){
+    void getUserDetail회원상세조회(int accountNumber){
         User user = userRepository.getUser(accountNumber);
-        assertNotNull(user);
+        Assertions.assertNotNull(user);
     }
 
     @Transactional
     @ParameterizedTest
     @ValueSource(ints={0,111212121,-1,4})
-    void 회원_상태변경_테스트_1(int accountNumber){
+    void SetUserStatus(int accountNumber){
         userRepository.setUserStatus(accountNumber,0);
         User user = userRepository.getUser(accountNumber);
 
     }
 
-
+    @Test
+    void getUsers_SearchByNickname_FilterByStatus(){
+        System.out.println(userRepository.getUsersByConditionAndNickname(0, ""));
+    }
 }
 

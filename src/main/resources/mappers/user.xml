@@ -58,4 +58,14 @@
             #{accountNumber}
         </foreach>
     </update>
+    <select id="getUsersByConditionAndNickname" parameterType="map" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts WHERE account_role = 1
+            <if test="nickname != null and nickname != ''">
+                AND nickname LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+    </select>
 </mapper>
