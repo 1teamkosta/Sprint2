@@ -121,6 +121,11 @@
             #{imageUrl},
             1)
     </insert>
+
+    <select id="getAddFestivalNumber" resultType="int">
+        SELECT LASTVAL(festivals_seq);
+    </select>
+
     <insert id="addAddtag" parameterType="kr.swdl.sprint2.vo.Addtag">
         INSERT INTO add_tags (
             add_tag_number,

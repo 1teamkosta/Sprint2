@@ -18,6 +18,7 @@ public interface FestivalsRepository {
     void setFestivalStatus(int festivalNumber);
     void setFestival(Festival festival);
     void addFestival(Festival festival);
+    int getAddFestivalNumber();
     void addAddtag(Addtag addtag);
     void setTagFestivalCount(int festivalNumber, boolean isIncrease);
     void delAddtags(int festivalNumber);
