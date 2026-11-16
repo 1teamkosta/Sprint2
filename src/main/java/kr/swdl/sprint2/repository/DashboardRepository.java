@@ -9,14 +9,15 @@ import java.util.Map;
 
 @Mapper
 public interface DashboardRepository {
-    int countFestival();
-    int countUser();
-    int countTodayNewUser();
-    List<Festival> getRecentFestval();
-    Map<String,Integer> getGanreTagDistribution();
-    int countFestivalReviews();
-    int countClubs();
-    int countLikedFestivals();
-    Map<String,Integer> getTop5PopularInterests();
+    int countByFestival();
+    int countByUser();
+    int countByTodayNewUser();
+    List<Festival> getRecentFestival();
+    List<Map<String,Integer>> getGenreTagDistribution();
+    int countByTags();
+    int countByFestivalReviews();
+    int countByClubs();
+    int countByLikedFestivals();
+    List<Map<String,Integer>> getTop5PopularInterests();
     List<User> getBottom5ByPopularity();
 }
