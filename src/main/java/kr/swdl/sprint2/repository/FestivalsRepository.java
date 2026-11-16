@@ -1,6 +1,6 @@
 package kr.swdl.sprint2.repository;
 
-import kr.swdl.sprint2.vo.Addtag;
+import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -19,9 +19,9 @@ public interface FestivalsRepository {
     void setFestival(Festival festival);
     void addFestival(Festival festival);
     int getAddFestivalNumber();
-    void addAddtag(Addtag addtag);
+    void addAddTag(AddTag addtag);
     void setTagFestivalCount(int festivalNumber, boolean isIncrease);
-    void delAddtags(int festivalNumber);
+    void delAddTags(int festivalNumber);
 
 
 //    List<Festival> getFestivalDetail(int festivalNumber);

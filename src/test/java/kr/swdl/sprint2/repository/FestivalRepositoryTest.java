@@ -3,7 +3,7 @@ package kr.swdl.sprint2.repository;
 import kr.swdl.sprint2.global.enums.FestivalProgressStatus;
 import kr.swdl.sprint2.global.enums.Reiview;
 import kr.swdl.sprint2.global.enums.Status;
-import kr.swdl.sprint2.vo.Addtag;
+import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -172,7 +172,7 @@ public class FestivalRepositoryTest {
 
     @Test
     void addAddTag() {
-        festivalsRepository.addAddtag(Addtag.builder().isMain(1).festivalNumber(15).tagNumber(1).build());
+        festivalsRepository.addAddTag(AddTag.builder().isMain(1).festivalNumber(15).tagNumber(1).build());
     }
 
     @Test
@@ -209,7 +209,7 @@ public class FestivalRepositoryTest {
     @Test
     void delAddTags() {
         System.out.println(festivalsRepository.getAddTag(141105));
-        festivalsRepository.delAddtags(141105);
+        festivalsRepository.delAddTags(141105);
         System.out.println(festivalsRepository.getAddTag(141105));
     }
 //    @Test

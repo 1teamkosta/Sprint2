@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Addtag {
+public class AddTag {
     private int isMain;
     private int festivalNumber;
     private int tagNumber;
