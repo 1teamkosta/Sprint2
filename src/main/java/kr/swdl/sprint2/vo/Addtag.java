@@ -12,5 +12,5 @@ import lombok.NoArgsConstructor;
 public class AddTag {
     private int isMain;
     private int festivalNumber;
-    private int tagNumber;
+    private int tagNumber;  
 }

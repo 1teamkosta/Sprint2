@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface FestivalsRepository {
     List<Festival> getFestivals(@Param("query")FestivalListQuery festivalListQuery);
-    List<String> getFestival(int festivalNumber);
+    Festival getFestival(int festivalNumber);
     String getMainTag(int festivalNumber);
     int countByFestivalLikes(int festivalNumber);
     List<String> getAddTag(int festivalNumber);

@@ -165,14 +165,14 @@ public class FestivalRepositoryTest {
 
     @Test
     void getFestival() {
-        Assertions.assertTrue(festivalsRepository.getFestival(141105).size() > 0);
-        Assertions.assertTrue(festivalsRepository.getFestival(777).size() == 0);
-//        System.out.println(festivalsRepository.getFestival(141105).size());
+        Assertions.assertNotNull(festivalsRepository.getFestival(141105));
+        Assertions.assertNull(festivalsRepository.getFestival(777));
+        System.out.println(festivalsRepository.getFestival(141105));
     }
 
     @Test
     void addAddTag() {
-        festivalsRepository.addAddTag(AddTag.builder().isMain(1).festivalNumber(15).tagNumber(1).build());
+        festivalsRepository.addAddTag(AddTag.builder().isMain(0).festivalNumber(15).tagNumber(3).build());
     }
 
     @Test

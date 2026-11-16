@@ -126,7 +126,7 @@
         SELECT LASTVAL(festivals_seq);
     </select>
 
-    <insert id="addAddTag" parameterType="kr.swdl.sprint2.vo.Addtag">
+    <insert id="addAddTag" parameterType="kr.swdl.sprint2.vo.AddTag">
         INSERT INTO add_tags (
             add_tag_number,
             is_main,
@@ -167,7 +167,7 @@
         SET status = 1 - status
         WHERE festival_number = #{festivalNumber};
     </update>
-    <delete id="delAddTags" parameterType="kr.swdl.sprint2.vo.Addtag">
+    <delete id="delAddTags" parameterType="kr.swdl.sprint2.vo.AddTag">
         DELETE FROM add_tags
         WHERE festival_number = #{festivalNumber};
     </delete>
