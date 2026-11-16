@@ -5,12 +5,29 @@
     <select id="getUsers" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
-        WHERE account_role = 1
+        <where>
+        <if test="query.filterByStatus != null">
+            and status = #{query.filterByStatus} and account_role = 1
+        </if>
+
+        <if test="query.keyword != null">
+            and nickname LIKE CONCAT('%', #{query.keyword}, '%') and account_role = 1
+        </if>
+        </where>
     </select>
     <select id="getUsersByNickname" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date
         FROM accounts
-        WHERE nickname LIKE CONCAT('%', #{keyword}, '%') and account_role = 1
+        <where>
+            <if test="filterByStatus != null">
+                and status = #{query.filterByStatus} and account_role = 1
+            </if>
+
+            <if test="keyword != null">
+                and nickname LIKE CONCAT('%', #{keyword}, '%') and account_role = 1
+            </if>
+
+        </where>
     </select>
     <select id="getUsersByStatus" resultType="kr.swdl.sprint2.vo.User">
         SELECT account_number, status, nickname, email, popularity, in_date

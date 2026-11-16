@@ -9,18 +9,11 @@ import java.util.List;
 
 @Mapper
 public interface UserRepository  {
-    List<User> getUsers ();
+    List<User> getUsers (@Param("query") UserListQuery query);
     List<User> getUsersByNickname(String nickname);
     List<User> getUsersByStatus(int status);
-    List<User> sortUsersByPoopularity();
-    List<User> sortUsersByInDate();
     List<UserActivities> getClubByUser(int accountNumber);
-    void setUserStatus(int accountNumber, int status);
     User getUser(int accountNumber);
-    boolean setUsersStatus(List<Integer> accountNumbers, int status);
-   //List<User> getUsersByConditionAndNickname(int status, String nickname);
-   List<User> getUsersByConditionAndNickname(
-           @Param("status") int status,
-           @Param("keyword") String nickname
-   );
+    void setUserStatus(int accountNumber, int status);
+    void setUsersStatus(List<Integer> accountNumbers, int status);
 }

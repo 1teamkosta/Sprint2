@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
-
+@Transactional
 @SpringBootTest
 public class UserRepositoryTest {
     @Autowired
@@ -25,64 +25,113 @@ public class UserRepositoryTest {
 
     @Test
     void getUsers() {
-        List<User> users = userRepository.getUsers();
+        List<User> users = userRepository.getUsers(UserListQuery.builder().build());
+        Assertions.assertTrue(users.size() > 0);
     }
 
     @ParameterizedTest
-    @ValueSource(strings = {"관자", "굿", "김", "","ㅂ","1"})
-    void getUser_SearchByNickname(String keyword) {
-        if (keyword.isEmpty() || keyword == "")
-            Assertions.assertFalse(true);
-        List<User> users = userRepository.getUsersByNickname(keyword);
-        Assertions.assertTrue(users.size() > 0);}
+    @ValueSource(strings = {"여행가김씨", "여행가", "김"})
+    void getUsers_SearchByNickname(String keyword) {
+        List<User> users = userRepository.getUsers(
+                UserListQuery.builder()
+                        .searchBy("nickname")
+                        .keyword(keyword)
+                        .build()
+        );
+
+        Assertions.assertFalse(users.isEmpty());
+    }
 
     @ParameterizedTest
-    @ValueSource(ints={1,11111,0,-1})
+    @ValueSource(strings ={" ","ㅂ","1"})
+    void getUser_SearchByNickname_NotFoundUser(String keyword) {
+        List<User> users = userRepository.getUsers(
+                UserListQuery.builder()
+                        .searchBy("nickname")
+                        .keyword(keyword)
+                        .build()
+        );
+
+        Assertions.assertTrue(users.isEmpty());
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints={1,0})
     void getUser_FilterByStatus(int status){
         List<User> users = userRepository.getUsersByStatus(status);
         Assertions.assertTrue(users.size() > 0);
-
-    }
-    @Test
-    void 인기도_정렬(){
-        System.out.println(userRepository.sortUsersByPoopularity());
-    }
-    @Test
-    void 가입일_정렬(){
-        System.out.println(userRepository.sortUsersByInDate());
     }
 
     @ParameterizedTest
-    @ValueSource(ints={0,111212121,-1,4})
-    void getClubs_SearchByUser(int accountNumber){
+    @ValueSource(ints={11111,-1})
+    void getUser_FilterByStatus_typeError(int status){
+        List<User> users = userRepository.getUsersByStatus(status);
+        Assertions.assertTrue(users.size() == 0);
+    }
+
+    @ParameterizedTest
+    @ValueSource(ints={0,111212121,-1})
+    void getClubs_SearchByUser_NotFoundClub(int accountNumber){
         List<UserActivities> users = userRepository.getClubByUser(accountNumber);
-        Assertions.assertFalse(users.isEmpty());;}
+        Assertions.assertTrue(users.isEmpty());}
+
+    @Test
+    void getClubs_SearchByUser(){
+        List<UserActivities> users = userRepository.getClubByUser(1);
+        Assertions.assertTrue(users.size() > 0);
+    }
 
    @Test
-    void setStatus_Users()
-   {
-       Assertions.assertTrue(userRepository.setUsersStatus(List.of(2,4),Status.PUBLIC.getCode()));
+    void setStatus_Users(){
+        List<Integer> accountNumbers = List.of(2,4);
+        int expet = Status.PRIVATE.getCode();
+
+        userRepository.setUsersStatus(accountNumbers,expet);
+
+        for(int accountNumber : accountNumbers) {
+            Assertions.assertEquals(
+                    expet,
+                    userRepository.getUser(accountNumber).getStatus()
+            );
+        }
+   }
+
+   @Test
+   void getUserDetail(){
+        Assertions.assertNotNull(userRepository.getUser(1));
    }
 
     @ParameterizedTest
-    @ValueSource(ints={0,111212121,-1,3})
-    void getUserDetail회원상세조회(int accountNumber){
+    @ValueSource(ints={0,111212121,-1})
+    void getUserDetail_NotFound(int accountNumber){
         User user = userRepository.getUser(accountNumber);
-        Assertions.assertNotNull(user);
+        Assertions.assertNull(user);
     }
 
-    @Transactional
+    @Test
+    void  setUserStatus(){
+        userRepository.setUserStatus(4,Status.PRIVATE.getCode());
+        Assertions.assertEquals(Status.PRIVATE.getCode(),userRepository.getUser(4).getStatus());
+    }
+
     @ParameterizedTest
-    @ValueSource(ints={0,111212121,-1,4})
-    void SetUserStatus(int accountNumber){
+    @ValueSource(ints={0,111212121,-1})
+    void SetUserStatus_NotFoundUser(int accountNumber){
         userRepository.setUserStatus(accountNumber,0);
         User user = userRepository.getUser(accountNumber);
-
+        Assertions.assertNull(user);
     }
 
     @Test
     void getUsers_SearchByNickname_FilterByStatus(){
-        System.out.println(userRepository.getUsersByConditionAndNickname(0, ""));
+        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PRIVATE.getCode()).build()));
+        Assertions.assertTrue(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PRIVATE.getCode()).build()).size()>0);
+    }
+
+    @Test
+    void getUsers_SearchByNickname_FilterByStatus_NotFound(){
+        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PUBLIC.getCode()).build()));
+        Assertions.assertTrue(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PUBLIC.getCode()).build()).size()==0);
     }
 }
 
