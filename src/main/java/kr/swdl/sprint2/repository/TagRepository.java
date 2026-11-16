@@ -10,8 +10,8 @@ import java.util.List;
 @Mapper
 public interface TagRepository {
     int countTags(@Param("tagType")TagType tagType);
-    List<Tag> getTags (@Param("query") TagListQuery query);
-    Tag getTag (@Param("tagNumber") int tagNumber);
+    List<Tag> getTags(@Param("query") TagListQuery query);
+    Tag getTagDetail(@Param("tagNumber") int tagNumber);
     void addTag(@Param("tag") Tag tag);
     void setTag(@Param("tag") Tag tag);
 }

@@ -19,70 +19,68 @@ public class TagRepositoryTest {
     public void countByTagType() {
         Assertions.assertTrue(tagRepo.countTags(TagType.GENRE) > 0);
         Assertions.assertTrue(tagRepo.countTags(TagType.TARGET) > 0);
-
-        System.out.println("targeteCnt: " + tagRepo.countTags(TagType.TARGET));
     }
 
     @Test
     public void countTags() {
-        System.out.println("tagCnt: " + tagRepo.countTags(null));
+        tagRepo.countTags(null);
     }
 
     @Test
     public void getTags() {
-        tagRepo.getTags(TagListQuery.builder().build())
-                .forEach(tag -> System.out.println(tag));
-
-        tagRepo.getTags(null)
-                .forEach(tag -> System.out.println(tag));
+        tagRepo.getTags(TagListQuery.builder().build());
+        tagRepo.getTags(null);
     }
 
     @Test
     public void getTagsByStatus() {
-        tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).build())
-                .forEach(tag -> System.out.println(tag));
-
-        System.out.println("\n");
-
-        tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).build())
-                .forEach(tag -> System.out.println(tag));
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).build()).isEmpty());
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).build()).isEmpty());
+        Assertions.assertTrue(tagRepo.getTags(TagListQuery.builder().filterByStatus(124124).build()).isEmpty());
     }
 
     @Test
     public void getTagsByTagName() {
-        tagRepo.getTags(TagListQuery.builder().searchBy("tagName").keyword("체험").build())
-                .forEach(tag -> System.out.println(tag));
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().searchBy("tagName").keyword("체험").build()).isEmpty());
+//        Assertions.assertTrue(tagRepo.getTags(TagListQuery.builder().searchBy("xxxxxx").keyword("체험").build()).isEmpty());
+
+        System.out.println(tagRepo.getTags(TagListQuery.builder().searchBy("xxxxxx").keyword("가족").build()));
     }
 
     @Test
     public void getTagsByTagType() {
-        System.out.println("getGenreTag");
-        tagRepo.getTags(TagListQuery.builder().filterByTagType(TagType.GENRE.getCode()).build())
-                .forEach(tag -> System.out.println(tag));
-        System.out.println("getTargetTag");
-        tagRepo.getTags(TagListQuery.builder().filterByTagType(TagType.TARGET.getCode()).build())
-                .forEach(tag -> System.out.println(tag));
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByTagType(TagType.GENRE.getCode()).build()).isEmpty());
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByTagType(TagType.TARGET.getCode()).build()).isEmpty());
+        Assertions.assertTrue(tagRepo.getTags(TagListQuery.builder().filterByTagType(12345343).build()).isEmpty());
     }
 
     @Test
     public void getTags_SearchByTagName_FilterByStatus() {
-        tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
-                        .searchBy("tagName").keyword("데이트").build())
-                .forEach(tag -> System.out.println(tag));
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
+                .searchBy("tagName").keyword("음식").build()).isEmpty());
+
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PRIVATE.getCode())
+                .searchBy("tagName").keyword("체험").build()).isEmpty());
+
+        Assertions.assertTrue(tagRepo.getTags(TagListQuery.builder().filterByStatus(121321345)
+                .searchBy("tagName").keyword("xxxx").build()).isEmpty());
     }
 
     @Test
     public void getTags_SearchByTagName_FilterByStatusAndTagType() {
-        tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
-                        .filterByTagType(TagType.GENRE.getCode())
-                        .searchBy("tagName").keyword("축제").build())
-                .forEach(tag -> System.out.println(tag));
+        Assertions.assertFalse(tagRepo.getTags(TagListQuery.builder().filterByStatus(Status.PUBLIC.getCode())
+                .filterByTagType(TagType.GENRE.getCode())
+                .searchBy("tagName").keyword("축제").build()).isEmpty());
+
+        Assertions.assertTrue(tagRepo.getTags(TagListQuery.builder().filterByStatus(65654)
+                .filterByTagType(41321)
+                .searchBy("aaaaa").keyword("adfnhndf").build()).isEmpty());
     }
 
     @Test
-    public void getTag() {
-        System.out.println(tagRepo.getTag(11));
-        System.out.println(tagRepo.getTag(-1));
+    public void getTagDetail() {
+        Assertions.assertNotNull(tagRepo.getTagDetail(11));
+        Assertions.assertNull(tagRepo.getTagDetail(-1));
     }
 
     @Test
@@ -91,9 +89,6 @@ public class TagRepositoryTest {
         tagRepo.addTag(Tag.builder().status(Status.PUBLIC.getCode())
                 .tagName(name).tagType(TagType.GENRE.getCode())
                 .color("#FF0000").build());
-
-        System.out.println(tagRepo.getTags(TagListQuery.builder()
-                .searchBy("tagName").keyword(name).build()));
     }
 
     @Test
@@ -103,7 +98,5 @@ public class TagRepositoryTest {
                 .status(Status.PRIVATE.getCode()).tagName("updateTagName")
                 .tagType(TagType.TARGET.getCode()).color("#0000FF")
                 .contents("updateContents").build());
-
-        System.out.println(tagRepo.getTag(tagNum));
     }
 }

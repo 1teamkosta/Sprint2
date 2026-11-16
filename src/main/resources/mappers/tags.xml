@@ -26,7 +26,7 @@
             </where>
         </if>
     </select>
-    <select id="getTag" resultType="kr.swdl.sprint2.vo.Tag">
+    <select id="getTagDetail" resultType="kr.swdl.sprint2.vo.Tag">
         SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
         WHERE tag_number = #{tagNumber}
     </select>
