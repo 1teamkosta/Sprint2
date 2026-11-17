@@ -10,7 +10,7 @@ import java.util.List;
 @Mapper
 public interface UserRepository  {
     List<User> getUsers (@Param("query") UserListQuery query);
-    List<User> getUsersByNickname(String nickname);
+   // List<User> getUsersByNickname(String nickname);
     List<User> getUsersByStatus(int status);
     List<UserActivities> getClubByUser(int accountNumber);
     User getUser(int accountNumber);
