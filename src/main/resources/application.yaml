@@ -14,6 +14,8 @@ spring:
     url: jdbc:mariadb://211.108.241.157:51523/mydb?characterEncoding=UTF-8
     username: mydbid
     password: mydbpw
+  config:
+    import: classpath:constant.yaml
   #  datasource:
   #    driver-class-name: oracle.jdbc.OracleDriver
   #    url: jdbc:oracle:thin:@127.0.0.1:1521/xe
