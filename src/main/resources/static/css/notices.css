@@ -1,0 +1,54 @@
+/* 공지 관리. 색상과 공통 입력·버튼 스타일은 component.css에서 가져온다. */
+.notice-bulk-delete {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-bg: var(--admin-primary);
+    --bs-btn-border-color: var(--admin-primary);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-primary-active);
+    --bs-btn-hover-border-color: var(--admin-primary-active);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-sidebar-hover);
+    --bs-btn-active-border-color: var(--admin-sidebar-hover);
+}
+
+.notice-search {
+    width: 100%;
+    max-width: 440px;
+}
+.notice-search .form-control,
+.notice-search .btn { min-height: 42px; }
+.notice-search .btn { padding-inline: 22px; }
+
+.notice-table {
+    width: 100%;
+    table-layout: fixed;
+}
+.notice-column-select { width: 48px; }
+.notice-column-number { width: 10%; }
+.notice-column-title { width: auto; }
+.notice-column-date { width: 180px; }
+.notice-table th,
+.notice-table td { padding: 18px 12px; }
+.notice-table thead th { font-size: 0.875rem; white-space: nowrap; }
+.notice-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.notice-table time { white-space: nowrap; }
+
+@media (max-width: 575.98px) {
+    .notice-column-select { width: 36px; }
+    .notice-column-number { width: 44px; }
+    .notice-column-date { width: 112px; }
+    .notice-table .list-selection-column { min-width: 0; }
+    .notice-table th, .notice-table td { padding: 14px 4px; }
+    .notice-table time { font-size: 0.75rem; }
+}
+
+.notice-title .list-detail-link {
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

@@ -1,0 +1,40 @@
+/* 공지 상세. 버튼과 본문 색상은 공통 테마를 사용한다. */
+.notice-detail-action {
+    min-height: 40px;
+    padding-inline: 16px;
+}
+.notice-detail-delete {
+    --bs-btn-color: var(--admin-sidebar-text);
+    --bs-btn-bg: var(--admin-sidebar-bg);
+    --bs-btn-border-color: var(--admin-sidebar-bg);
+    --bs-btn-hover-color: var(--admin-sidebar-text);
+    --bs-btn-hover-bg: var(--admin-sidebar-hover);
+    --bs-btn-hover-border-color: var(--admin-sidebar-hover);
+    --bs-btn-active-color: var(--admin-sidebar-text);
+    --bs-btn-active-bg: var(--admin-sidebar-hover);
+    --bs-btn-active-border-color: var(--admin-sidebar-hover);
+}
+.notice-detail-card {
+    min-height: 580px;
+    padding: 45px;
+    border: 1px solid var(--admin-border);
+    border-radius: 12px;
+    background: var(--admin-surface);
+}
+.notice-detail-heading {
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--admin-border);
+}
+#notice-detail-title {
+    margin-bottom: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+.notice-detail-date { margin: 0; color: var(--admin-muted); font-size: 0.875rem; }
+.notice-detail-content { padding-top: 24px; line-height: 1.9; overflow-wrap: anywhere; }
+.notice-detail-content p { margin: 0 0 20px; }
+.notice-detail-content p:last-child { margin-bottom: 0; }
+@media (max-width: 575.98px) {
+    .notice-detail-card { min-height: 440px; padding: 24px 20px; }
+    .notice-detail-action { padding-inline: 12px; }
+}
