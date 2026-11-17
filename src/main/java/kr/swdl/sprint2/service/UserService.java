@@ -4,14 +4,11 @@ import kr.swdl.sprint2.repository.UserListQuery;
 import kr.swdl.sprint2.repository.UserRepository;
 import kr.swdl.sprint2.vo.User;
 import kr.swdl.sprint2.vo.UserActivities;
-
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-@Service
 @RequiredArgsConstructor
 public class UserService {
 
