@@ -10,7 +10,7 @@ import java.util.function.Supplier;
 
 @RequiredArgsConstructor
 public class Pagination {
-    public static <T> List<T> setPage(int page, int pageSize, String sortType, String sortDir, Supplier<List<T>> list) {
+    public static <T> List<T> execute(int page, int pageSize, String sortType, String sortDir, Supplier<List<T>> list) {
         PageHelper.startPage(page, pageSize);
         PageHelper.orderBy(sortType + " " + sortDir);
 
