@@ -20,6 +20,10 @@ public class FestivalsService {
     @Autowired
     private FestivalsRepository festivalsRepository;
 
+    public void get(FestivalListQuery request){
+        festivalsRepository.getFestivals(request);
+    }
+
     public List<Festival> getFestivals(FestivalListQuery festivalListQuery){
         return festivalsRepository.getFestivals(festivalListQuery);
     }

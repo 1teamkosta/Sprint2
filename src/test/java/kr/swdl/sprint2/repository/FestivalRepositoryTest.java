@@ -24,7 +24,7 @@ public class FestivalRepositoryTest {
     @Test
     void getFestivals() {
         Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().build()).size() > 0);
-//        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
+        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
     }
 
     @Test

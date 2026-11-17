@@ -27,7 +27,8 @@ public class FestivalServiceTest {
     void getFestivals(){
         Assertions.assertTrue(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").build()).size() > 0);
         Assertions.assertTrue(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByStatus(Status.PUBLIC.getCode()).filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
-//        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").build()));
+        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").build()));
+        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().build()));
     }
 
     @Test
