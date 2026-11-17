@@ -28,3 +28,5 @@ app:
   user-status:
     banned: 0
     active: 1
+  pagination:
+    page-size: 10
