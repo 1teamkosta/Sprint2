@@ -1,7 +1,8 @@
 package kr.swdl.sprint2.repository;
 
-import kr.swdl.sprint2.global.enums.Purpose;
-import kr.swdl.sprint2.global.enums.Status;
+
+import kr.swdl.sprint2.service.properties.Purpose;
+import kr.swdl.sprint2.service.properties.Status;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,10 @@ import java.util.List;
 public class ClubRepositoryTest {
     @Autowired
     private ClubRepository clubRepository;
+    @Autowired
+    Status status;
+    @Autowired
+    Purpose purpose;
 
 
     //모임상세
@@ -43,26 +48,26 @@ public class ClubRepositoryTest {
     //모임 상태변경
     @Test
     void clubStateChangePublic(){
-        clubRepository.setClubStatus(1,Status.PUBLIC.getCode());
-        Assertions.assertEquals(Status.PUBLIC.getCode(),clubRepository.getClubDetail(1).getStatus());
+        clubRepository.setClubStatus(1,status.visible());
+        Assertions.assertEquals(status.visible(),clubRepository.getClubDetail(1).getStatus());
     }
 
     @Test
     void clubStateChangePrivate(){
-       clubRepository.setClubStatus(2,Status.PRIVATE.getCode());
-       Assertions.assertEquals(Status.PRIVATE.getCode(),clubRepository.getClubDetail(2).getStatus());
+       clubRepository.setClubStatus(2,status.hidden());
+       Assertions.assertEquals(status.hidden(),clubRepository.getClubDetail(2).getStatus());
     }
 
     @Test
     void clubsStateChangePublic(){
         List<Integer> clubNumbers = List.of(2, 4);
-        int expectedStatus = Status.PUBLIC.getCode();
+        int expectedstatus = status.visible();
 
-        clubRepository.setClubsStatus(clubNumbers, expectedStatus);
+        clubRepository.setClubsStatus(clubNumbers, expectedstatus);
 
         for (int clubNumber : clubNumbers) {
             Assertions.assertEquals(
-                    expectedStatus,
+                    expectedstatus,
                     clubRepository.getClubDetail(clubNumber).getStatus()
             );
         }
@@ -71,13 +76,13 @@ public class ClubRepositoryTest {
     @Test
     void clubsStateChangePrivate(){
         List<Integer> clubNumbers = List.of(1,3,8);
-        int expectedStatus = Status.PRIVATE.getCode();
+        int expectedstatus = status.hidden();
 
-        clubRepository.setClubsStatus(clubNumbers, expectedStatus);
+        clubRepository.setClubsStatus(clubNumbers, expectedstatus);
 
         for (int clubNumber : clubNumbers) {
             Assertions.assertEquals(
-                    expectedStatus,
+                    expectedstatus,
                     clubRepository.getClubDetail(clubNumber).getStatus()
             );
         }
@@ -91,22 +96,22 @@ public class ClubRepositoryTest {
 
     @Test
     void getClubs_FilterByPublic(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByPrivate(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose(Purpose.FOOD.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose(purpose.food()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose(Purpose.FESTIVAL.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByPurpose(purpose.festival()).build()).size()>0);
     }
 
     @Test
@@ -141,82 +146,82 @@ public class ClubRepositoryTest {
 
     @Test
     void getClubs_FilterByPublicAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.food()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByPublicAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.festival()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByPrivateAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.food()).build()).size()>0);
     }
 
     @Test
     void getClubs_FilterByPrivateAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.festival()).build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByClubName_FilterByPublicAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("clubName").keyword("즐거운").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.food()).searchBy("clubName").keyword("즐거운").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByClubName_FilterByPublicAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("clubName").keyword("맛있는").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.festival()).searchBy("clubName").keyword("맛있는").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByClubName_FilterByPrivateAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("clubName").keyword("신나는").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.food()).searchBy("clubName").keyword("신나는").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByClubName_FilterByPrivateAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("clubName").keyword("힐링").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.festival()).searchBy("clubName").keyword("힐링").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByFestivalName_FilterByPublicAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("festivalName").keyword("공연").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.food()).searchBy("festivalName").keyword("공연").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByFestivalName_FilterByPublicAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("festivalName").keyword("광화문").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.festival()).searchBy("festivalName").keyword("광화문").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByFestivalName_FilterByPrivateAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("festivalName").keyword("감악산").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.food()).searchBy("festivalName").keyword("감악산").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByFestivalName_FilterByPrivateAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("festivalName").keyword("감악산").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.festival()).searchBy("festivalName").keyword("감악산").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByNickname_FilterByPublicAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("nickname").keyword("축제요정").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.food()).searchBy("nickname").keyword("축제요정").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByNickname_FilterByPublicAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("nickname").keyword("사진작가최").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.visible()).filterByPurpose(purpose.festival()).searchBy("nickname").keyword("사진작가최").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByNickname_FilterByPrivateAndFood(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FOOD.getLabel()).searchBy("nickname").keyword("문화인").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.food()).searchBy("nickname").keyword("문화인").build()).size()>0);
     }
 
     @Test
     void getClubs_SearchByNickname_FilterByPrivateAndFestival(){
-        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).filterByPurpose(Purpose.FESTIVAL.getLabel()).searchBy("nickname").keyword("드론러버").build()).size()>0);
+        Assertions.assertTrue(clubRepository.getClubs(ClubListQuery.builder().filterByStatus(status.hidden()).filterByPurpose(purpose.festival()).searchBy("nickname").keyword("드론러버").build()).size()>0);
     }
 
 

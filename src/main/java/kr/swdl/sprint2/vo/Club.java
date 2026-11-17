@@ -15,6 +15,7 @@ public class Club {
     private int clubNumber;
     private String clubName;
     private String purpose;
+    private Timestamp meetingDate;
     private Timestamp createdAt;
     private int status;
     private String contents;

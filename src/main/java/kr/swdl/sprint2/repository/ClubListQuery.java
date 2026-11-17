@@ -6,6 +6,6 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 @ToString
 public class ClubListQuery extends ListQuery{
-    private Integer filterByStatus;
+    private int filterByStatus;
     private String filterByPurpose;
 }
