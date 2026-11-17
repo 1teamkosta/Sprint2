@@ -2,7 +2,6 @@ package kr.swdl.sprint2.service.pagination;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import kr.swdl.sprint2.service.properties.PageProperties;
 import lombok.RequiredArgsConstructor;
 
 import java.util.List;

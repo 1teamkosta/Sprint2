@@ -11,7 +11,7 @@
         </where>
     </select>
     <select id="getTags" resultType="kr.swdl.sprint2.vo.Tag">
-        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        SELECT tag_number, status, tag_name, contents, color, festival_count FROM tags
         <if test="query != null">
             <where>
                 <if test="query.filterByStatus != null">
@@ -20,10 +20,13 @@
                 <if test="query.filterByTagType != null">
                     AND tag_type = #{query.filterByTagType}
                 </if>
-                <choose>
-                    <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
-                    <otherwise>AND 1 = 0</otherwise>
-                </choose>
+
+                <if test="query.searchBy != null">
+                    <choose>
+                        <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
+                        <otherwise>AND 1 = 0</otherwise>
+                    </choose>
+                </if>
             </where>
         </if>
     </select>
