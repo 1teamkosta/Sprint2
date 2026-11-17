@@ -1,8 +1,7 @@
 package kr.swdl.sprint2.repository;
-
-import kr.swdl.sprint2.global.enums.FestivalProgressStatus;
-import kr.swdl.sprint2.global.enums.Reiview;
-import kr.swdl.sprint2.global.enums.Status;
+import kr.swdl.sprint2.service.properties.ProgressStatus;
+import kr.swdl.sprint2.service.properties.Review;
+import kr.swdl.sprint2.service.properties.Status;
 import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
 import org.junit.jupiter.api.Assertions;
@@ -20,6 +19,12 @@ import java.util.Date;
 public class FestivalRepositoryTest {
     @Autowired
     private FestivalsRepository festivalsRepository;
+    @Autowired
+    private Status status;
+    @Autowired
+    private ProgressStatus progressStatus;
+    @Autowired
+    private Review review;
 
     @Test
     void getFestivals() {
@@ -36,18 +41,18 @@ public class FestivalRepositoryTest {
 
     @Test
     void getFestivals_SearchByName_FilterByStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByStatus(Status.PRIVATE.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByStatus(Status.PUBLIC.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByStatus(status.hidden()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByStatus(status.visible()).build()).size() > 0);
     }
     @Test
     void getFestivals_SearchByName_FilterByProgressStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByProgressStatus(progressStatus.closed()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByProgressStatus(progressStatus.closed()).build()).size() > 0);
     }
     @Test
     void getFestivals_SearchByName_FilterByStatusAndProgressStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByStatus(Status.PRIVATE.getCode()).filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByStatus(Status.PUBLIC.getCode()).filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").filterByStatus(status.hidden()).filterByProgressStatus(progressStatus.closed()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").filterByStatus(status.visible()).filterByProgressStatus(progressStatus.closed()).build()).size() > 0);
     }
 
     @Test
@@ -59,32 +64,32 @@ public class FestivalRepositoryTest {
 
     @Test
     void getFestivals_SearchByMainTag_FilterByStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByStatus(Status.PRIVATE.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByStatus(Status.PUBLIC.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByStatus(status.hidden()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByStatus(status.visible()).build()).size() > 0);
     }
     @Test
     void getFestivals_SearchByMainTag_FilterByProgressStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByProgressStatus(progressStatus.closed()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByProgressStatus(progressStatus.closed()).build()).size() > 0);
     }
     @Test
     void getFestivals_SearchByMainTag_FilterByStatusAndProgressStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByStatus(Status.PRIVATE.getCode()).filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() == 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByStatus(Status.PUBLIC.getCode()).filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").filterByStatus(status.hidden()).filterByProgressStatus(progressStatus.closed()).build()).size() == 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").filterByStatus(status.visible()).filterByProgressStatus(progressStatus.closed()).build()).size() > 0);
     }
     @Test
     void getFestival_FilterByStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(Status.PRIVATE.getCode()).build()).size() > 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(status.hidden()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(status.visible()).build()).size() > 0);
         Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(777).build()).size() == 0);
 //        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByStatus(Status.PUBLIC.getCode()).build()));
     }
 
     @Test
     void getFestival_FilterByProgressStatus(){
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(FestivalProgressStatus.PROGRESS.getCode()).build()).size() > 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()).size() > 0);
-        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(FestivalProgressStatus.UPCOMING.getCode()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(progressStatus.closed()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(progressStatus.progress()).build()).size() > 0);
+        Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(progressStatus.upcomming()).build()).size() > 0);
         Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(777).build()).size() == 0);
 //        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().filterByProgressStatus(FestivalProgressStatus.CLOSED.getCode()).build()));
     }
@@ -112,8 +117,8 @@ public class FestivalRepositoryTest {
 
     @Test
     void countByFestivalReview(){
-        Assertions.assertTrue(festivalsRepository.countByFestivalReview(141105, Reiview.LIKE.getCode()) > 0);
-        Assertions.assertTrue(festivalsRepository.countByFestivalReview(141105,Reiview.DISLIKE.getCode()) > 0);
+        Assertions.assertTrue(festivalsRepository.countByFestivalReview(141105, review.like()) > 0);
+        Assertions.assertTrue(festivalsRepository.countByFestivalReview(141105, review.dislike()) > 0);
         Assertions.assertTrue(festivalsRepository.countByFestivalReview(777,777) == 0);
 //        System.out.println(festivalsRepository.countByFestivalReview(141105,Reiview.LIKE.getCode()));
 //        System.out.println(festivalsRepository.countByFestivalReview(141105,Reiview.DISLIKE.getCode()));
@@ -130,13 +135,13 @@ public class FestivalRepositoryTest {
         Date sd = sdf.parse(startDate);
         Date ed = sdf.parse(endDate);
 
-        int progressStatus;
+        int proStatus;
 
         if(now.before(sd)){
-            progressStatus=FestivalProgressStatus.UPCOMING.getCode();
+            proStatus= progressStatus.upcomming();
         }else if (now.after(ed)){
-            progressStatus=FestivalProgressStatus.CLOSED.getCode();
-        }else progressStatus = FestivalProgressStatus.PROGRESS.getCode();
+            proStatus= progressStatus.closed();
+        }else proStatus = progressStatus.progress();
 
         festivalsRepository.addFestival(Festival.builder()
                 .festivalName("test3")
@@ -145,7 +150,7 @@ public class FestivalRepositoryTest {
                 .address("testAddress")
                 .contents("testContents")
                 .imageUrl("testImageUrl")
-                .progressStatus(progressStatus).build());
+                .progressStatus(proStatus).build());
         System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("test3").build()));
     }
 

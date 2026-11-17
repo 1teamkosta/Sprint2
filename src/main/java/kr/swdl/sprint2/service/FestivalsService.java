@@ -1,11 +1,12 @@
 package kr.swdl.sprint2.service;
-
-import kr.swdl.sprint2.global.enums.FestivalProgressStatus;
-import kr.swdl.sprint2.global.enums.Reiview;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.repository.FestivalsRepository;
+import kr.swdl.sprint2.service.properties.ProgressStatus;
+import kr.swdl.sprint2.service.properties.Review;
+import kr.swdl.sprint2.service.properties.Status;
 import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,9 +17,12 @@ import java.util.Date;
 import java.util.List;
 
 @Service
+@RequiredArgsConstructor
 public class FestivalsService {
-    @Autowired
-    private FestivalsRepository festivalsRepository;
+    private final FestivalsRepository festivalsRepository;
+    private final Status status;
+    private final ProgressStatus progressStatus;
+    private final Review review;
 
     public void get(FestivalListQuery request){
         festivalsRepository.getFestivals(request);
@@ -36,8 +40,8 @@ public class FestivalsService {
         return festival.setFestivalLikes(festivalsRepository.countByFestivalLikes(festivalNumber))
                 .setMainTag(festivalsRepository.getMainTag(festivalNumber))
                 .setAddTag(festivalsRepository.getAddTag(festivalNumber))
-                .setFestivalReviewLike(festivalsRepository.countByFestivalReview(festivalNumber, Reiview.LIKE.getCode()))
-                .setFestivalReviewDislike(festivalsRepository.countByFestivalReview(festivalNumber, Reiview.DISLIKE.getCode()));
+                .setFestivalReviewLike(festivalsRepository.countByFestivalReview(festivalNumber, review.like()))
+                .setFestivalReviewDislike(festivalsRepository.countByFestivalReview(festivalNumber, review.dislike()));
     }
 
     @Transactional(rollbackFor = Exception.class)
@@ -47,10 +51,10 @@ public class FestivalsService {
         Date now = new Date();
 
         if(now.before(sdf.parse(festival.getStartDate()))){
-            festival.setProgressStatus(FestivalProgressStatus.UPCOMING.getCode());
+            festival.setProgressStatus(progressStatus.upcomming());
         }else if (now.after(sdf.parse(festival.getEndDate()))){
-            festival.setProgressStatus(FestivalProgressStatus.CLOSED.getCode());
-        }else festival.setProgressStatus(FestivalProgressStatus.PROGRESS.getCode());
+            festival.setProgressStatus(progressStatus.closed());
+        }else festival.setProgressStatus(progressStatus.progress());
 
         festivalsRepository.addFestival(festival);
 
