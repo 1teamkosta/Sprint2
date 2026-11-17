@@ -3,20 +3,17 @@ package kr.swdl.sprint2.repository;
 
 import kr.swdl.sprint2.global.enums.Status;
 import kr.swdl.sprint2.vo.User;
-import kr.swdl.sprint2.vo.UserActivities;
-import org.jspecify.annotations.NonNull;
+import kr.swdl.sprint2.vo.UserActivity;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
+
 @Transactional
 @SpringBootTest
 public class UserRepositoryTest {
@@ -72,12 +69,12 @@ public class UserRepositoryTest {
     @ParameterizedTest
     @ValueSource(ints={0,111212121,-1})
     void getClubs_SearchByUser_NotFoundClub(int accountNumber){
-        List<UserActivities> users = userRepository.getClubByUser(accountNumber);
+        List<UserActivity> users = userRepository.getClubByUser(accountNumber);
         Assertions.assertTrue(users.isEmpty());}
 
     @Test
     void getClubs_SearchByUser(){
-        List<UserActivities> users = userRepository.getClubByUser(1);
+        List<UserActivity> users = userRepository.getClubByUser(1);
         Assertions.assertTrue(users.size() > 0);
     }
 

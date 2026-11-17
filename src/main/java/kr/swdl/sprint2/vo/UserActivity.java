@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserActivities {
+public class UserActivity {
     private int attendeeCount;
     private int clubNumber;
     private String clubName;

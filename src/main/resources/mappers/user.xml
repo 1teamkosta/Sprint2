@@ -50,7 +50,7 @@
         FROM accounts
         WHERE account_number = #{accountNumber};
     </select>
-    <select id="getClubByUser" resultType="kr.swdl.sprint2.vo.UserActivities">
+    <select id="getClubByUser" resultType="kr.swdl.sprint2.vo.UserActivity">
         SELECT
             (SELECT COUNT(ATTENDEE_ID) FROM attendees at WHERE a.account_number = at.account_number) AS COUNT,
             c.club_number,

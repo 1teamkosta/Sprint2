@@ -8,7 +8,6 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
 public class Festival {
     private int festivalNumber;
     private int status;

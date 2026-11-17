@@ -2,9 +2,7 @@ package kr.swdl.sprint2.vo;
 
 import lombok.*;
 
-@Setter
-@Getter
-@ToString
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
