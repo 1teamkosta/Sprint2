@@ -2,6 +2,7 @@ package kr.swdl.sprint2.service;
 
 import kr.swdl.sprint2.repository.UserListQuery;
 import kr.swdl.sprint2.repository.UserRepository;
+import kr.swdl.sprint2.service.pagination.Pagination;
 import kr.swdl.sprint2.vo.User;
 import kr.swdl.sprint2.vo.UserActivities;
 import lombok.RequiredArgsConstructor;
@@ -9,14 +10,30 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
 
-    public List<User> getUsers(UserListQuery query) {
-        return userRepository.getUsers(query);
+    public List<User> getUsers(UserListQuery query)
+    {
+        String sortType = switch (sort == null ? "" : sort) {
+            case "popularity" -> "popularity";
+            case "inDate" -> "in_date";
+            default -> "account_Number";
+        };
+        return Pagination.setPage(
+                page,
+                pageSize,
+                sortType,
+                direction,
+                () -> userRepository.getUsers(query)
+        );
+
     }
+
+
 
     public User getUser(int accountNumber) {
         return userRepository.getUser(accountNumber);
