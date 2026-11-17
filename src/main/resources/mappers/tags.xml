@@ -6,7 +6,7 @@
         select COUNT(tag_number) tagCount FROM tags
         <where>
             <if test="tagType != null">
-                tag_type = #{tagType.code}
+                tag_type = #{tagType}
             </if>
         </where>
     </select>
@@ -22,6 +22,7 @@
                 </if>
                 <choose>
                     <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
+                    <otherwise>AND 1 = 0</otherwise>
                 </choose>
             </where>
         </if>
