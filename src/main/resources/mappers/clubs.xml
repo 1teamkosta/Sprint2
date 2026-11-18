@@ -24,18 +24,15 @@
                     <when test="query.searchBy == 'clubName'">
                         AND c.club_name LIKE CONCAT('%', #{query.keyword}, '%')
                     </when>
-                </choose>
 
-                <choose>
                     <when test="query.searchBy == 'festivalName'">
                         AND f.festival_name LIKE CONCAT('%', #{query.keyword}, '%')
                     </when>
-                </choose>
 
-                <choose>
                     <when test="query.searchBy == 'nickname'">
                         AND a.nickname LIKE CONCAT('%', #{query.keyword}, '%')
                     </when>
+                    <otherwise>AND 1 = 0</otherwise>
                 </choose>
             </if>
 

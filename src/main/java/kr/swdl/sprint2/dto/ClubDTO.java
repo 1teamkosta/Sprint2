@@ -19,5 +19,4 @@ public class ClubDTO {
     private String clubName;
     private String purpose;
     private Timestamp createdAt;
-    private String nickname;
 }

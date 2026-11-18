@@ -6,6 +6,7 @@ import kr.swdl.sprint2.dto.ClubDetailDTO;
 import kr.swdl.sprint2.repository.ClubListQuery;
 import kr.swdl.sprint2.repository.ClubRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
+import kr.swdl.sprint2.service.properties.PageProperties;
 import kr.swdl.sprint2.vo.Attendee;
 import kr.swdl.sprint2.vo.Club;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ClubService {
     private final ClubRepository clubRepository;
+    private final PageProperties pageProperties;
 
     //모임 상세 조회
     public ClubDetailDTO getClubDetail(int clubNumber) {
@@ -97,11 +99,44 @@ public class ClubService {
 
 
     //모임 목록 조회
-//    public List<ClubDTO> getClubs(ClubListQuery query) {
-//        List<ClubDTO> list = new ArrayList<>()
-//
-//        return list;
-//    }
+    public List<ClubDTO> getClubs(ClubListQuery query) {
+        List<ClubDTO> list = new ArrayList<>();
+        if (query.getSortDirection() == null)
+            query.setSortDirection("DESC");
+
+        if (query.getPage() == null)
+            query.setPage(1);
+
+
+        if ((query.getSortType() == null ? "" : query.getSortType()).equals("createdAt")) {
+            query.setSortType("createdAt");
+        } else {
+            query.setSortType("clubNumber");
+        }
+
+        List<Club> clubs = Pagination.execute(
+                    query.getPage(),
+                    pageProperties.pageSize(),
+                    query.getSortType(),
+                    query.getSortDirection(),
+                    ()-> clubRepository.getClubs(query)
+        );
+
+        for(Club club: clubs){
+            list.add(
+                ClubDTO.builder()
+                .clubNumber(club.getClubNumber())
+                .status(club.getStatus())
+                .clubName(club.getClubName())
+                .createdAt(club.getCreatedAt())
+                .festivalNumber(club.getFestivalNumber())
+                .festivalName(club.getFestivalName())
+                .purpose(club.getPurpose())
+                .build());
+        };
+
+        return list;
+    }
 
 
 }
