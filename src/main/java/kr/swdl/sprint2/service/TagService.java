@@ -1,0 +1,76 @@
+package kr.swdl.sprint2.service;
+
+import kr.swdl.sprint2.dto.TagDTO;
+import kr.swdl.sprint2.dto.TagDetaiDTO;
+import kr.swdl.sprint2.repository.TagListQuery;
+import kr.swdl.sprint2.repository.TagRepository;
+import kr.swdl.sprint2.service.pagination.Pagination;
+import kr.swdl.sprint2.service.properties.PageProperties;
+import kr.swdl.sprint2.vo.Tag;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class TagService {
+    private final TagRepository repo;
+    private final PageProperties pageProperties;
+
+    public List<TagDTO> getTags(TagListQuery request) {
+        List<TagDTO> list = new ArrayList<>();
+
+        if (request.getPage() == null)
+            request.setPage(1);
+
+        if (request.getSortDirection() == null)
+            request.setSortDirection("DESC");
+
+        switch (request.getSortType() == null ? "" :  request.getSortType()) {
+            case "festivalCount":
+                request.setSortType("festival_count");
+                break;
+            default:
+                request.setSortType("tag_number");
+                break;
+        }
+
+        Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
+                () -> repo.getTags(request)).forEach((tag) -> {
+                    list.add(TagDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+                            .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                            .status(tag.getStatus()).build());
+        });
+
+        return list;
+    }
+
+    public TagDetaiDTO getTagDetail(int tagNumber) {
+        Tag tag = repo.getTagDetail(tagNumber);
+
+        if (tag == null)
+            return null;
+
+        return TagDetaiDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .status(tag.getStatus()).tagType(tag.getTagType()).build();
+    }
+
+    public int countTags(Integer tagType) {
+        return repo.countTags(tagType);
+    }
+
+    public void addTag(TagDetaiDTO tag) {
+        repo.addTag(Tag.builder().tagName(tag.getTagName())
+                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .status(tag.getStatus()).tagType(tag.getTagType()).build());
+    }
+
+    public void setTag(TagDetaiDTO tag) {
+        repo.setTag(Tag.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .status(tag.getStatus()).tagType(tag.getTagType()).build());
+    }
+}

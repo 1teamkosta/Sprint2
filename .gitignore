@@ -31,3 +31,14 @@ build/
 
 ### VS Code ###
 .vscode/
+
+### mac ###
+.DS_Store
+*.DS_Store
+.DS_Store
+src/.DS_Store
+src/main/.DS_Store
+src/main/java/.DS_Store
+src/main/java/kr/.DS_Store
+src/main/java/kr/swdl/.DS_Store
+.DS_Store
