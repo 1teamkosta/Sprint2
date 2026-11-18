@@ -121,17 +121,19 @@ public class FestivalsService {
 
     @Transactional(rollbackFor = Exception.class)
     public void setFestival(Festival festival){
-        festivalsRepository.setFestival(festival);
-        festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), false);
-        festivalsRepository.delAddTags(festival.getFestivalNumber());
+        if (festivalsRepository.getFestival(festival.getFestivalNumber()) != null) {
+            festivalsRepository.setFestival(festival);
+            festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), false);
+            festivalsRepository.delAddTags(festival.getFestivalNumber());
 
-        festivalsRepository.addAddTag(AddTag.builder().isMain(1).festivalNumber(festival.getFestivalNumber()).tagNumber(Integer.parseInt(festival.getMainTag())).build());
-        if (festival.getAddTag() != null){
-            for(String str : festival.getAddTag()){
-                festivalsRepository.addAddTag(AddTag.builder().isMain(0).festivalNumber(festival.getFestivalNumber()).tagNumber(Integer.parseInt(str)).build());
+            festivalsRepository.addAddTag(AddTag.builder().isMain(1).festivalNumber(festival.getFestivalNumber()).tagNumber(Integer.parseInt(festival.getMainTag())).build());
+            if (festival.getAddTag() != null) {
+                for (String str : festival.getAddTag()) {
+                    festivalsRepository.addAddTag(AddTag.builder().isMain(0).festivalNumber(festival.getFestivalNumber()).tagNumber(Integer.parseInt(str)).build());
+                }
             }
+            festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), true);
         }
-        festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), true);
     }
 
     public void setFestivalStatus(int festivalNumber){
