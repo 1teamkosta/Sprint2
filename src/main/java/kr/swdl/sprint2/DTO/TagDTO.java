@@ -1,8 +1,9 @@
-package kr.swdl.sprint2.DTO;
+package kr.swdl.sprint2.dto;
 
-import lombok.Data;
+import lombok.Builder;
+import lombok.Getter;
 
-@Data
+@Builder
 public class TagDTO {
     private int tagNumber;
     private String tagName;
@@ -10,5 +11,4 @@ public class TagDTO {
     private String color;
     private int festivalCount;
     private int status;
-    private int tagType;
 }
