@@ -1,0 +1,32 @@
+app:
+  account-role:
+    admin:
+      authority: "ROLE_ADMIN"
+      code: 0
+    user:
+      authority: "ROLE_USER"
+      code: 1
+  attendee-role:
+    host: 0
+    guest: 1
+  progress-status:
+    closed: 0
+    progress: 1
+    upcomming: 2
+  purpose:
+    festival: "축제메이트"
+    food: "음식메이트"
+  review:
+    dislike: 0
+    like: 1
+  status:
+    hidden: 0
+    visible: 1
+  tag-type:
+    genre: 0
+    target: 1
+  user-status:
+    banned: 0
+    active: 1
+  pagination:
+    page-size: 10
