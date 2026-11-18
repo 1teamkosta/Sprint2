@@ -5,7 +5,7 @@ import lombok.ToString;
 
 @Builder
 @ToString
-public class WorstUser {
+public class WorstUserDTO {
     private int accountNumber;
     private String nickname;
     private int popularity;

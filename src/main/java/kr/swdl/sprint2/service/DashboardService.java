@@ -1,7 +1,7 @@
 package kr.swdl.sprint2.service;
 
 import kr.swdl.sprint2.dto.RecentFestivalDTO;
-import kr.swdl.sprint2.dto.WorstUser;
+import kr.swdl.sprint2.dto.WorstUserDTO;
 import kr.swdl.sprint2.repository.DashboardRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -77,11 +77,11 @@ public class DashboardService {
         return repo.getTop5PopularInterest();
     }
 
-    public List<WorstUser> getBottom5ByPopularity() {
-        List<WorstUser> list = new ArrayList<>();
+    public List<WorstUserDTO> getBottom5ByPopularity() {
+        List<WorstUserDTO> list = new ArrayList<>();
 
         repo.getBottom5ByPopularity().forEach(u -> {
-            list.add(WorstUser.builder().accountNumber(u.getAccountNumber())
+            list.add(WorstUserDTO.builder().accountNumber(u.getAccountNumber())
                     .nickname(u.getNickname()).popularity(u.getPopularity()).build());
         });
 
