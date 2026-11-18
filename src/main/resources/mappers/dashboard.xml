@@ -19,11 +19,12 @@
     <select id="getRecentFestival" resultType="kr.swdl.sprint2.vo.Festival">
         SELECT FESTIVAL_NUMBER, FESTIVAL_NAME, ADDRESS, START_DATE, END_DATE, PROGRESS_STATUS
         FROM festivals
+        ORDER BY festival_number DESC
         LIMIT 3;
     </select>
 
     <select id="getGenreTagDistribution" resultType="map">
-        SELECT t.tag_name AS tagName,
+        SELECT t.tag_name AS tagName, t.color,
             ROUND(
                     COUNT(adt.festival_number) * 100.0 / (SELECT COUNT(add_tag_number) FROM add_tags),
                     0
@@ -35,28 +36,28 @@
         LIMIT 4;
     </select>
 
-    <select id="countByTags" resultType="int">
+    <select id="countByTag" resultType="int">
         SELECT COUNT(TAG_NUMBER)
         FROM TAGS;
     </select>
 
-    <select id="countByFestivalReviews" resultType="int">
+    <select id="countByFestivalReview" resultType="int">
         SELECT COUNT(REVIEW_NUMBER)
         FROM festival_reviews;
     </select>
 
-    <select id="countByClubs" resultType="int">
+    <select id="countByAttendee" resultType="int">
         SELECT COUNT(ATTENDEE_ID)
         FROM attendees;
     </select>
 
-    <select id="countByLikedFestivals" resultType="int">
+    <select id="countByLikedFestival" resultType="int">
         SELECT COUNT(FESTIVAL_LIKE_NUMBER)
         FROM festival_likes;
     </select>
 
-    <select id="getTop5PopularInterests" resultType="map">
-        SELECT T.TAG_NUMBER AS tagNumber, T.TAG_NAME AS tagName, COUNT(DISTINCT C.ACCOUNT_NUMBER) AS count
+    <select id="getTop5PopularInterest" resultType="map">
+        SELECT T.TAG_NUMBER AS tagNumber, T.TAG_NAME AS tagName, T.color, COUNT(DISTINCT C.ACCOUNT_NUMBER) AS count
         FROM tags T
         JOIN choice_tags C ON T.TAG_NUMBER = C.TAG_NUMBER
         GROUP BY T.TAG_NAME

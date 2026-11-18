@@ -13,11 +13,11 @@ public interface DashboardRepository {
     int countByUser();
     int countByTodayNewUser();
     List<Festival> getRecentFestival();
-    List<Map> getGenreTagDistribution();
-    int countByTags();
-    int countByFestivalReviews();
-    int countByClubs();
-    int countByLikedFestivals();
-    List<Map> getTop5PopularInterests();
+    List<Map<String, Object>> getGenreTagDistribution();
+    int countByTag();
+    int countByFestivalReview();
+    int countByAttendee();
+    int countByLikedFestival();
+    List<Map<String, Object>> getTop5PopularInterest();
     List<User> getBottom5ByPopularity();
 }
