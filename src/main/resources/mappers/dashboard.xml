@@ -13,26 +13,26 @@
     <select id="countByTodayNewUser" resultType="int">
         SELECT COUNT(ACCOUNT_NUMBER)
         FROM accounts
-        WHERE DATE(IN_DATE) = CURDATE() AND ACCOUNT_ROLE = 1;
+        WHERE DATE(IN_DATE) = CURDATE() AND account_role = 1;
     </select>
 
     <select id="getRecentFestival" resultType="kr.swdl.sprint2.vo.Festival">
         SELECT FESTIVAL_NUMBER, FESTIVAL_NAME, ADDRESS, START_DATE, END_DATE, PROGRESS_STATUS
         FROM festivals
+        LIMIT 3;
     </select>
 
     <select id="getGenreTagDistribution" resultType="map">
-        SELECT
-            t.tag_name,
+        SELECT t.tag_name AS tagName,
             ROUND(
-                    COUNT(adt.festival_number) * 100.0 / (SELECT COUNT(*) FROM add_tags),
+                    COUNT(adt.festival_number) * 100.0 / (SELECT COUNT(add_tag_number) FROM add_tags),
                     0
             ) AS percent
         FROM tags t
-                 JOIN add_tags adt ON t.tag_number = adt.tag_number
-        GROUP BY t.tag_number, t.tag_name
+        JOIN add_tags adt ON t.tag_number = adt.tag_number
+        GROUP BY t.tag_name
         ORDER BY percent DESC
-        limit 4;
+        LIMIT 4;
     </select>
 
     <select id="countByTags" resultType="int">
@@ -56,11 +56,12 @@
     </select>
 
     <select id="getTop5PopularInterests" resultType="map">
-        SELECT T.TAG_NAME,COUNT(DISTINCT C.ACCOUNT_NUMBER) AS ACCOUNT_COUNT
+        SELECT T.TAG_NUMBER AS tagNumber, T.TAG_NAME AS tagName, COUNT(DISTINCT C.ACCOUNT_NUMBER) AS count
         FROM tags T
-                 INNER JOIN choice_tags C ON T.TAG_NUMBER = C.TAG_NUMBER
-        GROUP BY T.TAG_NUMBER, T.TAG_NAME
-        ORDER BY ACCOUNT_COUNT DESC
+        JOIN choice_tags C ON T.TAG_NUMBER = C.TAG_NUMBER
+        GROUP BY T.TAG_NAME
+        ORDER BY count DESC
+        LIMIT 5;
     </select>
 
     <select id="getBottom5ByPopularity" resultType="kr.swdl.sprint2.vo.User">
@@ -68,6 +69,7 @@
         FROM accounts
         WHERE account_role = 1
         ORDER BY POPULARITY ASC
+        LIMIT 5;
     </select>
 
 
