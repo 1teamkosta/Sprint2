@@ -2,6 +2,8 @@ package kr.swdl.sprint2.service;
 import kr.swdl.sprint2.dto.FestivalDTO;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.repository.FestivalsRepository;
+import kr.swdl.sprint2.service.pagination.Pagination;
+import kr.swdl.sprint2.service.properties.PageProperties;
 import kr.swdl.sprint2.service.properties.ProgressStatus;
 import kr.swdl.sprint2.service.properties.Review;
 import kr.swdl.sprint2.vo.AddTag;
@@ -20,12 +22,33 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FestivalsService {
     private final FestivalsRepository festivalsRepository;
+    private final PageProperties pageProperties;
     private final ProgressStatus progressStatus;
     private final Review review;
 
     public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery){
 
-        List<Festival> festivals = festivalsRepository.getFestivals(festivalListQuery);
+        if (festivalListQuery.getPage() == null )
+            festivalListQuery.setPage(1);
+
+        festivalListQuery.setSortDirection("ASC".equals(festivalListQuery.getSortDirection()) ? "ASC" : "DESC");
+
+        switch (festivalListQuery.getSortType() == null ? "" :  festivalListQuery.getSortType()) {
+            case "startDate":
+                festivalListQuery.setSortType("start_date");
+                break;
+            case "festivalLikeCount":
+                festivalListQuery.setSortType("festivalLikes");
+                break;
+            default:
+                festivalListQuery.setSortType("festival_number");
+                break;
+        }
+
+
+        List<Festival> festivals = Pagination.execute(festivalListQuery.getPage(), pageProperties.pageSize(), festivalListQuery.getSortType(), festivalListQuery.getSortDirection(),
+                () -> festivalsRepository.getFestivals(festivalListQuery));
+
         List<FestivalDTO> festivalsDTO = new ArrayList<>();
 
         for (Festival vo : festivals){
@@ -34,6 +57,7 @@ public class FestivalsService {
             dto.setFestivalNumber(vo.getFestivalNumber())
                     .setStatus(vo.getStatus())
                     .setMainTag(vo.getMainTag())
+                    .setFestivalLikes(vo.getFestivalLikes())
                     .setFestivalName(vo.getFestivalName())
                     .setStartDate(vo.getStartDate())
                     .setEndDate(vo.getEndDate())
@@ -42,6 +66,7 @@ public class FestivalsService {
 
             festivalsDTO.add(dto);
         }
+
         return festivalsDTO;
     }
 
