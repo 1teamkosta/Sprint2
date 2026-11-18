@@ -4,11 +4,12 @@
  * 태그 색상은 공통 CSS 변수에 등록하거나 브라우저 저장소에 저장하지 않는다.
  */
 const dashboardGenreTags = [
-    { id: 1, name: '음악', color: '#FADADD', percentage: 42 },
-    { id: 3, name: '먹거리', color: '#FFE0B2', percentage: 24 },
+    { id: 1, name: '음악', color: '#FADADD', percentage: 32 },
+    { id: 3, name: '먹거리', color: '#FFE0B2', percentage: 20 },
     // 전시는 태그 관리의 예술 태그 색상, 기타는 팔레트의 회청색을 사용한다.
     { id: 18, name: '전시', color: '#F1F4B8', percentage: 18 },
-    { id: 19, name: '기타', color: '#E2E7ED', percentage: 16 }
+    { id: 19, name: '도시', color: '#FBE5D6', percentage: 16 },
+    { id: 20, name: '기타', color: '#E2E7ED', percentage: 14 }
 ];
 const dashboardGenreSegments = document.querySelector('#dashboard-genre-segments');
 const dashboardGenreLegend = document.querySelector('#dashboard-genre-legend');
