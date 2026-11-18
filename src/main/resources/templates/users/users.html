@@ -39,7 +39,7 @@
                     <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="회원 검색">
                         <div class="user-search-setting">
                             <label class="visually-hidden" for="user-search-type">검색 유형</label>
-                            <select class="form-select" id="user-search-type" name="searchType">
+                            <select class="form-select" id="user-search-type" name="searchType" required>
                                 <option value="">검색 유형</option>
                                 <option value="nickname">닉네임</option>
 
@@ -66,7 +66,7 @@
                                 <th scope="col">번호</th>
                                 <th scope="col">
                                     <details class="user-status-filter" id="user-status-filter">
-                                        <summary>상태 <span aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                        <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
                                         <div class="user-status-options" role="group" aria-label="회원 상태 필터">
                                             <button type="button" data-status-filter="all" aria-pressed="true">전체 보기</button>
                                             <button type="button" data-status-filter="active" aria-pressed="false">활동 보기</button>
@@ -74,10 +74,10 @@
                                         </div>
                                     </details>
                                 </th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="nickname" aria-label="닉네임 정렬">닉네임 <span aria-hidden="true">↕</span></button></th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="email" aria-label="이메일 정렬">이메일 <span aria-hidden="true">↕</span></button></th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도 <span aria-hidden="true">↕</span></button></th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="joinedAt" aria-label="가입날짜 정렬">가입날짜 <span aria-hidden="true">↕</span></button></th>
+                                <th scope="col">닉네임</th>
+                                <th scope="col">이메일</th>
+                                <th scope="col"><button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도 <span class="fs-6" aria-hidden="true">↕</span></button></th>
+                                <th scope="col"><button type="button" class="column-sort" data-sort="joinedAt" aria-label="가입일 정렬">가입일 <span class="fs-6" aria-hidden="true">↕</span></button></th>
                             </tr>
                         </thead>
                         <tbody class="text-center" id="user-list">
@@ -86,7 +86,7 @@
                                 <td data-field="userId">1</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=1">김축제</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=1">festival.kim@example.com</a></td>
+                                <td data-field="email">festival.kim@example.com</td>
                                 <td data-sort-field="popularity">128</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-01"><time datetime="2026-09-01">2026.09.01</time></td>
 
@@ -96,7 +96,7 @@
                                 <td data-field="userId">2</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=2">이음식</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=2">food.lee@example.com</a></td>
+                                <td data-field="email">food.lee@example.com</td>
                                 <td data-sort-field="popularity">42</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-12"><time datetime="2026-09-12">2026.09.12</time></td>
 
@@ -106,7 +106,7 @@
                                 <td data-field="userId">3</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=3">박재즈</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=3">jazz.park@example.com</a></td>
+                                <td data-field="email">jazz.park@example.com</td>
                                 <td data-sort-field="popularity">95</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-02"><time datetime="2026-10-02">2026.10.02</time></td>
 
@@ -116,7 +116,7 @@
                                 <td data-field="userId">4</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=4">한문화</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=4">culture.han@example.com</a></td>
+                                <td data-field="email">culture.han@example.com</td>
                                 <td data-sort-field="popularity">7</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-20"><time datetime="2026-08-20">2026.08.20</time></td>
 
@@ -126,7 +126,7 @@
                                 <td data-field="userId">5</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=5">최김밥</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=5">gimbap.choi@example.com</a></td>
+                                <td data-field="email">gimbap.choi@example.com</td>
                                 <td data-sort-field="popularity">210</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-15"><time datetime="2026-10-15">2026.10.15</time></td>
 
@@ -136,7 +136,7 @@
                                 <td data-field="userId">6</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=6">정수원</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=6">suwon.jung@example.com</a></td>
+                                <td data-field="email">suwon.jung@example.com</td>
                                 <td data-sort-field="popularity">33</td>
                                 <td data-field="joinedAt" data-sort-value="2026-07-30"><time datetime="2026-07-30">2026.07.30</time></td>
 
@@ -146,7 +146,7 @@
                                 <td data-field="userId">7</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=7">송바다</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=7">sea.song@example.com</a></td>
+                                <td data-field="email">sea.song@example.com</td>
                                 <td data-sort-field="popularity">86</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
 
@@ -156,7 +156,7 @@
                                 <td data-field="userId">8</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=8">오춘천</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=8">chuncheon.oh@example.com</a></td>
+                                <td data-field="email">chuncheon.oh@example.com</td>
                                 <td data-sort-field="popularity">15</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-22"><time datetime="2026-09-22">2026.09.22</time></td>
 
@@ -166,7 +166,7 @@
                                 <td data-field="userId">9</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=9">유가을</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=9">autumn.yoo@example.com</a></td>
+                                <td data-field="email">autumn.yoo@example.com</td>
                                 <td data-sort-field="popularity">160</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-11"><time datetime="2026-08-11">2026.08.11</time></td>
 
@@ -176,7 +176,7 @@
                                 <td data-field="userId">10</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=10">임전주</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=10">jeonju.lim@example.com</a></td>
+                                <td data-field="email">jeonju.lim@example.com</td>
                                 <td data-sort-field="popularity">64</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
 
@@ -186,7 +186,7 @@
                                 <td data-field="userId">11</td>
                                 <td><span class="badge user-status-active">활동</span></td>
                                 <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=11">서봄</a></td>
-                                <td data-field="email"><a class="list-detail-link" href="userDetail.html?id=11">spring.seo@example.com</a></td>
+                                <td data-field="email">spring.seo@example.com</td>
                                 <td data-sort-field="popularity">102</td>
                                 <td data-field="joinedAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
 

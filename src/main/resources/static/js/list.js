@@ -197,6 +197,38 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], defaultSe
     let searchKeyword = '';
     let currentPage = 1;
 
+    const selectAll = document.querySelector(`#${prefix}-select-all`);
+
+// 행이 보이는지 판단한다. setupList가 행을 숨기는 방식에 맞춰야 한다.
+    function isRowVisible(row) {
+        return !row.hidden && !row.classList.contains('d-none') && row.style.display !== 'none';
+    }
+
+    function getVisibleCheckboxes() {
+        return rows.filter(isRowVisible)
+            .map(function (row) { return row.querySelector('.list-selection-input'); })
+            .filter(Boolean);
+    }
+
+// 전체 선택 체크박스의 체크/부분 선택 상태를 현재 화면에 맞춘다.
+    function SelectAll() {
+        if (!selectAll) return;
+        const boxes = getVisibleCheckboxes();
+        const checkedCount = boxes.filter(function (box) { return box.checked; }).length;
+        selectAll.checked = boxes.length > 0 && checkedCount === boxes.length;
+    }
+
+    if (selectAll) {
+        // 전체 선택을 누르면 보이는 행만 같은 상태로 맞춘다.
+        selectAll.addEventListener('change', function () {
+            getVisibleCheckboxes().forEach(function (box) { box.checked = selectAll.checked; });
+        });
+        // 행 체크박스를 하나씩 누를 때 전체 선택 상태를 동기화한다.
+        table.addEventListener('change', function (event) {
+            if (event.target.matches('.list-selection-input')) SelectAll();
+        });
+    }
+
     // 말줄임 여부와 관계없이 검색·정렬에는 원문을 사용한다.
     rows.forEach(function (row) {
         row.querySelectorAll('[data-field]').forEach(function (cell) {
@@ -241,6 +273,13 @@ function setupList({ prefix, tableSelector, idField, exactFields = [], defaultSe
                 filterRows();
             }
         });
+
+        // 숨겨진 행의 체크는 해제한다. 다른 페이지로 가면 선택이 남지 않는다.
+        rows.filter(function (row) { return !isRowVisible(row); }).forEach(function (row) {
+            const box = row.querySelector('.list-selection-input');
+            if (box) box.checked = false;
+        });
+        SelectAll();
     }
 
     // 검색 버튼과 Enter를 submit 하나로 처리한다. 입력 중이 아니라 제출한 시점의 값을 보관한다.
