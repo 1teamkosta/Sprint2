@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class ClubAttendeeDTO {
-    private int attendeeId;
     private int attendeeRole;
     private int accountNumber;
     private String nickname;

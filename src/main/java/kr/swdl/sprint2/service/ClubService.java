@@ -54,7 +54,6 @@ public class ClubService {
 
         for (Attendee attendee : attendees) {
             list.add(ClubAttendeeDTO.builder()
-                    .attendeeId(attendee.getAttendeeId())
                     .attendeeRole(attendee.getAttendeeRole())
                     .accountNumber(attendee.getAccountNumber())
                     .nickname(attendee.getNickname())
@@ -65,13 +64,6 @@ public class ClubService {
 
     //모임 상태 변경
     public void setClubStatus(int clubNumber, int status) {
-        if(clubNumber <= 0)
-            throw new IllegalArgumentException();
-
-        if (status != 0 && status != 1) {
-            throw new IllegalArgumentException();
-        }
-
         Club clubs = clubRepository.getClubDetail(clubNumber);
         if (clubNumber <= 0 || clubs == null ||status != 0 && status != 1)
             throw new IllegalArgumentException();
@@ -101,10 +93,11 @@ public class ClubService {
     //모임 목록 조회
     public List<ClubDTO> getClubs(ClubListQuery query) {
         List<ClubDTO> list = new ArrayList<>();
-        if (query.getSortDirection() == null)
+        if (!"DESC".equals(query.getSortDirection())&& !"ASC".equals(query.getSortDirection())) {
             query.setSortDirection("DESC");
+        }
 
-        if (query.getPage() == null)
+        if (query.getPage() == null || query.getPage() <= 0)
             query.setPage(1);
 
 
@@ -114,11 +107,37 @@ public class ClubService {
             query.setSortType("clubNumber");
         }
 
+        String keyword = query.getKeyword();
+
+        if (keyword != null && keyword.isBlank()) {
+            return list;
+        }
+
+        if (keyword != null
+                && (query.getSearchBy() == null || query.getSearchBy().isBlank())) {
+            throw new IllegalArgumentException("검색 유형을 선택해야 합니다.");
+        }
+
+        if (keyword != null) {
+            keyword = keyword
+                    .replace("\\", "\\\\")
+                    .replace("%", "\\%")
+                    .replace("_", "\\_");
+
+            query.setKeyword(keyword);
+        }
+
+        String sortDirection = query.getSortDirection();
+
+        if ("createdAt".equals(query.getSortType())) {
+            sortDirection += ", clubNumber " + query.getSortDirection();
+        }
+
         List<Club> clubs = Pagination.execute(
                     query.getPage(),
                     pageProperties.pageSize(),
                     query.getSortType(),
-                    query.getSortDirection(),
+                    sortDirection,
                     ()-> clubRepository.getClubs(query)
         );
 
@@ -132,6 +151,7 @@ public class ClubService {
                 .festivalNumber(club.getFestivalNumber())
                 .festivalName(club.getFestivalName())
                 .purpose(club.getPurpose())
+                .nickname(club.getNickname())
                 .build());
         };
 

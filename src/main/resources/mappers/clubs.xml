@@ -42,12 +42,19 @@
     </select>
 
     <select id="getClubDetail" resultType="kr.swdl.sprint2.vo.Club">
-        SELECT c.club_number as clubNumber, c.status, c.club_name as clubName, c.meeting_date as meetingDate, c.created_at as createdAt, f.festival_number as festivalNumber, f.festival_name as festivalName, c.CONTENTS, c.purpose, COUNT(atd.ATTENDEE_ID) as curCount, c.MAX_COUNT as maxCount
+        SELECT
+            c.club_number AS clubNumber,c.status,c.club_name AS clubName,c.meeting_date AS meetingDate,
+            c.created_at AS createdAt,f.festival_number AS festivalNumber,f.festival_name AS festivalName,
+            c.contents,c.purpose,
+            (
+                SELECT COUNT(*)
+                FROM attendees atd
+                WHERE atd.club_number = c.club_number
+            ) AS curCount,
+            c.max_count AS maxCount
         FROM clubs c
-                 JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
-                 JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER
-        WHERE c.CLUB_NUMBER = #{clubNumber};
-
+                 JOIN festivals f ON f.festival_number = c.festival_number
+        WHERE c.club_number = #{clubNumber}
     </select>
 
     <select id="getClubUser" resultType="kr.swdl.sprint2.vo.Attendee">
