@@ -107,17 +107,18 @@ public class ClubServiceTest {
     
     @Test
     public void getClubs_SearchByFestivalName_NotFound(){
-        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("없는축제").build()).size()==0);
+        System.out.println(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("%").build()));
+        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("    ").build()).size()==0);
     }
 
     @Test
     public void getClubs_SearchByClubName_NotFound(){
-        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("clubName").keyword("없는모임").build()).size()==0);
+        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("clubName").keyword("").build()).size()==0);
     }
     
     @Test
     public void getClubs_SearchByNickname_NotFound(){
-        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("없는개설자").build()).size()==0);
+        Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("nickname").keyword("").build()).size()==0);
     }
 
     @Test
@@ -207,7 +208,7 @@ public class ClubServiceTest {
     }
 
     @Test
-    public void getClubs_SearchByClubName_FilterByFoodMate_FilterByPublic_SortCreatedAt_Page(){
+    public void getClubs_SearchByClubName_FilterByFoodMate_FilterByPrivate_SortCreatedAt_Page(){
         ClubListQuery query = ClubListQuery.builder().searchBy("clubName").keyword("메이트").filterByPurpose(purpose.festival()).filterByStatus(status.hidden()).sortType("createdAt").sortDirection("DESC").page(1).build();
         Assertions.assertTrue(clubService.getClubs(query).size()>0);
     }
