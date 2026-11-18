@@ -38,7 +38,7 @@ public class FestivalServiceTest {
     void getFestivalDetail(){
         Assertions.assertNotNull(festivalsService.getFestivalDetail(141105));
         Assertions.assertNull(festivalsService.getFestivalDetail(777));
-//        System.out.println(festivalsService.getFestivalDetail(141105));
+        System.out.println(festivalsService.getFestivalDetail(141105));
     }
 
     @Test

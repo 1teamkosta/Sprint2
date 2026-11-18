@@ -27,6 +27,7 @@
             <if test="query.filterByProgressStatus != null">
                 AND f.progress_status = #{query.filterByProgressStatus}
             </if>
+            <if test="query.searchBy != null">
             <choose>
                 <when test="query.searchBy == 'festivalName' ">
                     AND f.festival_name LIKE CONCAT('%', #{query.keyword}, '%')
@@ -34,7 +35,11 @@
                 <when test="query.searchBy == 'mainTag'">
                     AND t.tag_name LIKE CONCAT('%', #{query.keyword}, '%')
                 </when>
+                <otherwise>
+                    AND 1 = 0
+                </otherwise>
             </choose>
+            </if>
         </where>
 <!--        <choose>-->
 <!--            <when test="orderBy == 'startDateDesc'">-->

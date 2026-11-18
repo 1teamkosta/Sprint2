@@ -1,45 +1,77 @@
 //package kr.swdl.sprint2.service;
-//
-//import kr.swdl.sprint2.dto.FestivalsAPI;
-//import kr.swdl.sprint2.repository.FestivalsRepository;
-//import kr.swdl.sprint2.vo.Festival;
+//import kr.swdl.sprint2.dto.FestivalApiDTO;
 //import lombok.RequiredArgsConstructor;
 //import org.springframework.stereotype.Service;
-//import org.springframework.web.client.RestTemplate;
-//import org.springframework.web.util.UriComponentsBuilder;
+//import org.springframework.web.client.RestClient;
+//import tools.jackson.databind.JsonNode;
+//import tools.jackson.databind.ObjectMapper;
 //
-//import java.net.URI;
+//import java.time.LocalDate;
+//import java.time.format.DateTimeFormatter;
 //import java.util.ArrayList;
 //import java.util.List;
 //
 //@Service
 //@RequiredArgsConstructor
-//public class FestivalsAPIService {
+//public class FestivalsApiService {
 //
-//    private final FestivalsRepository festivalsRepository;
-//    private final String serviceKey = "6c20349308206d947b7bcdfa7484f1a88754557a52366e28942fa9a3cf816177";
-//    private final RestTemplate restTemplate = new RestTemplate();
+//    private final FestivalsService festivalsService;
+//    private final RestClient restClient = RestClient.create();
+//    private final ObjectMapper objectMapper;
 //
-//    public List<Festival> getAndSetFestivals(){
-//        URI uri = UriComponentsBuilder
-//                .fromUriString("https://apis.data.go.kr/B551011/KorService2/searchFestival2")
-//                .queryParam("numOfRows", 5)
-//                .queryParam("MobileOS", "WEB")
-//                .queryParam("MobileApp", "festival")
-//                .queryParam("_type", "json")
-//                .queryParam("eventStartDate", "2026-11-17")
-//                .queryParam("serviceKey", serviceKey)
-//                .build(true)
-//                .toUri();
+//    public List<FestivalApiDTO> getAPIFestivals(){
 //
-//        FestivalsAPI festivalsAPI = restTemplate.getForObject(uri, FestivalsAPI.class);
-//        List<Festival> festivals = new ArrayList<>();
+//        String today = LocalDate.now().format(DateTimeFormatter.BASIC_ISO_DATE);
+//
+//        JsonNode response = restClient.get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .scheme("https")
+//                        .host("apis.data.go.kr")
+//                        .path("/B551011/KorService2/searchFestival2")
+//                        .queryParam("numOfRows", 5)
+//                        .queryParam("pageNo", 1)
+//                        .queryParam("MobileOS", "WEB")
+//                        .queryParam("MobileApp", "festival")
+//                        .queryParam("_type", "json")
+//                        .queryParam("eventStartDate", today)
+//                        .queryParam("serviceKey", "6c20349308206d947b7bcdfa7484f1a88754557a52366e28942fa9a3cf816177")
+//                        .build())
+//                .retrieve()
+//                .body(JsonNode.class);
+//
+//
+//        JsonNode items = response.path("response")
+//                .path("body")
+//                .path("items")
+//                .path("item");
+//
+//        List<FestivalApiDTO> result = new ArrayList<>();
+//
+//        if (items.isArray()) {
+//            for (JsonNode item : items) {
+//                result.add(objectMapper.treeToValue(item, FestivalApiDTO.class));
+//            }
+//        }
+//            else if (!items.isMissingNode() && !items.isNull()) {
+//            result.add(objectMapper.treeToValue(items, FestivalApiDTO.class));
 //        }
 //
-//
-//
-//
-//        return null;
+//        return result;
 //    }
 //
+//    public String getApiFestivalContent(String contentid){
+//        JsonNode response = restClient.get()
+//                .uri(uriBuilder -> uriBuilder
+//                        .scheme("https")
+//                        .host("apis.data.go.kr")
+//                        .path("/B551011/KorService2/detailCommon2")
+//                        .queryParam("MobileOS", "WEB")
+//                        .queryParam("MobileApp", "festival")
+//                        .queryParam("contentId", contentid)
+//                        .queryParam("_type", "json")
+//                        .queryParam("serviceKey", "API_KEY")
+//                        .build())
+//                .retrieve()
+//                .body(JsonNode.class);
+//    }
 //}

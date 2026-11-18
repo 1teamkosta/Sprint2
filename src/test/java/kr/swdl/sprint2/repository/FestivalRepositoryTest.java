@@ -59,7 +59,7 @@ public class FestivalRepositoryTest {
     void getFestivals_SearchByMainTag(){
         Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").build()).size() == 0);
         Assertions.assertTrue(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("청소년").build()).size() > 0);
-//        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("mainTag").keyword("xxxxx").build()));
+        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("xxxxx").keyword("xxxxx").build()));
     }
 
     @Test

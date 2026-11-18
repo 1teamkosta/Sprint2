@@ -1,18 +1,18 @@
 package kr.swdl.sprint2.service;
+import kr.swdl.sprint2.dto.FestivalDTO;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.repository.FestivalsRepository;
 import kr.swdl.sprint2.service.properties.ProgressStatus;
 import kr.swdl.sprint2.service.properties.Review;
-import kr.swdl.sprint2.service.properties.Status;
 import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,24 +20,49 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FestivalsService {
     private final FestivalsRepository festivalsRepository;
-    private final Status status;
     private final ProgressStatus progressStatus;
     private final Review review;
 
-    public void get(FestivalListQuery request){
-        festivalsRepository.getFestivals(request);
+    public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery){
+
+        List<Festival> festivals = festivalsRepository.getFestivals(festivalListQuery);
+        List<FestivalDTO> festivalsDTO = new ArrayList<>();
+
+        for (Festival vo : festivals){
+            FestivalDTO dto = new FestivalDTO();
+
+            dto.setFestivalNumber(vo.getFestivalNumber())
+                    .setStatus(vo.getStatus())
+                    .setMainTag(vo.getMainTag())
+                    .setFestivalName(vo.getFestivalName())
+                    .setStartDate(vo.getStartDate())
+                    .setEndDate(vo.getEndDate())
+                    .setProgressStatus(vo.getProgressStatus())
+                    .setAddress(vo.getAddress());
+
+            festivalsDTO.add(dto);
+        }
+        return festivalsDTO;
     }
 
-    public List<Festival> getFestivals(FestivalListQuery festivalListQuery){
-        return festivalsRepository.getFestivals(festivalListQuery);
-    }
-
-    public Festival getFestivalDetail(int festivalNumber){
-        Festival festival = festivalsRepository.getFestival(festivalNumber);
-        if (festival == null){
+    public FestivalDTO getFestivalDetail(int festivalNumber){
+        Festival vo = festivalsRepository.getFestival(festivalNumber);
+        FestivalDTO dto = new FestivalDTO();
+        if (vo == null){
             return null;
         }
-        return festival.setFestivalLikes(festivalsRepository.countByFestivalLikes(festivalNumber))
+
+        return dto.setFestivalNumber(vo.getFestivalNumber())
+                .setStatus(vo.getStatus())
+                .setMainTag(vo.getMainTag())
+                .setFestivalName(vo.getFestivalName())
+                .setStartDate(vo.getStartDate())
+                .setEndDate(vo.getEndDate())
+                .setProgressStatus(vo.getProgressStatus())
+                .setAddress(vo.getAddress())
+                .setContents(vo.getContents())
+                .setImageUrl(vo.getImageUrl())
+                .setFestivalLikes(festivalsRepository.countByFestivalLikes(festivalNumber))
                 .setMainTag(festivalsRepository.getMainTag(festivalNumber))
                 .setAddTag(festivalsRepository.getAddTag(festivalNumber))
                 .setFestivalReviewLike(festivalsRepository.countByFestivalReview(festivalNumber, review.like()))
