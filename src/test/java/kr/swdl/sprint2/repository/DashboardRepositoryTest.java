@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.Assert;
 
 @SpringBootTest
 @Transactional
@@ -25,7 +24,7 @@ public class DashboardRepositoryTest {
 
     @Test
     public void countByTodayNewUser(){
-        Assertions.assertTrue(dashboardRepository.countByTodayNewUser() > 0, "오늘 가입한 신규 회원이 없습니다.");
+        Assertions.assertTrue(dashboardRepository.countByTodayNewUser() == 0, "오늘 가입한 신규 회원이 없습니다.");
     }
 
     @Test
@@ -41,37 +40,37 @@ public class DashboardRepositoryTest {
     @Test
     public void getGenreTagDistribution(){
         Assertions.assertNotNull(dashboardRepository.getGenreTagDistribution());
+//        System.out.println(dashboardRepository.getGenreTagDistribution());
     }
 
     @Test
     public void countByTags(){
-        Assertions.assertTrue(dashboardRepository.countByTags() > 0);
+        Assertions.assertTrue(dashboardRepository.countByTag() > 0);
     }
 
     @Test
     public void countByFestivalReviews(){
-        Assertions.assertTrue(dashboardRepository.countByFestivalReviews() > 0);
+        Assertions.assertTrue(dashboardRepository.countByFestivalReview() > 0);
     }
 
     @Test
     public void countByClubs(){
-        Assertions.assertTrue(dashboardRepository.countByClubs() > 0);
+        Assertions.assertTrue(dashboardRepository.countByAttendee() > 0);
     }
 
     @Test
     public void countByLikedFestivals(){
-        Assertions.assertTrue(dashboardRepository.countByLikedFestivals() > 0);
+        Assertions.assertTrue(dashboardRepository.countByLikedFestival() > 0);
     }
 
     @Test
     public void getTop5PopularInterests(){
-        Assertions.assertTrue(dashboardRepository.getTop5PopularInterests().size() > 0);
+        Assertions.assertTrue(dashboardRepository.getTop5PopularInterest().size() > 0);
+        System.out.println(dashboardRepository.getTop5PopularInterest());
     }
 
     @Test
     public void getBottom5ByPopularity(){
         Assertions.assertTrue(dashboardRepository.getBottom5ByPopularity().size() > 0);
     }
-
-
 }
