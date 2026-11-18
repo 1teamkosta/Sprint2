@@ -24,7 +24,7 @@
                 <!-- 비공개 처리는 서버 연동 시 연결한다. 수정은 동일한 축제 ID로 이동한다. -->
                 <div class="d-flex gap-2">
                     <button class="btn festival-detail-private" type="button" id="festival-visibility">비공개</button>
-                    <a class="btn btn-secondary" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
+                    <a class="btn festival-detail-edit" id="festival-edit-link" href="festivalEdit.html?id=1">수정</a>
                     <a class="btn btn-primary" href="festivals.html">목록으로</a>
                 </div>
             </div>
@@ -52,6 +52,7 @@
                             <span class="festival-detail-tag">연인</span>
                         </dd></div>
                         <div><dt>일정</dt><dd id="festival-schedule"><time datetime="2026-11-02">2026.11.02</time> ~ <time datetime="2026-11-03">2026.11.03</time></dd></div>
+                        <div><dt>진행상황</dt><dd><span id="festival-progress-status" class="badge festival-progress-ended" data-festival-progress>종료</span></dd></div>
                         <div><dt>장소</dt><dd id="festival-place">삼락공원</dd></div>
                     </dl>
                 </div>

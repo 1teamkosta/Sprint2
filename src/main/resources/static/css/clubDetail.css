@@ -22,8 +22,8 @@
 .club-detail-info-row { display: grid; grid-template-columns: 100px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-top: 1px solid var(--admin-border); }
 .club-detail-info dt { color: var(--admin-muted); font-weight: 500; }
 .club-detail-info dd { margin: 0; overflow-wrap: anywhere; }
-.club-detail-festival { color: var(--bs-link-color); text-decoration: underline; text-underline-offset: 3px; }
-.club-detail-festival:hover { color: var(--bs-link-hover-color); }
+.club-detail-festival { color: var(--admin-sidebar-bg); text-decoration: none; text-underline-offset: 3px; }
+.club-detail-festival:hover { color: var(--admin-primary); text-decoration: underline; }
 .club-detail-description-row { min-height: 240px; }
 #club-detail-description { line-height: 1.9; white-space: pre-line; }
 .club-detail-summary { display: grid; grid-template-columns: 1fr 1fr 1.4fr; margin: 0; border-top: 1px solid var(--admin-border); border-bottom: 1px solid var(--admin-border); }
