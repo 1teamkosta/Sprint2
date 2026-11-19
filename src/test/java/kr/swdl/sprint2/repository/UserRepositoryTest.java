@@ -1,6 +1,8 @@
-/*package kr.swdl.sprint2.repository;
+package kr.swdl.sprint2.repository;
 
 
+import kr.swdl.sprint2.service.properties.Status;
+import kr.swdl.sprint2.service.properties.UserStatus;
 import kr.swdl.sprint2.vo.User;
 import kr.swdl.sprint2.vo.UserActivity;
 import org.junit.jupiter.api.Assertions;
@@ -18,6 +20,10 @@ import java.util.List;
 public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private Status status;
+    @Autowired
+    private UserStatus userStatus;
 
     @Test
     void getUsers() {
@@ -80,7 +86,7 @@ public class UserRepositoryTest {
    @Test
     void setStatus_Users(){
         List<Integer> accountNumbers = List.of(2,4);
-        int expet = Status.PRIVATE.getCode();
+        int expet = 0;
 
         userRepository.setUsersStatus(accountNumbers,expet);
 
@@ -106,8 +112,8 @@ public class UserRepositoryTest {
 
     @Test
     void  setUserStatus(){
-        userRepository.setUserStatus(4,Status.PRIVATE.getCode());
-        Assertions.assertEquals(Status.PRIVATE.getCode(),userRepository.getUser(4).getStatus());
+        userRepository.setUserStatus(4, userStatus.banned());
+        Assertions.assertEquals(userStatus.banned(),userRepository.getUser(4).getStatus());
     }
 
     @ParameterizedTest
@@ -120,15 +126,14 @@ public class UserRepositoryTest {
 
     @Test
     void getUsers_SearchByNickname_FilterByStatus(){
-        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PRIVATE.getCode()).build()));
-        Assertions.assertTrue(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PRIVATE.getCode()).build()).size()>0);
+        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(userStatus.active()).build()));
+        Assertions.assertTrue(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(userStatus.active()).build()).size()>0);
     }
 
     @Test
     void getUsers_SearchByNickname_FilterByStatus_NotFound(){
-        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PUBLIC.getCode()).build()));
-        Assertions.assertTrue(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(Status.PUBLIC.getCode()).build()).size()==0);
+        System.out.println(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(userStatus.banned()).build()));
+        Assertions.assertFalse(userRepository.getUsers(UserListQuery.builder().searchBy("nickname").keyword("여행가김씨").filterByStatus(userStatus.banned()).build()).size()>0);
     }
 }
 
-*/

@@ -57,7 +57,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUsersPage_0page() {
+    void getUsersPage_0page_NotFound() {
         UserListQuery request = UserListQuery.builder().page(0).build();
         List<UserDTO> userList = userService.getUsers(request);
 
@@ -69,7 +69,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUsersPage_3page() {
+    void getUsersPage_3page_NotFound() {
         UserListQuery request = UserListQuery.builder().page(116767).build();
         List<UserDTO> userList = userService.getUsers(request);
 
@@ -79,7 +79,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUsersPage_negativePage() {
+    void getUsersPage_NotFound() {
         UserListQuery request = UserListQuery.builder().page(-1).build();
         List<UserDTO> userList = userService.getUsers(request);
 
@@ -89,7 +89,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_SearchByNickname_matchedKeyword() {
+    void getUser_SearchByNickname() {
         UserListQuery request = UserListQuery.builder().keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -100,7 +100,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_SearchByNickname_unmatchedKeyword() {
+    void getUser_SearchByNickname_NotFound() {
         UserListQuery request = UserListQuery.builder().keyword("xxx").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -111,7 +111,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_FilterByStatus_statusZero() {
+    void getUser_FilterByStatus_Banned() {
         UserListQuery request = UserListQuery.builder().filterByStatus(0).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -121,8 +121,8 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_FilterByStatus_statusMinusOne() {
-        UserListQuery request = UserListQuery.builder().filterByStatus(-1).build();
+    void getUser_FilterByStatus_NotFound() {
+        UserListQuery request = UserListQuery.builder().filterByStatus(1111).build();
 
         List<UserDTO> result = userService.getUsers(request);
 
@@ -131,7 +131,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_SearchByNickname_AND_FilterByStatus_statusOne() {
+    void getUser_SearchByNickname_AND_FilterByStatus_Active() {
         UserListQuery request = UserListQuery.builder().filterByStatus(1).keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -139,7 +139,7 @@ public class UserServiceTest {
         Assertions.assertTrue(result.size()>=1);
     }
     @Test
-    void getUser_SearchByNickname_AND_FilterByStatus_statusZero() {
+    void getUser_SearchByNickname_AND_FilterByStatus_Banned_NotFound() {
         UserListQuery request = UserListQuery.builder().filterByStatus(0).keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -147,7 +147,7 @@ public class UserServiceTest {
         Assertions.assertFalse(result.size()>=1);
     }
     @Test
-    void getUser_SearchByNickname_AND_FilterByStatus_statusMinusOne() {
+    void getUser_SearchByNickname_AND_FilterByStatus_NotFound() {
         UserListQuery request = UserListQuery.builder().filterByStatus(-1).keyword("xxx").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -156,7 +156,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void SetUserStatus_changeToOne() {
+    void SetUserStatus_changeToOne_Change() {
         userService.setUserStatus(1, 1);
         User user = userRepository.getUser(1);
 
@@ -164,7 +164,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void SetUserStatus_changeToZero() {
+    void SetUserStatus_changeToZero_Change() {
         userService.setUserStatus(1, 0);
         User user = userRepository.getUser(1);
 
@@ -172,7 +172,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void setUsersStatus_changeToOne() {
+    void setUsersStatus_changeToOne_Change() {
         List<Integer> accountNumbers = Arrays.asList(1, 2, 3);
 
         userService.setUsersStatus(accountNumbers, 1);
@@ -183,7 +183,7 @@ public class UserServiceTest {
         }
     }
     @Test
-    void setUsersStatus_changeToZero() {
+    void setUsersStatus_changeToZero_Change() {
         List<Integer> accountNumbers = Arrays.asList(1, 2, 3);
 
         userService.setUsersStatus(accountNumbers, 0);
@@ -195,7 +195,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_descInDate() {
+    void getUser_FilterByStatus_AND_SortDirDesc_AND_SortByInDate() {
         UserListQuery request = UserListQuery.builder().sortDirection("DESC").sortType("inDate").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -206,7 +206,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_emptyDirInDate() {
+    void getUser_FilterByStatus_AND_SortDirEmpty_AND_SortByInDate() {
         UserListQuery request = UserListQuery.builder().sortDirection("").sortType("inDate").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -215,9 +215,8 @@ public class UserServiceTest {
         result.forEach(System.out::println);
     }
 
-
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_emptyDirPopularity() {
+    void getUser_FilterByStatus_AND_SortDirEmpty_AND_SortByPopularity() {
         UserListQuery request = UserListQuery.builder().sortDirection("").sortType("popularity").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -228,7 +227,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_mixedCaseDescPopularity() {
+    void getUser_FilterByStatus_AND_SortDirDesc_AND_SortByPopularity_NotFound() {
         UserListQuery request = UserListQuery.builder().sortDirection("Desc").sortType("popularity").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
