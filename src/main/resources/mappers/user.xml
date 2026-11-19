@@ -52,16 +52,14 @@
     </select>
     <select id="getClubByUser" resultType="kr.swdl.sprint2.vo.UserActivity">
         SELECT
-            (SELECT COUNT(ATTENDEE_ID) FROM attendees at WHERE a.account_number = at.account_number) AS COUNT,
             c.club_number,
             a.attendee_role,
             c.club_name,
-            f.festival_number,
-            f.festival_name
+            f.festival_name,
+            c.purpose
         FROM attendees a
                  JOIN clubs c ON a.club_number = c.club_number
                  JOIN festivals f ON c.festival_number = f.festival_number
-                 JOIN attendees attd ON a.account_number = attd.account_number
         WHERE a.account_number = #{accountNumber};
     </select>
     <update id="setUserStatus">

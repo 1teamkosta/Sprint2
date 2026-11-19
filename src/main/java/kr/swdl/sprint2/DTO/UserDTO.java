@@ -1,19 +1,20 @@
-package kr.swdl.sprint2.DTO;
+package kr.swdl.sprint2.dto;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+
 public class UserDTO {
     private int accountNumber;
-    private int accountRole;
-    private String id;
-    private String nickname;
-    private String password;
-    private String email;
-    private int Popularity;
-    private String inDate;
     private int status;
+    private String nickname;
+    private String email;
+    private int popularity;
+    private String inDate;
 }

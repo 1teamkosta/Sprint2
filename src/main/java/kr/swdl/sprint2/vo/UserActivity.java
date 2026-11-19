@@ -10,10 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserActivity {
-    private int attendeeCount;
     private int clubNumber;
     private String clubName;
     private String festivalName;
     private int attendRole;
-    private int festivalNumber;
+    private String purpose;
 }

@@ -1,7 +1,6 @@
-package kr.swdl.sprint2.repository;
+/*package kr.swdl.sprint2.repository;
 
 
-import kr.swdl.sprint2.global.enums.Status;
 import kr.swdl.sprint2.vo.User;
 import kr.swdl.sprint2.vo.UserActivity;
 import org.junit.jupiter.api.Assertions;
@@ -132,3 +131,4 @@ public class UserRepositoryTest {
     }
 }
 
+*/

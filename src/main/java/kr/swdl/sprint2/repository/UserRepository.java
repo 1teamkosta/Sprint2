@@ -14,6 +14,9 @@ public interface UserRepository  {
     List<User> getUsersByStatus(int status);
     List<UserActivity> getClubByUser(int accountNumber);
     User getUser(int accountNumber);
-    void setUserStatus(int accountNumber, int status);
-    void setUsersStatus(List<Integer> accountNumbers, int status);
+    void setUserStatus(@Param("accountNumber") int accountNumber, @Param("status") int status);
+    //void setUserStatus(int accountNumber, int status);
+    // UserRepository.java
+    void setUsersStatus(@Param("accountNumbers") List<Integer> accountNumbers, @Param("status") int status);
+ //   void setUsersStatus(List<Integer> accountNumbers, int status);
 }

@@ -1,4 +1,4 @@
-package kr.swdl.sprint2.DTO;
+package kr.swdl.sprint2.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
