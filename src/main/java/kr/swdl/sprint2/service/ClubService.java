@@ -13,7 +13,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -21,36 +24,17 @@ import java.util.List;
 public class ClubService {
     private final ClubRepository clubRepository;
     private final PageProperties pageProperties;
+    SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd");
+    SimpleDateFormat createdTime = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss");
 
     //모임 상세 조회
     public ClubDetailDTO getClubDetail(int clubNumber) {
         Club club = clubRepository.getClubDetail(clubNumber);
-
-        if(club ==null || club.getClubNumber() == 0)
-            throw new IllegalArgumentException();
-
-        return ClubDetailDTO.builder()
-                .clubNumber(club.getClubNumber())
-                .status(club.getStatus())
-                .clubName(club.getClubName())
-                .meetingDate(club.getMeetingDate())
-                .createdAt(club.getCreatedAt())
-                .festivalNumber(club.getFestivalNumber())
-                .festivalName(club.getFestivalName())
-                .contents(club.getContents())
-                .purpose(club.getPurpose())
-                .curCount(club.getCurCount())
-                .maxCount(club.getMaxCount())
-                .build();
-    }
-
-    //모임 참여자 조회
-    public List<ClubAttendeeDTO> getClubAttendee(int clubNumber) {
         List<Attendee> attendees = clubRepository.getClubUser(clubNumber);
         List<ClubAttendeeDTO> list = new ArrayList<>();
 
-        if (attendees.isEmpty())
-            throw new IllegalArgumentException();
+        if(club == null || club.getClubNumber() == 0)
+            return null; //추후 예외처리 수정예정
 
         for (Attendee attendee : attendees) {
             list.add(ClubAttendeeDTO.builder()
@@ -59,47 +43,49 @@ public class ClubService {
                     .nickname(attendee.getNickname())
                     .build());
         }
-        return list;
+
+        return ClubDetailDTO.builder()
+                .clubNumber(club.getClubNumber())
+                .status(club.getStatus())
+                .clubName(club.getClubName())
+                .meetingDate(createdTime.format(club.getMeetingDate()))
+                .createdAt(formatter.format(club.getCreatedAt()))
+                .festivalNumber(club.getFestivalNumber())
+                .festivalName(club.getFestivalName())
+                .contents(club.getContents())
+                .purpose(club.getPurpose())
+                .curCount(club.getCurCount())
+                .maxCount(club.getMaxCount())
+                .clubAttendeeDTO(list)
+                .build();
     }
 
     //모임 상태 변경
     public void setClubStatus(int clubNumber, int status) {
-        Club clubs = clubRepository.getClubDetail(clubNumber);
-        if (clubNumber <= 0 || clubs == null ||status != 0 && status != 1)
-            throw new IllegalArgumentException();
+        if (status != 0 && status != 1)
+            return; //추후 예외처리 수정예정
+
          clubRepository.setClubStatus(clubNumber, status);
     }
 
     //모임 여러개 상태 변경
-    @Transactional
     public void setClubsStatus(List<Integer> clubNumber, int status) {
-        if(status != 0 && status != 1)
-            throw new IllegalArgumentException();
+        if(status != 0 && status != 1 || clubNumber == null || clubNumber.isEmpty())
+            return; //추후 예외처리 수정예정
 
-        if (clubNumber == null || clubNumber.isEmpty()) {
-            throw new IllegalArgumentException("변경할 모임을 선택해야 합니다.");
-        }
-
-        for (Integer club : clubNumber) {
-            if (club == null || club <= 0) {
-                throw new IllegalArgumentException("유효하지 않은 모임 번호입니다.");
-            }
-        }
         clubRepository.setClubsStatus(clubNumber,status);
     }
-
-
 
     //모임 목록 조회
     public List<ClubDTO> getClubs(ClubListQuery query) {
         List<ClubDTO> list = new ArrayList<>();
+
         if (!"DESC".equals(query.getSortDirection())&& !"ASC".equals(query.getSortDirection())) {
             query.setSortDirection("DESC");
         }
 
         if (query.getPage() == null || query.getPage() <= 0)
             query.setPage(1);
-
 
         if ((query.getSortType() == null ? "" : query.getSortType()).equals("createdAt")) {
             query.setSortType("createdAt");
@@ -111,20 +97,6 @@ public class ClubService {
 
         if (keyword != null && keyword.isBlank()) {
             return list;
-        }
-
-        if (keyword != null
-                && (query.getSearchBy() == null || query.getSearchBy().isBlank())) {
-            throw new IllegalArgumentException("검색 유형을 선택해야 합니다.");
-        }
-
-        if (keyword != null) {
-            keyword = keyword
-                    .replace("\\", "\\\\")
-                    .replace("%", "\\%")
-                    .replace("_", "\\_");
-
-            query.setKeyword(keyword);
         }
 
         String sortDirection = query.getSortDirection();
@@ -147,7 +119,7 @@ public class ClubService {
                 .clubNumber(club.getClubNumber())
                 .status(club.getStatus())
                 .clubName(club.getClubName())
-                .createdAt(club.getCreatedAt())
+                .createdAt(formatter.format(club.getCreatedAt()))
                 .festivalNumber(club.getFestivalNumber())
                 .festivalName(club.getFestivalName())
                 .purpose(club.getPurpose())
@@ -157,6 +129,5 @@ public class ClubService {
 
         return list;
     }
-
 
 }

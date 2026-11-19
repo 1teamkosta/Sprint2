@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Data
 @Builder
@@ -18,6 +19,6 @@ public class ClubDTO {
     private String festivalName;
     private String clubName;
     private String purpose;
-    private Timestamp createdAt;
+    private String createdAt;
     private String nickname;
 }

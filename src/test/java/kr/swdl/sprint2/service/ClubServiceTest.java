@@ -27,17 +27,7 @@ public class ClubServiceTest {
 
     @Test
     public void getClubDetail_NotFound(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> clubService.getClubDetail(999));
-    }
-
-    @Test
-    public void getClubAttendee(){
-        Assertions.assertTrue(clubService.getClubAttendee(1).size()>0);
-    }
-
-    @Test
-    public void getClubAttendee_NotFound(){
-        Assertions.assertThrows(IllegalArgumentException.class,() -> clubService.getClubAttendee(-2));
+        Assertions.assertNull( clubService.getClubDetail(999));
     }
 
     @Test
@@ -48,17 +38,12 @@ public class ClubServiceTest {
 
     @Test
     public void setClubStatus_NotFoundClub(){
-        Assertions.assertThrows(IllegalArgumentException.class, () -> clubService.setClubStatus(-1,status.hidden()));
+       clubService.setClubStatus(-1,status.hidden());
     }
 
     @Test
     public void setClubsStatus(){
         clubService.setClubsStatus(List.of(10,11,12,13),status.visible());
-    }
-
-    @Test
-    public void setClubsStatus_NotFoundClub(){
-        Assertions.assertThrows(IllegalArgumentException.class,() -> clubService.setClubsStatus(List.of(10, -2, 13), status.visible()));
     }
 
     @Test

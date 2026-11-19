@@ -22,15 +22,21 @@
 
                 <choose>
                     <when test="query.searchBy == 'clubName'">
-                        AND c.club_name LIKE CONCAT('%', #{query.keyword}, '%')
+                        AND c.club_name LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
                     </when>
 
                     <when test="query.searchBy == 'festivalName'">
-                        AND f.festival_name LIKE CONCAT('%', #{query.keyword}, '%')
+                        AND f.festival_name LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
                     </when>
 
                     <when test="query.searchBy == 'nickname'">
-                        AND a.nickname LIKE CONCAT('%', #{query.keyword}, '%')
+                        AND a.nickname LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
                     </when>
                     <otherwise>AND 1 = 0</otherwise>
                 </choose>
