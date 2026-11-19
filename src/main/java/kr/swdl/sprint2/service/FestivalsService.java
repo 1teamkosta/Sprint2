@@ -15,6 +15,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -27,7 +29,10 @@ public class FestivalsService {
     private final ProgressStatus progressStatus;
     private final Review review;
 
-    public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery){
+    public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery) {
+
+        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter outputDtf = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
         if ((festivalListQuery.getSearchBy() != null && festivalListQuery.getKeyword() != null) && (festivalListQuery.getKeyword().isBlank()||festivalListQuery.getKeyword().equals("_")||festivalListQuery.getKeyword().equals("%"))){
             return null;
@@ -59,16 +64,16 @@ public class FestivalsService {
         for (Festival vo : festivals){
             FestivalDTO dto = new FestivalDTO();
 
+
             dto.setFestivalNumber(vo.getFestivalNumber())
                     .setStatus(vo.getStatus())
                     .setMainTag(vo.getMainTag())
                     .setFestivalLikes(vo.getFestivalLikes())
                     .setFestivalName(vo.getFestivalName())
-                    .setStartDate(vo.getStartDate())
-                    .setEndDate(vo.getEndDate())
+                    .setStartDate(LocalDateTime.parse(vo.getStartDate(), inputDtf).format(outputDtf))
+                    .setEndDate(LocalDateTime.parse(vo.getEndDate(), inputDtf).format(outputDtf))
                     .setProgressStatus(vo.getProgressStatus())
                     .setAddress(vo.getAddress());
-
             festivalsDTO.add(dto);
         }
 
@@ -100,7 +105,7 @@ public class FestivalsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void addFestival(Festival festival) throws ParseException {
+    public void addFestival(Festival festival) {
 
         festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
 
@@ -128,7 +133,7 @@ public class FestivalsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void setFestival(Festival festival) throws ParseException {
+    public void setFestival(Festival festival) {
         if (festivalsRepository.getFestival(festival.getFestivalNumber()) != null) {
 
             festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
@@ -157,16 +162,17 @@ public class FestivalsService {
             festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), true);
         }
     }
-    private int setDateStatus(String start, String end) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date now = new Date();
+    private int setDateStatus(String start, String end){
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime now = LocalDateTime.now();
 
-        Date startDate = sdf.parse(start);
-        Date endDate = sdf.parse(end);
+        LocalDateTime startDate = LocalDateTime.parse(start,dtf);
+        LocalDateTime endDate = LocalDateTime.parse(end,dtf);
 
-        if (now.before(startDate)) {
+
+        if (now.isBefore(startDate)) {
             return progressStatus.upcomming();
-        } else if (now.after(endDate)) {
+        } else if (now.isAfter(endDate)) {
             return progressStatus.closed();
         } else {
             return progressStatus.progress();

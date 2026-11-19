@@ -123,14 +123,14 @@ public class FestivalServiceTest {
     }
 
     @Test
-    void addFestival() throws ParseException {
-        festivalsService.addFestival(Festival.builder().startDate("2016-03-05 00:00:00").endDate("2026-11-18 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).progressStatus(progressStatus.upcomming()).build());
+    void addFestival() {
+        festivalsService.addFestival(Festival.builder().startDate("2030-03-05 00:00:00").endDate("2036-11-20 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).progressStatus(progressStatus.upcomming()).build());
         int festivalNumber = festivalsRepository.getAddFestivalNumber();
         System.out.println(festivalsService.getFestivalDetail(festivalNumber));
     }
 
     @Test
-    void setFestival() throws ParseException {
+    void setFestival() {
         System.out.println(festivalsService.getFestivalDetail(141105));
         festivalsService.setFestival(Festival.builder().festivalNumber(141105).startDate("2016-03-05 00:00:00").endDate("2026-11-19 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build());
 //        Assertions.assertThrows(DataIntegrityViolationException.class, () -> festivalsService.setFestival(Festival.builder().festivalNumber(777).startDate("2016-03-05").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build()));
