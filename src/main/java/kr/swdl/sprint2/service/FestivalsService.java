@@ -28,6 +28,10 @@ public class FestivalsService {
 
     public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery){
 
+        if ((festivalListQuery.getSearchBy() != null && festivalListQuery.getKeyword() != null) && (festivalListQuery.getKeyword().equals(" ")||festivalListQuery.getKeyword().equals("_")||festivalListQuery.getKeyword().equals("%"))){
+            return null;
+        }
+
         if (festivalListQuery.getPage() == null )
             festivalListQuery.setPage(1);
 
@@ -122,6 +126,7 @@ public class FestivalsService {
     @Transactional(rollbackFor = Exception.class)
     public void setFestival(Festival festival){
         if (festivalsRepository.getFestival(festival.getFestivalNumber()) != null) {
+
             festivalsRepository.setFestival(festival);
             festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), false);
             festivalsRepository.delAddTags(festival.getFestivalNumber());

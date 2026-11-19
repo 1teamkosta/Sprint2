@@ -48,6 +48,9 @@ public class FestivalServiceTest {
         Assertions.assertTrue(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("xxxxx").keyword("공룡").build()).size() == 0);
         Assertions.assertTrue(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("xxxxx").build()).size() == 0);
         Assertions.assertTrue(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("xxxxx").keyword("xxxxx").build()).size() == 0);
+        Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword(" ").build()));
+        Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("%").build()));
+        Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("_").build()));
         System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").build()));
     }
     @Test
@@ -137,6 +140,7 @@ public class FestivalServiceTest {
     void setFestivalStatus() {
         System.out.println(festivalsService.getFestivalDetail(141105));
         System.out.println(festivalsService.getFestivalDetail(777));
+
         festivalsService.setFestivalStatus(141105);
         System.out.println(festivalsService.getFestivalDetail(141105));
     }
