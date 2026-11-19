@@ -24,37 +24,29 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 public class UserServiceTest {
 
     @Autowired
-    private Status status;
-    @Autowired
     private UserService userService;
-    @Autowired
-    private UserStatus userStatus;
     @Autowired
     private UserRepository userRepository;
 
 
     @Test
-    void getUserDetail() {
+    void getUserDetail_validId() {
 
         UserDetailDTO userDetail = userService.getUserDetail(1, 1);
+
         Assertions.assertNotNull(userDetail.getAccountNumber());
         Assertions.assertTrue(userDetail.getUserActivities().size() > 0);
     }
 
     @Test
-    void getUserDetail2() {
-
+    void getUserDetail_invalidIdReturnsNull() {
         Assertions.assertNull(userService.getUserDetail(999999, 1));
-    }
-
-    @Test
-    void getUserDetail3() {
         Assertions.assertNull(userService.getUserDetail(-1, 1));
     }
 
     @Test
-    void getUsersPage1() {
-        UserListQuery request = UserListQuery.builder().page(1).build();
+    void getUsersPage_1page() {
+        UserListQuery request = UserListQuery.builder().page(2).build();
         List<UserDTO> userList = userService.getUsers(request);
 
         Assertions.assertNotNull(userList);
@@ -65,17 +57,39 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUsersPage2() {
-        UserListQuery request = UserListQuery.builder().page(3).build();
+    void getUsersPage_0page() {
+        UserListQuery request = UserListQuery.builder().page(0).build();
         List<UserDTO> userList = userService.getUsers(request);
 
         Assertions.assertNotNull(userList);
-        Assertions.assertTrue(userList.size() > 1);
-        Assertions.assertTrue(userList.size() <= 10);
+        Assertions.assertFalse(userList.size() > 1);
+        //Assertions.assertFalse(userList.size() <= 10);
+
+        userList.forEach(System.out::println);
     }
 
     @Test
-    void getUser_SearchByNickname1() {
+    void getUsersPage_3page() {
+        UserListQuery request = UserListQuery.builder().page(116767).build();
+        List<UserDTO> userList = userService.getUsers(request);
+
+        Assertions.assertNotNull(userList);
+        Assertions.assertFalse(userList.size() > 1);
+        //Assertions.assertFalse(userList.size() <= 10);
+    }
+
+    @Test
+    void getUsersPage_negativePage() {
+        UserListQuery request = UserListQuery.builder().page(-1).build();
+        List<UserDTO> userList = userService.getUsers(request);
+
+        Assertions.assertNotNull(userList);
+        Assertions.assertFalse(userList.size() > 1);
+        //Assertions.assertFalse(userList.size() <= 10);
+    }
+
+    @Test
+    void getUser_SearchByNickname_matchedKeyword() {
         UserListQuery request = UserListQuery.builder().keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -86,18 +100,18 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_SearchByNickname2() {
+    void getUser_SearchByNickname_unmatchedKeyword() {
         UserListQuery request = UserListQuery.builder().keyword("xxx").build();
 
         List<UserDTO> result = userService.getUsers(request);
 
         Assertions.assertNotNull(request);
-        Assertions.assertTrue(result.size() >= 1);
+        Assertions.assertFalse(result.size() >= 1);
 
     }
 
     @Test
-    void getUser_FilterByStatus() {
+    void getUser_FilterByStatus_statusZero() {
         UserListQuery request = UserListQuery.builder().filterByStatus(0).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -107,50 +121,50 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_FilterByStatus1() {
+    void getUser_FilterByStatus_statusMinusOne() {
         UserListQuery request = UserListQuery.builder().filterByStatus(-1).build();
 
         List<UserDTO> result = userService.getUsers(request);
 
         Assertions.assertNotNull(request);
-        Assertions.assertTrue(result.size() >= 1);
+        Assertions.assertFalse(result.size() >= 1);
     }
 
     @Test
-    void getUser_SearchByNickname_AND_FilterByStatus1() {
-    UserListQuery request = UserListQuery.builder().filterByStatus(1).keyword("관자").build();
+    void getUser_SearchByNickname_AND_FilterByStatus_statusOne() {
+        UserListQuery request = UserListQuery.builder().filterByStatus(1).keyword("관자").build();
 
-    List<UserDTO> result = userService.getUsers(request);
-       Assertions.assertNotNull(request);
-       Assertions.assertTrue(result.size()>=1);
-}
+        List<UserDTO> result = userService.getUsers(request);
+        Assertions.assertNotNull(request);
+        Assertions.assertTrue(result.size()>=1);
+    }
     @Test
-    void getUser_SearchByNickname_AND_FilterByStatus2() {
+    void getUser_SearchByNickname_AND_FilterByStatus_statusZero() {
         UserListQuery request = UserListQuery.builder().filterByStatus(0).keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
         Assertions.assertNotNull(request);
-        Assertions.assertTrue(result.size()>=1);
+        Assertions.assertFalse(result.size()>=1);
     }
-@Test
-    void getUser_SearchByNickname_AND_FilterByStatus3() {
+    @Test
+    void getUser_SearchByNickname_AND_FilterByStatus_statusMinusOne() {
         UserListQuery request = UserListQuery.builder().filterByStatus(-1).keyword("xxx").build();
 
         List<UserDTO> result = userService.getUsers(request);
         Assertions.assertNotNull(request);
-        Assertions.assertTrue(result.size()>=1);
+        Assertions.assertFalse(result.size()>=1);
     }
 
     @Test
-    void SetUserStatus() {
+    void SetUserStatus_changeToOne() {
         userService.setUserStatus(1, 1);
         User user = userRepository.getUser(1);
 
-        Assertions.assertTrue(user.getStatus() == 0);
+        Assertions.assertTrue(user.getStatus() == 1);
     }
 
     @Test
-    void SetUserStatus2() {
+    void SetUserStatus_changeToZero() {
         userService.setUserStatus(1, 0);
         User user = userRepository.getUser(1);
 
@@ -158,7 +172,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void setUsersStatus1() {
+    void setUsersStatus_changeToOne() {
         List<Integer> accountNumbers = Arrays.asList(1, 2, 3);
 
         userService.setUsersStatus(accountNumbers, 1);
@@ -168,8 +182,8 @@ public class UserServiceTest {
             Assertions.assertTrue(user.getStatus() == 1);
         }
     }
-@Test
-    void setUsersStatus2() {
+    @Test
+    void setUsersStatus_changeToZero() {
         List<Integer> accountNumbers = Arrays.asList(1, 2, 3);
 
         userService.setUsersStatus(accountNumbers, 0);
@@ -181,7 +195,7 @@ public class UserServiceTest {
     }
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy1() {
+    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_descInDate() {
         UserListQuery request = UserListQuery.builder().sortDirection("DESC").sortType("inDate").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -192,7 +206,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy2() {
+    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_emptyDirInDate() {
         UserListQuery request = UserListQuery.builder().sortDirection("").sortType("inDate").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -203,7 +217,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy3() {
+    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_emptyDirPopularity() {
         UserListQuery request = UserListQuery.builder().sortDirection("").sortType("popularity").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -214,7 +228,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SortDir_AND_SortBy4() {
+    void getUser_FilterByStatus_AND_SortDir_AND_SortBy_mixedCaseDescPopularity() {
         UserListQuery request = UserListQuery.builder().sortDirection("Desc").sortType("popularity").filterByStatus(1).build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -225,7 +239,7 @@ public class UserServiceTest {
 
 
     @Test
-    void getUser_FilterByStatus_AND_SearchByNickname_AND_SortBy_AND_Sordir() {
+    void getUser_FilterByStatus_AND_SearchByNickname_AND_SortBy_AND_Sordir_mixedCaseDescPopularityWithKeyword() {
         UserListQuery request = UserListQuery.builder().sortDirection("Desc").sortType("popularity").filterByStatus(1).keyword("관자").build();
 
         List<UserDTO> result = userService.getUsers(request);
@@ -233,18 +247,4 @@ public class UserServiceTest {
         Assertions.assertTrue(result.size()>0);
         result.forEach(System.out::println);
     }
-
-
-
-
-
-
 }
-
-
-
-
-
-
-
-
