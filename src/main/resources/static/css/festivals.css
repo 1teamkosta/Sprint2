@@ -59,7 +59,7 @@
 .festival-table th:has([data-sort="title"]) {
     padding-inline: 12px;
 }
-.festival-table [data-sort-field="startDate"] { font-size: 0.875rem; }
+.festival-table [data-sort-field="startDate"]
 .festival-table time { display: inline-block; }
 
 /* 검색 창 */
