@@ -44,11 +44,6 @@ public class DashboardRepositoryTest {
     }
 
     @Test
-    public void countByTags(){
-        Assertions.assertTrue(dashboardRepository.countByTag() > 0);
-    }
-
-    @Test
     public void countByFestivalReviews(){
         Assertions.assertTrue(dashboardRepository.countByFestivalReview() > 0);
     }

@@ -36,11 +36,6 @@
         LIMIT 4;
     </select>
 
-    <select id="countByTag" resultType="int">
-        SELECT COUNT(TAG_NUMBER)
-        FROM TAGS;
-    </select>
-
     <select id="countByFestivalReview" resultType="int">
         SELECT COUNT(REVIEW_NUMBER)
         FROM festival_reviews;

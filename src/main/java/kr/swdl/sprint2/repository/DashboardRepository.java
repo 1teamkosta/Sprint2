@@ -14,7 +14,6 @@ public interface DashboardRepository {
     int countByTodayNewUser();
     List<Festival> getRecentFestival();
     List<Map<String, Object>> getGenreTagDistribution();
-    int countByTag();
     int countByFestivalReview();
     int countByAttendee();
     int countByLikedFestival();
