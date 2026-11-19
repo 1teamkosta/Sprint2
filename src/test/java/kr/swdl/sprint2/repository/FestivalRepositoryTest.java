@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 @SpringBootTest
 @Transactional
@@ -199,6 +200,7 @@ public class FestivalRepositoryTest {
                 .address("testAddress")
                 .contents("testContents")
                 .imageUrl("testImageUrl")
+                .progressStatus(progressStatus.closed())
                 .festivalNumber(141105)
                 .build());
         System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("test777").build()));
@@ -209,6 +211,12 @@ public class FestivalRepositoryTest {
         System.out.println(festivalsRepository.getFestival(141105));
         festivalsRepository.setFestivalStatus(141105);
         System.out.println(festivalsRepository.getFestival(141105));
+    }
+    @Test
+    void setFestivalsStatus(){
+        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
+        festivalsRepository.setFestivalsStatus(List.of(15,141105,506470));
+        System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
     }
 
     @Test

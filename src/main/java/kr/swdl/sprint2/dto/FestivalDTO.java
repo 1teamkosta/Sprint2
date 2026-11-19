@@ -21,9 +21,4 @@ public class FestivalDTO {
     private int progressStatus;
     private String address;
     private int festivalLikes;
-    private String contents;
-    private String imageUrl;
-    private List<String> addTag;
-    private int festivalReviewLike;
-    private int festivalReviewDislike;
 }

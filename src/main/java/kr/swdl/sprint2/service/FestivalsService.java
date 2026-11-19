@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.service;
 import kr.swdl.sprint2.dto.FestivalDTO;
+import kr.swdl.sprint2.dto.FestivalDetailDTO;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.repository.FestivalsRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
@@ -28,7 +29,7 @@ public class FestivalsService {
 
     public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery){
 
-        if ((festivalListQuery.getSearchBy() != null && festivalListQuery.getKeyword() != null) && (festivalListQuery.getKeyword().equals(" ")||festivalListQuery.getKeyword().equals("_")||festivalListQuery.getKeyword().equals("%"))){
+        if ((festivalListQuery.getSearchBy() != null && festivalListQuery.getKeyword() != null) && (festivalListQuery.getKeyword().isBlank()||festivalListQuery.getKeyword().equals("_")||festivalListQuery.getKeyword().equals("%"))){
             return null;
         }
 
@@ -74,9 +75,9 @@ public class FestivalsService {
         return festivalsDTO;
     }
 
-    public FestivalDTO getFestivalDetail(int festivalNumber){
+    public FestivalDetailDTO getFestivalDetail(int festivalNumber){
         Festival vo = festivalsRepository.getFestival(festivalNumber);
-        FestivalDTO dto = new FestivalDTO();
+        FestivalDetailDTO dto = new FestivalDetailDTO();
         if (vo == null){
             return null;
         }
@@ -100,15 +101,18 @@ public class FestivalsService {
 
     @Transactional(rollbackFor = Exception.class)
     public void addFestival(Festival festival) throws ParseException {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 
-        Date now = new Date();
+        festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
 
-        if(now.before(sdf.parse(festival.getStartDate()))){
-            festival.setProgressStatus(progressStatus.upcomming());
-        }else if (now.after(sdf.parse(festival.getEndDate()))){
-            festival.setProgressStatus(progressStatus.closed());
-        }else festival.setProgressStatus(progressStatus.progress());
+//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//        Date now = new Date();
+//
+//        if(now.before(sdf.parse(festival.getStartDate()))){
+//            festival.setProgressStatus(progressStatus.upcomming());
+//        }else if (now.after(sdf.parse(festival.getEndDate()))){
+//            festival.setProgressStatus(progressStatus.closed());
+//        }else festival.setProgressStatus(progressStatus.progress());
 
         festivalsRepository.addFestival(festival);
 
@@ -124,10 +128,23 @@ public class FestivalsService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public void setFestival(Festival festival){
+    public void setFestival(Festival festival) throws ParseException {
         if (festivalsRepository.getFestival(festival.getFestivalNumber()) != null) {
 
+            festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
+
+//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//
+//            Date now = new Date();
+//
+//            if(now.before(sdf.parse(festival.getStartDate()))){
+//                festival.setProgressStatus(progressStatus.upcomming());
+//            }else if (now.after(sdf.parse(festival.getEndDate()))){
+//                festival.setProgressStatus(progressStatus.closed());
+//            }else festival.setProgressStatus(progressStatus.progress());
+
             festivalsRepository.setFestival(festival);
+
             festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), false);
             festivalsRepository.delAddTags(festival.getFestivalNumber());
 
@@ -140,8 +157,27 @@ public class FestivalsService {
             festivalsRepository.setTagFestivalCount(festival.getFestivalNumber(), true);
         }
     }
+    private int setDateStatus(String start, String end) throws ParseException {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date now = new Date();
+
+        Date startDate = sdf.parse(start);
+        Date endDate = sdf.parse(end);
+
+        if (now.before(startDate)) {
+            return progressStatus.upcomming();
+        } else if (now.after(endDate)) {
+            return progressStatus.closed();
+        } else {
+            return progressStatus.progress();
+        }
+    }
 
     public void setFestivalStatus(int festivalNumber){
         festivalsRepository.setFestivalStatus(festivalNumber);
+    }
+
+    public void setFestivalsStatus(List<Integer> festivalNumbers) {
+        festivalsRepository.setFestivalsStatus(festivalNumbers);
     }
 }

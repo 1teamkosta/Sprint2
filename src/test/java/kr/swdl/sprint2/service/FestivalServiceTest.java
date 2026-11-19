@@ -51,6 +51,7 @@ public class FestivalServiceTest {
         Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword(" ").build()));
         Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("%").build()));
         Assertions.assertNull(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("_").build()));
+        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("").build()));
         System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().searchBy("festivalName").keyword("공룡").build()));
     }
     @Test
@@ -123,16 +124,17 @@ public class FestivalServiceTest {
 
     @Test
     void addFestival() throws ParseException {
-        festivalsService.addFestival(Festival.builder().startDate("2016-03-05").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).progressStatus(progressStatus.upcomming()).build());
+        festivalsService.addFestival(Festival.builder().startDate("2016-03-05 00:00:00").endDate("2026-11-18 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).progressStatus(progressStatus.upcomming()).build());
         int festivalNumber = festivalsRepository.getAddFestivalNumber();
         System.out.println(festivalsService.getFestivalDetail(festivalNumber));
     }
 
     @Test
-    void setFestival() {
-        festivalsService.setFestival(Festival.builder().festivalNumber(141105).startDate("2016-03-05").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build());
+    void setFestival() throws ParseException {
+        System.out.println(festivalsService.getFestivalDetail(141105));
+        festivalsService.setFestival(Festival.builder().festivalNumber(141105).startDate("2016-03-05 00:00:00").endDate("2026-11-19 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build());
 //        Assertions.assertThrows(DataIntegrityViolationException.class, () -> festivalsService.setFestival(Festival.builder().festivalNumber(777).startDate("2016-03-05").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build()));
-        festivalsService.setFestival(Festival.builder().festivalNumber(777).startDate("2016-03-05").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build());
+        festivalsService.setFestival(Festival.builder().festivalNumber(777).startDate("2016-03-05 00:00:00").endDate("2027-01-03 23:59:59").address("777").contents("777").festivalName("777").imageUrl("777").mainTag("1").addTag(List.of("2","3")).build());
         System.out.println(festivalsService.getFestivalDetail(141105));
     }
 
@@ -140,8 +142,14 @@ public class FestivalServiceTest {
     void setFestivalStatus() {
         System.out.println(festivalsService.getFestivalDetail(141105));
         System.out.println(festivalsService.getFestivalDetail(777));
-
         festivalsService.setFestivalStatus(141105);
         System.out.println(festivalsService.getFestivalDetail(141105));
+    }
+
+    @Test
+    void setFestivalsStatus() {
+        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().sortDirection("ASC").build()));
+        festivalsService.setFestivalsStatus(List.of(15,141105,506470));
+        System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().sortDirection("ASC").build()));
     }
 }

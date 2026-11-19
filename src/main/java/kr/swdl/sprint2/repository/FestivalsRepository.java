@@ -16,6 +16,7 @@ public interface FestivalsRepository {
     List<String> getAddTag(int festivalNumber);
     int countByFestivalReview(@Param("festivalNumber")int festivalNumber, @Param("review")int review);
     void setFestivalStatus(int festivalNumber);
+    void setFestivalsStatus(@Param("festivalNumbers")List<Integer> festivalNumbers);
     void setFestival(Festival festival);
     void addFestival(Festival festival);
     int getAddFestivalNumber();
