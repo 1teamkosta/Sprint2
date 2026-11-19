@@ -7,6 +7,8 @@ import kr.swdl.sprint2.repository.TagRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -31,14 +33,16 @@ public class DashboardService {
 
     public List<RecentFestivalDTO> getRecentFestival() {
         List<RecentFestivalDTO> list = new ArrayList<>();
+        DateTimeFormatter inputFormat = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter outputFormat = DateTimeFormatter.ofPattern("yyyy.MM.dd");
 
         dashRepo.getRecentFestival().forEach(f -> {
             list.add(RecentFestivalDTO.builder()
                     .festivalNumber(f.getFestivalNumber())
                     .festivalName(f.getFestivalName())
                     .address(f.getAddress())
-                    .startDate(f.getStartDate().split(" ")[0])
-                    .endDate(f.getEndDate().split(" ")[0])
+                    .startDate(LocalDateTime.parse(f.getStartDate(), inputFormat).format(outputFormat))
+                    .endDate(LocalDateTime.parse(f.getEndDate(), inputFormat).format(outputFormat))
                     .progressStatus(f.getProgressStatus()).build());
         });
         return list;
