@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.ClubRepository">
+    <select id="getClubs" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT c.club_number as clubNumber, c.status, f.festival_number as festivalNumber , f.festival_name as festivalName, c.club_name as clubName, c.purpose, a.account_number as accountNumber, a.nickname, c.created_at as createdAt
+        FROM clubs c
+        JOIN festivals f ON f.FESTIVAL_NUMBER = c.FESTIVAL_NUMBER
+        JOIN attendees atd ON atd.CLUB_NUMBER = c.CLUB_NUMBER AND atd.attendee_role = 0
+        JOIN accounts a ON a.ACCOUNT_NUMBER = atd.ACCOUNT_NUMBER
+        <where>
+
+            <if test="query.filterByStatus != null" >
+                AND c.status = #{query.filterByStatus}
+            </if>
+
+            <if test="query.filterByPurpose != null">
+                AND c.purpose = #{query.filterByPurpose}
+            </if>
+
+            <if test="query.searchBy != null and query.searchBy != ''">
+
+                <choose>
+                    <when test="query.searchBy == 'clubName'">
+                        AND c.club_name LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
+                    </when>
+
+                    <when test="query.searchBy == 'festivalName'">
+                        AND f.festival_name LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
+                    </when>
+
+                    <when test="query.searchBy == 'nickname'">
+                        AND a.nickname LIKE CONCAT('%',
+                        REPLACE(REPLACE(REPLACE(#{query.keyword}, '!', '!!'),'%', '!%'),'_', '!_'),
+                        '%') ESCAPE '!'
+                    </when>
+                    <otherwise>AND 1 = 0</otherwise>
+                </choose>
+            </if>
+
+
+
+        </where>
+    </select>
+
+    <select id="getClubDetail" resultType="kr.swdl.sprint2.vo.Club">
+        SELECT
+            c.club_number AS clubNumber,c.status,c.club_name AS clubName,c.meeting_date AS meetingDate,
+            c.created_at AS createdAt,f.festival_number AS festivalNumber,f.festival_name AS festivalName,
+            c.contents,c.purpose,
+            (
+                SELECT COUNT(*)
+                FROM attendees atd
+                WHERE atd.club_number = c.club_number
+            ) AS curCount,
+            c.max_count AS maxCount
+        FROM clubs c
+                 JOIN festivals f ON f.festival_number = c.festival_number
+        WHERE c.club_number = #{clubNumber}
+    </select>
+
+    <select id="getClubUser" resultType="kr.swdl.sprint2.vo.Attendee">
+        SELECT a.account_number as accountNumber, a.NICKNAME, atd.ATTENDEE_ROLE as attendeeRole
+        FROM accounts a
+                 JOIN attendees atd ON atd.ACCOUNT_NUMBER = a.ACCOUNT_NUMBER
+                 JOIN clubs c ON c.CLUB_NUMBER = atd.CLUB_NUMBER
+        WHERE c.CLUB_NUMBER = #{clubNumber};
+    </select>
+
+    <update id="setClubStatus" >
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number = #{clubNumber};
+    </update>
+
+    <update id="setClubsStatus">
+        UPDATE clubs SET STATUS = #{status}
+        WHERE club_number IN
+        <foreach collection="clubNumbers"
+                 item="clubNumber"
+                 open="("
+                 separator=","
+                 close=")">
+            #{clubNumber}
+        </foreach>
+    </update>
+
+
+
+</mapper>

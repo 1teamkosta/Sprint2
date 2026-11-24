@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="kr.swdl.sprint2.repository.UserRepository">
+    <select id="getUsers" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        <where>account_role = 1
+        <if test="query.filterByStatus != null">
+            and status = #{query.filterByStatus}
+        </if>
+
+        <if test="query.keyword != null">
+            and nickname LIKE CONCAT('%', #{query.keyword}, '%')
+        </if>
+        </where>
+    </select>
+    <select id="getUsersByNickname" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        <where>account_role = 1
+            <if test="filterByStatus != null">
+                and status = #{query.filterByStatus}
+        </if>
+
+            <if test="keyword != null">
+                and nickname LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+
+        </where>
+    </select>
+    <select id="getUsersByStatus" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE status = #{status} and account_role = 1
+    </select>
+    <select id="sortUsersByPoopularity" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE account_role = 1
+    </select>
+    <select id="sortUsersByInDate" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts
+        WHERE account_role = 1
+        ORDER BY in_date DESC
+    </select>
+    <select id="getUser" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number,id,nickname,email,popularity,in_date,status
+        FROM accounts
+        WHERE account_number = #{accountNumber};
+    </select>
+    <select id="getClubByUser" resultType="kr.swdl.sprint2.vo.UserActivity">
+        SELECT
+            c.club_number,
+            a.attendee_role,
+            c.club_name,
+            f.festival_name,
+            c.purpose
+        FROM attendees a
+                 JOIN clubs c ON a.club_number = c.club_number
+                 JOIN festivals f ON c.festival_number = f.festival_number
+        WHERE a.account_number = #{accountNumber};
+    </select>
+    <update id="setUserStatus">
+        UPDATE ACCOUNTS SET  STATUS = #{status} WHERE ACCOUNT_NUMBER =#{accountNumber};
+    </update>
+    <update id="setUsersStatus">
+        UPDATE accounts
+        SET status = #{status}
+        WHERE account_number IN
+        <foreach item="accountNumber" collection="accountNumbers" open="(" separator="," close=")">
+            #{accountNumber}
+        </foreach>
+    </update>
+    <select id="getUsersByConditionAndNickname" parameterType="map" resultType="kr.swdl.sprint2.vo.User">
+        SELECT account_number, status, nickname, email, popularity, in_date
+        FROM accounts WHERE account_role = 1
+            <if test="nickname != null and nickname != ''">
+                AND nickname LIKE CONCAT('%', #{keyword}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+    </select>
+</mapper>
