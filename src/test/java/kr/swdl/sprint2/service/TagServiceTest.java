@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.service;
 
+import kr.swdl.sprint2.dto.TagDetaiDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.service.properties.Status;
 import kr.swdl.sprint2.service.properties.TagType;
@@ -47,6 +48,7 @@ public class TagServiceTest {
     public void getTagsByTagName() {
         Assertions.assertFalse(service.getTags(TagListQuery.builder().searchBy("tagName").keyword("체험").build()).isEmpty());
         Assertions.assertTrue(service.getTags(TagListQuery.builder().searchBy("xxxxxx").keyword("체험").build()).isEmpty());
+        Assertions.assertTrue(service.getTags(TagListQuery.builder().searchBy("tagName").build()).isEmpty());
     }
 
     @Test
@@ -83,5 +85,26 @@ public class TagServiceTest {
     public void getTagDetail() {
         Assertions.assertNotNull(service.getTagDetail(11));
         Assertions.assertNull(service.getTagDetail(-1));
+        System.out.println(service.getTagDetail(11));
+    }
+
+    @Test
+    public void setTag() {
+        service.setTag(TagDetaiDTO.builder().tagNumber(1)
+                .tagName("updateName").contents("updateContents")
+                .color("#0000FF").status(status.hidden())
+                .tagType(tagType.target()).build());
+
+        System.out.println(service.getTagDetail(1));
+    }
+
+    @Test
+    public void addTag() {
+        service.addTag(TagDetaiDTO.builder()
+                .tagName("addName").contents("addContents")
+                .color("#FF00FF").status(status.hidden())
+                .tagType(tagType.target()).build());
+
+        System.out.println(service.getTags(TagListQuery.builder().searchBy("tagName").keyword("addName").build()));
     }
 }

@@ -6,6 +6,7 @@ import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.repository.TagRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
 import kr.swdl.sprint2.service.properties.PageProperties;
+import kr.swdl.sprint2.service.util.LikePatternEscaper;
 import kr.swdl.sprint2.vo.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -37,6 +38,9 @@ public class TagService {
                 break;
         }
 
+        if(request.getSearchBy() != null)
+            request.setKeyword(LikePatternEscaper.escape(request.getKeyword()));
+
         Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
                 () -> repo.getTags(request)).forEach((tag) -> {
                     list.add(TagDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
@@ -54,7 +58,7 @@ public class TagService {
             return null;
 
         return TagDetaiDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
-                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build();
     }
 
@@ -64,13 +68,13 @@ public class TagService {
 
     public void addTag(TagDetaiDTO tag) {
         repo.addTag(Tag.builder().tagName(tag.getTagName())
-                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());
     }
 
     public void setTag(TagDetaiDTO tag) {
         repo.setTag(Tag.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
-                .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());
     }
 }
