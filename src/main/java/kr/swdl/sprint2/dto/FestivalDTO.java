@@ -1,9 +1,7 @@
 package kr.swdl.sprint2.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 
@@ -11,20 +9,16 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Accessors(chain = true)
 public class FestivalDTO {
     private int festivalNumber;
     private int status;
-    private String genreTag;
+    private String mainTag;
     private String festivalName;
     private String startDate;
     private String endDate;
     private int progressStatus;
     private String address;
     private int festivalLikes;
-    private String contents;
-    private String imageUrl;
-    private List<String> tagetTag;
-    private int festivalReviewLike;
-    private int festivalReviewDislike;
-    private String orderBy;
 }
