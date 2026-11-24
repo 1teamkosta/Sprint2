@@ -1,7 +1,9 @@
 package kr.swdl.sprint2.vo;
 
 import lombok.*;
+import lombok.experimental.Accessors;
 
+import java.util.Date;
 import java.util.List;
 
 @Data
@@ -9,6 +11,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
+@Accessors(chain = true)
 public class Festival {
     private int festivalNumber;
     private int status;
@@ -24,5 +27,4 @@ public class Festival {
     private List<String> addTag;
     private int festivalReviewLike;
     private int festivalReviewDislike;
-    private String orderBy;
 }
