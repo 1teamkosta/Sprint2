@@ -2,9 +2,7 @@ package kr.swdl.sprint2.vo;
 
 import lombok.*;
 
-@Setter
-@Getter
-@ToString
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
@@ -17,7 +15,7 @@ public class User {
     private String nickname;
     private String password;
     private String email;
-    private int Popularity;
+    private int popularity;
     private String inDate;
     private int status;
 }
