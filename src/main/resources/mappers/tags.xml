@@ -31,7 +31,7 @@
         </if>
     </select>
     <select id="getTagDetail" resultType="kr.swdl.sprint2.vo.Tag">
-        SELECT tag_number, status, tag_name, contents, tag_type, color, festival_count FROM tags
+        SELECT tag_number, status, tag_name, contents, tag_type, color FROM tags
         WHERE tag_number = #{tagNumber}
     </select>
     <insert id="addTag">
