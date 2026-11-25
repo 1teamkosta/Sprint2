@@ -1,7 +1,7 @@
 package kr.swdl.sprint2.service;
 
 import kr.swdl.sprint2.dto.TagDTO;
-import kr.swdl.sprint2.dto.TagDetaiDTO;
+import kr.swdl.sprint2.dto.TagDetailDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.repository.TagRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
@@ -51,13 +51,13 @@ public class TagService {
         return list;
     }
 
-    public TagDetaiDTO getTagDetail(int tagNumber) {
+    public TagDetailDTO getTagDetail(int tagNumber) {
         Tag tag = repo.getTagDetail(tagNumber);
 
         if (tag == null)
             return null;
 
-        return TagDetaiDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+        return TagDetailDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
                 .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build();
     }
@@ -66,13 +66,13 @@ public class TagService {
         return repo.countTags(tagType);
     }
 
-    public void addTag(TagDetaiDTO tag) {
+    public void addTag(TagDetailDTO tag) {
         repo.addTag(Tag.builder().tagName(tag.getTagName())
                 .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());
     }
 
-    public void setTag(TagDetaiDTO tag) {
+    public void setTag(TagDetailDTO tag) {
         repo.setTag(Tag.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
                 .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());

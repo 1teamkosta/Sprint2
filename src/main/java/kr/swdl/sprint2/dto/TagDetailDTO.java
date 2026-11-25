@@ -7,7 +7,7 @@ import lombok.ToString;
 @Builder
 @Getter
 @ToString
-public class TagDetaiDTO {
+public class TagDetailDTO {
     private int tagNumber;
     private String tagName;
     private String contents;
