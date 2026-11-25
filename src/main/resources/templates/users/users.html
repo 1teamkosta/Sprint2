@@ -6,17 +6,15 @@
     <title>회원 관리 | 축제메이트</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="../../static/css/component.css" rel="stylesheet">
-    <link href="../../static/css/users.css" rel="stylesheet">
-    <script src="../../static/js/component.js" defer></script>
-    <script src="../../static/js/list.js" defer></script>
-    <script src="../../static/js/users.js" defer></script>
+    <link th:href="@{/css/component.css}" rel="stylesheet">
+    <link th:href="@{/css/users.css}" rel="stylesheet">
+    <script th:src="@{/js/list.js}" defer></script>
+    <script th:src="@{/js/users.js}" defer></script>
 </head>
 <body data-admin-page="users">
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
-    <!-- JS로 별도 HTML을 불러옴. 추후 th:replace로 교체 -->
-    <div id="header-container"></div>
-    <div id="sidebar-container"></div>
+    <div th:replace="~{component/header}"></div>
+    <div th:replace="~{component/sidebar}"></div>
 
     <main id="main-content" class="admin-main" tabindex="-1">
         <div class="container-fluid">
@@ -85,7 +83,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="1" aria-label="회원 1번 선택"></td>
                                 <td data-field="userId">1</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=1">김축제</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=1)}">김축제</a></td>
                                 <td data-field="email">festival.kim@example.com</td>
                                 <td data-sort-field="popularity">128</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-01"><time datetime="2026-09-01">2026.09.01</time></td>
@@ -95,7 +93,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="2" aria-label="회원 2번 선택"></td>
                                 <td data-field="userId">2</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=2">이음식</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=2)}">이음식</a></td>
                                 <td data-field="email">food.lee@example.com</td>
                                 <td data-sort-field="popularity">42</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-12"><time datetime="2026-09-12">2026.09.12</time></td>
@@ -105,7 +103,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="3" aria-label="회원 3번 선택"></td>
                                 <td data-field="userId">3</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=3">박재즈</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=3)}">박재즈</a></td>
                                 <td data-field="email">jazz.park@example.com</td>
                                 <td data-sort-field="popularity">95</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-02"><time datetime="2026-10-02">2026.10.02</time></td>
@@ -115,7 +113,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="4" aria-label="회원 4번 선택"></td>
                                 <td data-field="userId">4</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=4">한문화</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=4)}">한문화</a></td>
                                 <td data-field="email">culture.han@example.com</td>
                                 <td data-sort-field="popularity">7</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-20"><time datetime="2026-08-20">2026.08.20</time></td>
@@ -125,7 +123,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="5" aria-label="회원 5번 선택"></td>
                                 <td data-field="userId">5</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=5">최김밥</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=5)}">최김밥</a></td>
                                 <td data-field="email">gimbap.choi@example.com</td>
                                 <td data-sort-field="popularity">210</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-15"><time datetime="2026-10-15">2026.10.15</time></td>
@@ -135,7 +133,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="6" aria-label="회원 6번 선택"></td>
                                 <td data-field="userId">6</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=6">정수원</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=6)}">정수원</a></td>
                                 <td data-field="email">suwon.jung@example.com</td>
                                 <td data-sort-field="popularity">33</td>
                                 <td data-field="joinedAt" data-sort-value="2026-07-30"><time datetime="2026-07-30">2026.07.30</time></td>
@@ -145,7 +143,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="7" aria-label="회원 7번 선택"></td>
                                 <td data-field="userId">7</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=7">송바다</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=7)}">송바다</a></td>
                                 <td data-field="email">sea.song@example.com</td>
                                 <td data-sort-field="popularity">86</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
@@ -155,7 +153,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="8" aria-label="회원 8번 선택"></td>
                                 <td data-field="userId">8</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=8">오춘천</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=8)}">오춘천</a></td>
                                 <td data-field="email">chuncheon.oh@example.com</td>
                                 <td data-sort-field="popularity">15</td>
                                 <td data-field="joinedAt" data-sort-value="2026-09-22"><time datetime="2026-09-22">2026.09.22</time></td>
@@ -165,7 +163,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="9" aria-label="회원 9번 선택"></td>
                                 <td data-field="userId">9</td>
                                 <td><span class="badge user-status-suspended">정지</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=9">유가을</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=9)}">유가을</a></td>
                                 <td data-field="email">autumn.yoo@example.com</td>
                                 <td data-sort-field="popularity">160</td>
                                 <td data-field="joinedAt" data-sort-value="2026-08-11"><time datetime="2026-08-11">2026.08.11</time></td>
@@ -175,7 +173,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="10" aria-label="회원 10번 선택"></td>
                                 <td data-field="userId">10</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=10">임전주</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=10)}">임전주</a></td>
                                 <td data-field="email">jeonju.lim@example.com</td>
                                 <td data-sort-field="popularity">64</td>
                                 <td data-field="joinedAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
@@ -185,7 +183,7 @@
                                 <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="userIds" value="11" aria-label="회원 11번 선택"></td>
                                 <td data-field="userId">11</td>
                                 <td><span class="badge user-status-active">활동</span></td>
-                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" href="userDetail.html?id=11">서봄</a></td>
+                                <td class="fw-medium" data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView(id=11)}">서봄</a></td>
                                 <td data-field="email">spring.seo@example.com</td>
                                 <td data-sort-field="popularity">102</td>
                                 <td data-field="joinedAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>

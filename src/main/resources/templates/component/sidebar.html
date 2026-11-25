@@ -10,7 +10,7 @@
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'tags'} ? ' active'" th:href="@{/admin/tags}" data-page="tags" th:attr="aria-current=${activePage == 'tags'} ? 'page' : null">태그 관리</a></li>
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == null or activePage == 'festival'} ? ' active'" th:href="@{/admin/festivalsView}" data-page="festival" th:attr="aria-current=${activePage == null or activePage == 'festival'} ? 'page' : null">축제 관리</a></li>
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'club'} ? ' active'" th:href="@{/admin/clubsView}" data-page="club" th:attr="aria-current=${activePage == 'club'} ? 'page' : null">모임 관리</a></li>
-            <li class="nav-item"><a class="nav-link" href="../users/users.html" data-page="users">회원 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'users'} ? ' active'" th:href="@{/admin/usersView}" data-page="users" th:attr="aria-current=${activePage == 'users'} ? 'page' : null">회원 관리</a></li>
             <li class="nav-item"><a class="nav-link" href="../notices/notices.html" data-page="notices">공지 관리</a></li>
         </ul>
     </nav>
