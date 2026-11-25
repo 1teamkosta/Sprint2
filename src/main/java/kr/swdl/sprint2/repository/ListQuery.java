@@ -1,10 +1,12 @@
 package kr.swdl.sprint2.repository;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
 @SuperBuilder
+@NoArgsConstructor
 @Getter
 @Setter
 public abstract class ListQuery {
