@@ -26,7 +26,7 @@ public class TagService {
         if (request.getPage() == null)
             request.setPage(1);
 
-        if (request.getSortDirection() == null)
+        if (request.getSortDirection() == null )
             request.setSortDirection("DESC");
 
         switch (request.getSortType() == null ? "" :  request.getSortType()) {
@@ -38,7 +38,7 @@ public class TagService {
                 break;
         }
 
-        if(request.getSearchBy() != null)
+        if(request.getSearchBy() != null && !(request.getSearchBy().isBlank()))
             request.setKeyword(LikePatternEscaper.escape(request.getKeyword()));
 
         Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
