@@ -99,126 +99,16 @@
                                 </tr>
                             </thead>
                             <tbody class="text-center" id="club-list">
-                                <tr data-club-type="festival" data-status="visible">
+                                <tr data-club-type="festival" data-status="visible" th:each="club : ${clubs}">
                                     <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="1" aria-label="모임 1번 선택"></td>
-                                    <td data-field="clubId">1</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=1)}">부산 락 페스티벌</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=1)}">처음 가는 락페 함께 즐겨요</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=1)}">김축제</a></td>
+                                    <td data-field="clubId" th:text="${club.clubNumber}">1</td>
+                                    <td><span class="badge club-status-visible" th:text="${club.status == 0 ? '비공개' : '공개'}">공개</span></td>
+                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
+                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubDetailView/{clubNumber}(clubNumber=${club.clubNumber})}" th:text="${club.clubName}">처음 가는 락페 함께 즐겨요</a></td>
+                                    <td class="club-purpose" data-field="purpose" th:text="${club.purpose}">축제메이트</td>
+                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView/{accountNumber}(accountNumber=${club.accountNumber})}" th:text="${club.nickname}">김축제</a></td>
 
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30">2026.10.30</time></td>
-                                </tr>
-                                <tr data-club-type="food" data-status="hidden">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="2" aria-label="모임 2번 선택"></td>
-                                    <td data-field="clubId">2</td>
-                                    <td><span class="badge club-status-hidden">비공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=2)}">서울 먹거리 축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=2)}">돼지갈비후라이드 나눠 먹을 분</a></td>
-                                    <td class="club-purpose" data-field="purpose">음식메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=2)}">이음식</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-29"><time datetime="2026-10-29">2026.10.29</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="3" aria-label="모임 3번 선택"></td>
-                                    <td data-field="clubId">3</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=3)}">제주 가을 문화축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=3)}">전시 보고 산책하실 분 구해요</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=4)}">한문화</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-28"><time datetime="2026-10-28">2026.10.28</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="4" aria-label="모임 4번 선택"></td>
-                                    <td data-field="clubId">4</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=4)}">서울 한강에서 함께 즐기는 가을밤 재즈와 세계 음악 페스티벌 특별 공연</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=4)}">혼자 가는 재즈 축제에서 함께 공연을 즐기고 맛있는 음식도 나눠 먹을 동행 구합니다</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=3)}">박재즈</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-27"><time datetime="2026-10-27">2026.10.27</time></td>
-                                </tr>
-                                <tr data-club-type="food" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="5" aria-label="모임 5번 선택"></td>
-                                    <td data-field="clubId">5</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=5)}">김천 김밥축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=5)}">김밥 여러 종류 같이 나눠 먹어요</a></td>
-                                    <td class="club-purpose" data-field="purpose">음식메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=5)}">최김밥</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-26"><time datetime="2026-10-26">2026.10.26</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="hidden">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="6" aria-label="모임 6번 선택"></td>
-                                    <td data-field="clubId">6</td>
-                                    <td><span class="badge club-status-hidden">비공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=6)}">수원 전통문화 체험축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=6)}">전통문화 체험 같이 하실 분</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=6)}">정수원</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-25"><time datetime="2026-10-25">2026.10.25</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="7" aria-label="모임 7번 선택"></td>
-                                    <td data-field="clubId">7</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=7)}">인천 바다 음악축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=7)}">저녁 공연 함께 봐요</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=7)}">송바다</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-24"><time datetime="2026-10-24">2026.10.24</time></td>
-                                </tr>
-                                <tr data-club-type="food" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="8" aria-label="모임 8번 선택"></td>
-                                    <td data-field="clubId">8</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=8)}">춘천 닭갈비 나눔축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=8)}">닭갈비 한 판 함께 먹을 분</a></td>
-                                    <td class="club-purpose" data-field="purpose">음식메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=8)}">오춘천</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-23"><time datetime="2026-10-23">2026.10.23</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="9" aria-label="모임 9번 선택"></td>
-                                    <td data-field="clubId">9</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=9)}">대전 가을 문화축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=9)}">문화축제 구경할 동행 찾아요</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=9)}">유가을</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-22"><time datetime="2026-10-22">2026.10.22</time></td>
-                                </tr>
-                                <tr data-club-type="food" data-status="hidden">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="10" aria-label="모임 10번 선택"></td>
-                                    <td data-field="clubId">10</td>
-                                    <td><span class="badge club-status-hidden">비공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=10)}">전주 길거리 음식축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=10)}">축제 음식 다양하게 나눠 먹어요</a></td>
-                                    <td class="club-purpose" data-field="purpose">음식메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=10)}">임전주</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-10-21"><time datetime="2026-10-21">2026.10.21</time></td>
-                                </tr>
-                                <tr data-club-type="festival" data-status="visible">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="11" aria-label="모임 11번 선택"></td>
-                                    <td data-field="clubId">11</td>
-                                    <td><span class="badge club-status-visible">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=11)}">강릉 바다빛 문화축제</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubView(id=11)}">강릉 바다빛 축제 같이 구경해요</a></td>
-                                    <td class="club-purpose" data-field="purpose">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView(id=11)}">서봄</a></td>
-
-                                    <td data-sort-field="createdAt" data-sort-value="2026-11-01"><time datetime="2026-11-01">2026.11.01</time></td>
+                                    <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30" th:text="${club.createdAt}">2026.10.30</time></td>
                                 </tr>
                                 <tr id="club-empty" hidden>
                                     <td colspan="8" class="py-5 text-secondary">조건에 맞는 모임이 없습니다.</td>
