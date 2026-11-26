@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.ClubDTO;
 import kr.swdl.sprint2.repository.ClubListQuery;
 import kr.swdl.sprint2.service.ClubService;
@@ -17,17 +18,16 @@ import java.util.List;
 public class ClubRestController {
     private final ClubService clubService;
 
+    @GetMapping("/clubs")
+    public ResponseEntity<PageInfo<ClubDTO>> getClubs(@ModelAttribute ClubListQuery query) {
+        PageInfo<ClubDTO> result = new PageInfo<>(clubService.getClubs(query));
+        return ResponseEntity.ok(result);
+    }
+
     @PutMapping("/club/{clubNumber}")
     public ResponseEntity<Void> setClubState(@PathVariable int clubNumber, @RequestParam int state) {
         clubService.setClubStatus(clubNumber, state);
         return ResponseEntity.ok().build();
-    }
-
-
-    @GetMapping("/clubs")
-    public ResponseEntity<List<ClubDTO>> getClubs(@ModelAttribute ClubListQuery query) {
-        List<ClubDTO> clubList = clubService.getClubs(query);
-        return ResponseEntity.ok(clubList);
     }
 
     @PutMapping("/clubs/state")
