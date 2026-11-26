@@ -11,23 +11,19 @@
     <script th:src="@{/js/component.js}" defer></script>
     <script th:src="@{/js/list.js}" defer></script>
     <script th:src="@{/js/userDetail.js}" defer></script>
-<!--    <link href="../../static/css/component.css" rel="stylesheet">-->
-<!--    <link href="../../static/css/userDetail.css" rel="stylesheet">-->
-<!--    <script src="../../static/js/component.js" defer></script>-->
-<!--    <script src="../../static/js/list.js" defer></script>-->
-<!--    <script src="../../static/js/userDetail.js" defer></script>-->
+
 </head>
-<body data-admin-page="users">
+<body data-admin-page="users" th:attr="data-user-status=${user == null or user.status == 1 ? 'active' : 'suspended'}">
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
-    <div id="header-container"></div>
-    <div id="sidebar-container"></div>
+    <div th:replace="~{component/header}"></div>
+    <div th:replace="~{component/sidebar}"></div>
     <main id="main-content" class="admin-main" tabindex="-1">
         <div class="container-fluid">
             <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
                 <h1 class="h3 fw-bold mb-0">회원 상세</h1>
                 <div class="d-flex gap-2">
                     <button class="btn user-detail-suspend" type="button" id="user-detail-status-action" disabled>정지</button>
-                    <a class="btn btn-primary" href="users.html">목록으로</a>
+                    <a class="btn btn-primary" th:href="@{/admin/usersView}">목록으로</a>
                 </div>
             </div>
 <!--            <p class="small text-secondary" id="user-detail-feedback" role="status">회원정보를 불러오는중</p>-->

@@ -8,16 +8,13 @@
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link th:href="@{/css/component.css}" rel="stylesheet">
     <link th:href="@{/css/users.css}" rel="stylesheet">
-
-    <script th:src="@{/js/component.js}" defer></script>
     <script th:src="@{/js/list.js}" defer></script>
     <script th:src="@{/js/users.js}" defer></script>
 </head>
 <body data-admin-page="users">
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
-    <!-- JS로 별도 HTML을 불러옴. 추후 th:replace로 교체 -->
-    <div id="header-container"></div>
-    <div id="sidebar-container"></div>
+    <div th:replace="~{component/header}"></div>
+    <div th:replace="~{component/sidebar}"></div>
 
     <main id="main-content" class="admin-main" tabindex="-1">
         <div class="container-fluid">

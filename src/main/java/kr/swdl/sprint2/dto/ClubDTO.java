@@ -10,8 +10,6 @@ import java.util.Date;
 
 @Data
 @Builder
-@AllArgsConstructor
-@NoArgsConstructor
 public class ClubDTO {
     private int clubNumber;
     private int status;
@@ -21,4 +19,5 @@ public class ClubDTO {
     private String purpose;
     private String createdAt;
     private String nickname;
+    private int accountNumber;
 }

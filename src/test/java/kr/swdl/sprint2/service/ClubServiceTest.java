@@ -92,7 +92,7 @@ public class ClubServiceTest {
     
     @Test
     public void getClubs_SearchByFestivalName_NotFound(){
-        System.out.println(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("%").build()));
+        System.out.println(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword(" ").build()));
         Assertions.assertTrue(clubService.getClubs(ClubListQuery.builder().searchBy("festivalName").keyword("    ").build()).size()==0);
     }
 
