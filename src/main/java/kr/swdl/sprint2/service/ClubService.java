@@ -1,5 +1,7 @@
 package kr.swdl.sprint2.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.ClubAttendeeDTO;
 import kr.swdl.sprint2.dto.ClubDTO;
 import kr.swdl.sprint2.dto.ClubDetailDTO;
@@ -113,6 +115,8 @@ public class ClubService {
                     ()-> clubRepository.getClubs(query)
         );
 
+        PageInfo<Club> pageInfo = new PageInfo<>(clubs);
+
         for(Club club: clubs){
             list.add(
                 ClubDTO.builder()
@@ -124,10 +128,18 @@ public class ClubService {
                 .festivalName(club.getFestivalName())
                 .purpose(club.getPurpose())
                 .nickname(club.getNickname())
+                .accountNumber(club.getAccountNumber())
                 .build());
         };
 
-        return list;
+        Page<ClubDTO> result = new Page<>(
+                pageInfo.getPageNum(),
+                pageInfo.getPageSize()
+        );
+        result.setTotal(pageInfo.getTotal());
+        result.addAll(list);
+
+        return result;
     }
 
 }

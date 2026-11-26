@@ -8,6 +8,7 @@ const clubList = setupList({
     prefix: 'club',
     tableSelector: '.club-table',
     idField: 'clubId',
+    serverPagination: true,
     extraFilter: function (row) {
         return selectedClubType === 'all' || row.dataset.clubType === selectedClubType;
     }

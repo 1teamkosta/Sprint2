@@ -9,16 +9,42 @@ let clubDetailIsPublic = document.body.dataset.clubPublic === 'true';
 
 function renderClubVisibility() {
     clubStatusBadge.textContent = clubDetailIsPublic ? '공개' : '비공개';
-    clubStatusBadge.className = `badge club-detail-${clubDetailIsPublic ? 'visible' : 'hidden'} mb-3`;
-    clubHideButton.disabled = !clubDetailIsPublic;
-}
+    clubStatusBadge.className =
+        `badge club-detail-${clubDetailIsPublic ? 'visible' : 'hidden'} mb-3`;
 
-clubHideButton.addEventListener('click', function () {
-    if (!clubDetailIsPublic || !window.confirm('이 모임을 비공개로 변경할까요?')) return;
-    clubDetailIsPublic = false;
-    renderClubVisibility();
-    clubDetailFeedback.textContent = '현재 화면에서 비공개로 변경했습니다. 실제 저장은 서버 연동 후 가능합니다.';
-    clubDetailFeedback.hidden = false;
+    clubHideButton.textContent =
+        clubDetailIsPublic ? '비공개' : '공개';
+}
+clubHideButton.addEventListener('click', async function () {
+    const nextState = clubDetailIsPublic ? 0 : 1;
+    const label = nextState === 1 ? '공개' : '비공개';
+
+    if (!window.confirm(`${label}로 변경할까요?`)) return;
+
+    clubHideButton.disabled = true;
+
+    try {
+        const url = new URL(clubHideButton.dataset.updateUrl, window.location.origin);
+        url.searchParams.set('state', nextState);
+
+        const response = await fetch(url, {
+            method: 'PUT'
+        });
+
+        if (!response.ok) {
+            throw new Error('상태 변경에 실패했습니다.');
+        }
+
+        clubDetailIsPublic = nextState === 1;
+        renderClubVisibility();
+
+        clubDetailFeedback.textContent = `${label}로 변경했습니다.`;
+    } catch (error) {
+        clubDetailFeedback.textContent = error.message;
+    } finally {
+        clubHideButton.disabled = false;
+        clubDetailFeedback.hidden = false;
+    }
 });
 
 renderClubVisibility();
