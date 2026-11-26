@@ -2,10 +2,12 @@ package kr.swdl.sprint2.service;
 
 import kr.swdl.sprint2.dto.TagDTO;
 import kr.swdl.sprint2.dto.TagDetailDTO;
+import kr.swdl.sprint2.dto.TagViewDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.repository.TagRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
 import kr.swdl.sprint2.service.properties.PageProperties;
+import kr.swdl.sprint2.service.properties.TagType;
 import kr.swdl.sprint2.service.util.LikePatternEscaper;
 import kr.swdl.sprint2.vo.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,12 @@ import java.util.List;
 public class TagService {
     private final TagRepository repo;
     private final PageProperties pageProperties;
+    private final TagType tagType;
+
+    public TagViewDTO getTagsView() {
+        return TagViewDTO.builder().genreCount(repo.countTags(tagType.genre())).targetCount(repo.countTags(tagType.target()))
+                .tagCount(repo.countTags(null)).listTag(getTags(TagListQuery.builder().build())).build();
+    }
 
     public List<TagDTO> getTags(TagListQuery request) {
         List<TagDTO> list = new ArrayList<>();
@@ -72,9 +80,9 @@ public class TagService {
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());
     }
 
-    public void setTag(TagDetailDTO tag) {
-        repo.setTag(Tag.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
-                .contents(tag.getContents()).color(tag.getColor())
-                .status(tag.getStatus()).tagType(tag.getTagType()).build());
+    public void setTag(TagDetailDTO dto) {
+        repo.setTag(Tag.builder().tagNumber(dto.getTagNumber()).tagName(dto.getTagName())
+                .contents(dto.getContents()).color(dto.getColor())
+                .status(dto.getStatus()).tagType(dto.getTagType()).build());
     }
 }
