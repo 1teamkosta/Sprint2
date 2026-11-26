@@ -126,9 +126,9 @@ function renderTags() {
     document.querySelectorAll('[data-tag-status-filter]').forEach(function (button) {
         button.setAttribute('aria-pressed', String(button.dataset.tagStatusFilter === selectedTagStatus));
     });
-    document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
-    document.querySelector('#tag-target-count').textContent = tags.filter(function (tag) { return tag.type === 'target'; }).length;
-    document.querySelector('#tag-total-count').textContent = tags.length;
+    // document.querySelector('#tag-genre-count').textContent = tags.filter(function (tag) { return tag.type === 'genre'; }).length;
+    // document.querySelector('#tag-target-count').textContent = tags.filter(function (tag) { return tag.type === 'target'; }).length;
+    // document.querySelector('#tag-total-count').textContent = tags.length;
     const category = tags.filter(function (tag) { return selectedTagType === 'all' || tag.type === selectedTagType; });
     const results = getTagResults();
     // 공통 함수가 페이지별 데이터 분리와 결과 개수 변경 시 페이지 범위 보정을 맡는다.

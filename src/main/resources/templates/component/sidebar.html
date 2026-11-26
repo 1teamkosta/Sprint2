@@ -1,17 +1,17 @@
 <!-- 공통 사이드바: 메뉴 화면이 구현되면 비활성 버튼을 링크로 변경 -->
 <aside class="admin-sidebar d-flex flex-column p-3">
-    <a class="admin-brand text-decoration-none px-2 mb-4" href="../festival/festivals.html">
+    <a class="admin-brand text-decoration-none px-2 mb-4" th:href="@{/admin/festivalsView}">
         <strong>축제메이트</strong>
         <span class="admin-brand-subtitle d-block small mt-1">관리자 페이지</span>
     </a>
     <nav aria-label="관리자 메뉴">
         <ul class="nav nav-pills flex-column gap-2">
-            <li class="nav-item"><a class="nav-link" href="../index.html" data-page="dashboard">대시보드</a></li>
-            <li class="nav-item"><a class="nav-link" href="../tags/tags.html" data-page="tags">태그 관리</a></li>
-            <li class="nav-item"><a class="nav-link active" href="../festival/festivals.html" data-page="festival" aria-current="page">축제 관리</a></li>
-            <li class="nav-item"><a class="nav-link" href="../club/clubs.html" data-page="club">모임 관리</a></li>
-            <li class="nav-item"><a class="nav-link" href="../users/users.html" data-page="users">회원 관리</a></li>
-            <li class="nav-item"><a class="nav-link" href="../notices/notices.html" data-page="notices">공지 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'dashboard'} ? ' active'" th:href="@{/admin/dashboardView}" data-page="dashboard" th:attr="aria-current=${activePage == 'dashboard'} ? 'page' : null">대시보드</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'tags'} ? ' active'" th:href="@{/admin/tagsView}" data-page="tags" th:attr="aria-current=${activePage == 'tags'} ? 'page' : null">태그 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == null or activePage == 'festival'} ? ' active'" th:href="@{/admin/festivalsView}" data-page="festival" th:attr="aria-current=${activePage == null or activePage == 'festival'} ? 'page' : null">축제 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'club'} ? ' active'" th:href="@{/admin/clubsView}" data-page="club" th:attr="aria-current=${activePage == 'club'} ? 'page' : null">모임 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'users'} ? ' active'" th:href="@{/admin/usersView}" data-page="users" th:attr="aria-current=${activePage == 'users'} ? 'page' : null">회원 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'notices'} ? ' active'" th:href="@{/admin/noticesView}" data-page="notices" th:attr="aria-current=${activePage == 'notices'} ? 'page' : null">공지 관리</a></li>
         </ul>
     </nav>
     <div class="admin-account mt-auto">

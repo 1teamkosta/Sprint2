@@ -21,10 +21,9 @@
                     AND tag_type = #{query.filterByTagType}
                 </if>
 
-                <if test="query.searchBy != null">
+                <if test="query.searchBy != null and query.searchBy != ''">
                     <choose>
                         <when test="query.searchBy == 'tagName'">AND tag_name LIKE CONCAT('%', #{query.keyword}, '%')</when>
-                        <otherwise>AND 1 = 0</otherwise>
                     </choose>
                 </if>
             </where>
