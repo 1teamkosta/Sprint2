@@ -1,11 +1,13 @@
 package kr.swdl.sprint2.service;
 
 import kr.swdl.sprint2.dto.TagDTO;
-import kr.swdl.sprint2.dto.TagDetaiDTO;
+import kr.swdl.sprint2.dto.TagDetailDTO;
+import kr.swdl.sprint2.dto.TagViewDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.repository.TagRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
 import kr.swdl.sprint2.service.properties.PageProperties;
+import kr.swdl.sprint2.service.properties.TagType;
 import kr.swdl.sprint2.service.util.LikePatternEscaper;
 import kr.swdl.sprint2.vo.Tag;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,12 @@ import java.util.List;
 public class TagService {
     private final TagRepository repo;
     private final PageProperties pageProperties;
+    private final TagType tagType;
+
+    public TagViewDTO getTagsView() {
+        return TagViewDTO.builder().genreCount(repo.countTags(tagType.genre())).targetCount(repo.countTags(tagType.target()))
+                .tagCount(repo.countTags(null)).listTag(getTags(TagListQuery.builder().build())).build();
+    }
 
     public List<TagDTO> getTags(TagListQuery request) {
         List<TagDTO> list = new ArrayList<>();
@@ -26,7 +34,7 @@ public class TagService {
         if (request.getPage() == null)
             request.setPage(1);
 
-        if (request.getSortDirection() == null)
+        if (request.getSortDirection() == null )
             request.setSortDirection("DESC");
 
         switch (request.getSortType() == null ? "" :  request.getSortType()) {
@@ -38,7 +46,7 @@ public class TagService {
                 break;
         }
 
-        if(request.getSearchBy() != null)
+        if(request.getSearchBy() != null && !(request.getSearchBy().isBlank()))
             request.setKeyword(LikePatternEscaper.escape(request.getKeyword()));
 
         Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
@@ -51,13 +59,13 @@ public class TagService {
         return list;
     }
 
-    public TagDetaiDTO getTagDetail(int tagNumber) {
+    public TagDetailDTO getTagDetail(int tagNumber) {
         Tag tag = repo.getTagDetail(tagNumber);
 
         if (tag == null)
             return null;
 
-        return TagDetaiDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+        return TagDetailDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
                 .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build();
     }
@@ -66,15 +74,15 @@ public class TagService {
         return repo.countTags(tagType);
     }
 
-    public void addTag(TagDetaiDTO tag) {
+    public void addTag(TagDetailDTO tag) {
         repo.addTag(Tag.builder().tagName(tag.getTagName())
                 .contents(tag.getContents()).color(tag.getColor())
                 .status(tag.getStatus()).tagType(tag.getTagType()).build());
     }
 
-    public void setTag(TagDetaiDTO tag) {
-        repo.setTag(Tag.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
-                .contents(tag.getContents()).color(tag.getColor())
-                .status(tag.getStatus()).tagType(tag.getTagType()).build());
+    public void setTag(TagDetailDTO dto) {
+        repo.setTag(Tag.builder().tagNumber(dto.getTagNumber()).tagName(dto.getTagName())
+                .contents(dto.getContents()).color(dto.getColor())
+                .status(dto.getStatus()).tagType(dto.getTagType()).build());
     }
 }

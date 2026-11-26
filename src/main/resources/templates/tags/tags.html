@@ -25,13 +25,13 @@
 
             <section class="row g-3 mb-4" aria-label="태그 현황">
                 <div class="col-12 col-md-4">
-                    <div class="tag-stat"><h2>축제 장르 태그</h2><p><span id="tag-genre-count">12</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                    <div class="tag-stat"><h2>축제 장르 태그</h2><p><span id="tag-genre-count" th:text="${tags.genreCount}">12</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="tag-stat"><h2>추천 대상 태그</h2><p><span id="tag-target-count">5</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                    <div class="tag-stat"><h2>추천 대상 태그</h2><p><span id="tag-target-count" th:text="${tags.targetCount}">5</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="tag-stat"><h2>전체 태그 수</h2><p><span id="tag-total-count">17</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
+                    <div class="tag-stat"><h2>전체 태그 수</h2><p><span id="tag-total-count" th:text="${tags.tagCount}">17</span><span class="fs-6 fw-normal ms-1">개</span></p></div>
                 </div>
             </section>
 
@@ -83,7 +83,14 @@
                                     <th scope="col">관리</th>
                                 </tr>
                             </thead>
-                            <tbody class="text-center" id="tag-list"></tbody>
+                            <tbody class="text-center" id="tag-list" th:each="tag : ${tags.listTag}">
+                                <th th:text="${tag.tagNumber}"></th>
+                                <th th:text="${tag.status}"></th>
+                                <th th:text="${tag.tagName}"></th>
+                                <th th:text="${tag.contents}"></th>
+                                <th th:text="${tag.tagNumber}"></th>
+                                <th>수정</th>
+                            </tbody>
                         </table>
                     </div>
                     <nav class="mt-4" aria-label="태그 목록 페이지" id="tag-pagination">
