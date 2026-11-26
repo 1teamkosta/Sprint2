@@ -1,7 +1,3 @@
-/**
- * 상세 데이터는 ClubController가 Thymeleaf 모델로 전달한다.
- * 이 파일은 상세 화면의 임시 상태 표시만 관리하며 페이지를 fetch하지 않는다.
- */
 const clubHideButton = document.querySelector('#club-detail-hide');
 const clubStatusBadge = document.querySelector('#club-detail-status');
 const clubDetailFeedback = document.querySelector('#club-detail-feedback');
@@ -15,6 +11,7 @@ function renderClubVisibility() {
     clubHideButton.textContent =
         clubDetailIsPublic ? '비공개' : '공개';
 }
+
 clubHideButton.addEventListener('click', async function () {
     const nextState = clubDetailIsPublic ? 0 : 1;
     const label = nextState === 1 ? '공개' : '비공개';
