@@ -7,7 +7,7 @@
     <nav aria-label="관리자 메뉴">
         <ul class="nav nav-pills flex-column gap-2">
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'dashboard'} ? ' active'" th:href="@{/admin/dashboardView}" data-page="dashboard" th:attr="aria-current=${activePage == 'dashboard'} ? 'page' : null">대시보드</a></li>
-            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'tags'} ? ' active'" th:href="@{/admin/tags}" data-page="tags" th:attr="aria-current=${activePage == 'tags'} ? 'page' : null">태그 관리</a></li>
+            <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'tags'} ? ' active'" th:href="@{/admin/tagsView}" data-page="tags" th:attr="aria-current=${activePage == 'tags'} ? 'page' : null">태그 관리</a></li>
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == null or activePage == 'festival'} ? ' active'" th:href="@{/admin/festivalsView}" data-page="festival" th:attr="aria-current=${activePage == null or activePage == 'festival'} ? 'page' : null">축제 관리</a></li>
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'club'} ? ' active'" th:href="@{/admin/clubsView}" data-page="club" th:attr="aria-current=${activePage == 'club'} ? 'page' : null">모임 관리</a></li>
             <li class="nav-item"><a class="nav-link" th:classappend="${activePage == 'users'} ? ' active'" th:href="@{/admin/usersView}" data-page="users" th:attr="aria-current=${activePage == 'users'} ? 'page' : null">회원 관리</a></li>

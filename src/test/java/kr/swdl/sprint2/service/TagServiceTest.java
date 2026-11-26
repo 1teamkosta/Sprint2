@@ -1,6 +1,6 @@
 package kr.swdl.sprint2.service;
 
-import kr.swdl.sprint2.dto.TagDetaiDTO;
+import kr.swdl.sprint2.dto.TagDetailDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
 import kr.swdl.sprint2.service.properties.Status;
 import kr.swdl.sprint2.service.properties.TagType;
@@ -90,7 +90,7 @@ public class TagServiceTest {
 
     @Test
     public void setTag() {
-        service.setTag(TagDetaiDTO.builder().tagNumber(1)
+        service.setTag(TagDetailDTO.builder().tagNumber(1)
                 .tagName("updateName").contents("updateContents")
                 .color("#0000FF").status(status.hidden())
                 .tagType(tagType.target()).build());
@@ -100,7 +100,7 @@ public class TagServiceTest {
 
     @Test
     public void addTag() {
-        service.addTag(TagDetaiDTO.builder()
+        service.addTag(TagDetailDTO.builder()
                 .tagName("addName").contents("addContents")
                 .color("#FF00FF").status(status.hidden())
                 .tagType(tagType.target()).build());
