@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.service;
 
+import kr.swdl.sprint2.dto.DashboardDTO;
 import kr.swdl.sprint2.dto.RecentFestivalDTO;
 import kr.swdl.sprint2.dto.WorstUserDTO;
 import kr.swdl.sprint2.repository.DashboardRepository;
@@ -92,5 +93,9 @@ public class DashboardService {
         });
 
         return list;
+    }
+
+    public DashboardDTO getDashboard() {
+        return null;
     }
 }
