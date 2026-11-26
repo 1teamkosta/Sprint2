@@ -131,7 +131,7 @@ userDetailAction.addEventListener('click', function () {
     if (!userDetailStatus) return;
     const active = userDetailStatus === 'active';
     if (!window.confirm(active ? '이 회원의 활동을 정지할까요?' : '이 회원의 활동을 재개할까요?')) return;
-    userDetailStatus = active ? 'suspended' : 'active';
+    userDetailStatus = active ? 'banned' : 'active';
     renderUserDetailStatus();
     userDetailFeedback.textContent = '현재 화면에서 회원 상태를 변경했습니다. 실제 저장은 서버 연동 후 가능합니다.';
     userDetailFeedback.hidden = false;

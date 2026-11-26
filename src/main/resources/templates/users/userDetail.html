@@ -6,11 +6,16 @@
     <title>회원 상세 | 축제메이트</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <link href="../../static/css/component.css" rel="stylesheet">
-    <link href="../../static/css/userDetail.css" rel="stylesheet">
-    <script src="../../static/js/component.js" defer></script>
-    <script src="../../static/js/list.js" defer></script>
-    <script src="../../static/js/userDetail.js" defer></script>
+    <link th:href="@{/css/component.css}" rel="stylesheet">
+    <link th:href="@{/css/userDetail.css}" rel="stylesheet">
+    <script th:src="@{/js/component.js}" defer></script>
+    <script th:src="@{/js/list.js}" defer></script>
+    <script th:src="@{/js/userDetail.js}" defer></script>
+<!--    <link href="../../static/css/component.css" rel="stylesheet">-->
+<!--    <link href="../../static/css/userDetail.css" rel="stylesheet">-->
+<!--    <script src="../../static/js/component.js" defer></script>-->
+<!--    <script src="../../static/js/list.js" defer></script>-->
+<!--    <script src="../../static/js/userDetail.js" defer></script>-->
 </head>
 <body data-admin-page="users">
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
@@ -25,29 +30,43 @@
                     <a class="btn btn-primary" href="users.html">목록으로</a>
                 </div>
             </div>
-            <p class="small text-secondary" id="user-detail-feedback" role="status">회원 정보를 불러오는 중입니다.</p>
-            <article class="user-detail-card" id="user-detail-card" aria-labelledby="user-profile-heading" hidden>
+<!--            <p class="small text-secondary" id="user-detail-feedback" role="status">회원정보를 불러오는중</p>-->
+<!--            <article class="user-detail-card" id="user-detail-card" aria-labelledby="user-profile-heading" hidden>-->
                 <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
                     <h2 class="h5 fw-bold mb-0" id="user-profile-heading">회원 정보</h2>
                 </div>
                 <dl class="user-detail-profile mb-0">
-                    <div><dt>번호</dt><dd id="user-detail-number"></dd></div>
-                    <div><dt>상태</dt><dd><span class="badge user-detail-active" id="user-detail-status">활동</span></dd></div>
-                    <div><dt>아이디</dt><dd id="user-detail-login-id"></dd></div>
-                    <div><dt>닉네임</dt><dd id="user-detail-nickname"></dd></div>
-                    <div><dt>인기도</dt><dd id="user-detail-popularity"></dd></div>
-                    <div><dt>이메일</dt><dd id="user-detail-email"></dd></div>
-                    <div><dt>가입일</dt><dd><time id="user-detail-joined"></time></dd></div>
+                    <div><dt>번호</dt><dd id="user-detail-number" th:text="${user.accountNumber}"></dd></div>
+                    <div><dt>상태</dt><dd><span class="badge user-detail-active" id="user-detail-status" th:text="${user.status}">활동</span></dd></div>
+                    <div><dt>아이디</dt><dd id="user-detail-login-id" th:text="${user.id}"></dd></div>
+                    <div><dt>닉네임</dt><dd id="user-detail-nickname" th:text="${user.nickname}"></dd></div>
+                    <div><dt>인기도</dt><dd id="user-detail-popularity" th:text="${user.popularity}"></dd></div>
+                    <div><dt>이메일</dt><dd id="user-detail-email" th:text="${user.email}"></dd></div>
+                    <div><dt>가입일</dt><dd><time id="user-detail-joined" th:text="${user.inDate}"></time></dd></div>
                 </dl>
                 <section class="mt-5" aria-labelledby="user-activity-heading">
                     <h2 class="h5 fw-bold mb-3" id="user-activity-heading">활동 내역</h2>
-                    <h3 class="h6 fw-semibold mb-3">참여 모임 <span class="text-secondary" id="user-detail-club-count">(0개)</span></h3>
-                    <p class="small text-secondary" id="user-clubs-feedback" role="status">참여 모임을 불러오는 중입니다.</p>
+                    <h3 class="h6 fw-semibold mb-3">참여 모임 <span class="text-secondary" id="user-detail-club-count" th:text="${user.attendeeCount}"></span></h3>
+<!--                    <p class="small text-secondary" id="user-clubs-feedback" role="status">참여 모임을 불러오는 중입니다.</p>-->
                     <table class="table table-hover align-middle user-detail-clubs mb-0">
                         <caption class="visually-hidden">회원이 참여한 모임의 번호, 축제 이름, 모임 이름, 역할과 모임 목적. 페이지당 10개.</caption>
                         <colgroup><col class="user-club-number"><col class="user-club-festival"><col class="user-club-name"><col class="user-club-role"><col class="user-club-purpose"></colgroup>
-                        <thead class="table-light text-center"><tr><th scope="col">모임 번호</th><th scope="col">축제 이름</th><th scope="col">모임 이름</th><th scope="col">역할</th><th scope="col">모임 목적</th></tr></thead>
-                        <tbody class="text-center" id="user-detail-clubs"></tbody>
+                        <thead class="table-light text-center"><tr>
+                            <th scope="col">모임 번호</th>
+                            <th scope="col">축제 이름</th>
+                            <th scope="col">모임 이름</th>
+                            <th scope="col">역할</th>
+                            <th scope="col">모임 목적</th>
+                        </tr></thead>
+                        <tbody class="text-center" id="user-detail-clubs">
+                        <tr th:each="activity : ${user.userActivities}">
+                        <td th:text="${activity.clubNumber}"></td>
+                            <td th:text="${activity.festivalName}"></td>
+                            <td th:text="${activity.clubName}"></td>
+                            <td th:text="${activity.attendRole}"></td>
+                            <td th:text="${activity.purpose}"></td>
+                        </tr>
+                        </tbody>
                     </table>
                     <nav class="mt-4" id="user-detail-clubs-pagination" aria-label="참여 모임 목록 페이지" hidden>
                         <ul class="pagination justify-content-center mb-0" id="user-detail-clubs-pages"></ul>
