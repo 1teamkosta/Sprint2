@@ -3,7 +3,7 @@ shortenListText('.club-title', 30);
 shortenListText('.club-festival', 30);
 shortenListText('.club-table [data-field="nickname"]', 5);
 
-// 모임목적 탭 이동시 변경값 반영 + 공백 검색시 1페이지로 이동 + 조회실패시 오류 표시
+// 모임목적 탭 이동시 clubTabs.forEach에서 정한 조건 변경값 반영 + 공백 검색시 1페이지로 이동 + 조회실패시 오류 표시
 function changeClubQuery(changes) {
     if (typeof changes.keyword === 'string'
         && changes.keyword.trim() === '') {
@@ -33,6 +33,7 @@ function changeClubQuery(changes) {
 
 const bulkButton = document.querySelector('[data-bulk-action="club"]');
 
+// 상태변경
 bulkButton.addEventListener('click', async function () {
     const selectedNumbers = Array.from(
         document.querySelectorAll(
@@ -83,6 +84,7 @@ const purposeByType = {
 
 const clubTabs = Array.from(document.querySelectorAll('[data-club-type-tab]'));
 
+//어떤 조건을 바꿀지 정함
 clubTabs.forEach(function (tab) {
     tab.addEventListener('click', async function () {
         try {
