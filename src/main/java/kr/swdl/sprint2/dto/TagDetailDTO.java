@@ -1,14 +1,14 @@
 package kr.swdl.sprint2.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 @Builder
 @Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class TagDetailDTO {
-    private int tagNumber;
+    private Integer tagNumber;
     private String tagName;
     private String contents;
     private String color;
