@@ -23,13 +23,17 @@ public class ClubRestController {
         return ResponseEntity.ok().build();
     }
 
+
     @GetMapping("/clubs")
-    public ResponseEntity<List<ClubDTO>> getClubs(
-            @ModelAttribute ClubListQuery query
-    ) {
+    public ResponseEntity<List<ClubDTO>> getClubs(@ModelAttribute ClubListQuery query) {
         List<ClubDTO> clubList = clubService.getClubs(query);
         return ResponseEntity.ok(clubList);
     }
 
+    @PutMapping("/clubs/state")
+    public ResponseEntity<Void> setClubsState(@RequestParam List<Integer> clubNumbers, @RequestParam int state) {
+        clubService.setClubsStatus(clubNumbers, state);
+        return ResponseEntity.ok().build();
+    }
 
 }
