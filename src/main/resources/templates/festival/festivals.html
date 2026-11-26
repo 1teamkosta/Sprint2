@@ -44,16 +44,16 @@
                     <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="축제 검색">
                         <div class="festival-search-setting">
                             <label class="visually-hidden" for="festival-search-type">검색 기준</label>
-                            <select class="form-select" id="festival-search-type" name="searchType" required>
+                            <select class="form-select" id="festival-search-type" name="searchBy" required>
                                 <option value="">검색 유형</option>
-                                <option value="title">축제 이름</option>
-                                <option value="genre">축제 장르</option>
+                              <option value="festivalName" >축제 이름</option>  <!--th:selected="${festivalListQuery.searchBy == 'festivalName'}"-->
+                                <option value="mainTag" >축제 장르</option> <!--th:selected="${festivalListQuery.searchBy == 'mainTag'}"-->
                             </select>
                         </div>
                         <div class="flex-grow-1">
                             <label class="visually-hidden" for="festival-keyword">검색어</label>
                             <div class="input-group">
-                                <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
+                                <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요"> <!--th:value="${festivalListQuery.keyword}"-->
                                 <button class="btn btn-outline-primary" type="submit">검색</button>
                             </div>
                         </div>
@@ -104,10 +104,10 @@
                                     <details class="festival-status-filter" id="festival-progress-filter">
                                         <summary>진행상황 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
                                         <div class="festival-status-options" role="group" aria-label="진행상황 필터">
-                                            <button type="button" data-progress-filter="all" aria-pressed="true">전체</button>
-                                            <button type="button" data-progress-filter="ongoing" aria-pressed="false">진행중</button>
-                                            <button type="button" data-progress-filter="ended" aria-pressed="false">종료</button>
-                                            <button type="button" data-progress-filter="upcoming" aria-pressed="false">예정</button>
+                                            <button type="button" data-progress-filter="" aria-pressed="true">전체</button>
+                                            <button type="button" data-progress-filter="1" aria-pressed="false">진행중</button>
+                                            <button type="button" data-progress-filter="0" aria-pressed="false">종료</button>
+                                            <button type="button" data-progress-filter="2" aria-pressed="false">예정</button>
                                         </div>
                                     </details>
                                 </th>
@@ -125,7 +125,7 @@
                                 <td data-field="festivalId" th:text="${festival.festivalNumber}">1</td>
                                 <td><span class="badge status-visible" th:text="${festival.status == 0} ? '비공개' : '공개'">공개</span></td>
                                 <td data-field="genre"><span class="festival-genre-tag" th:text="${festival.mainTag}">음악</span></td>
-                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/festivaldetail.html(id=${festival.festivalNumber})}" th:text="${festival.festivalName}">부산 락 페스티벌</a></td>
+                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/festival/{festivalNumber}(festivalNumber=${festival.festivalNumber})}" th:text="${festival.festivalName}">부산 락 페스티벌</a></td>
                                 <td data-sort-field="startDate" th:attr="data-sort-value=${festival.startDate}"><time th:datetime="${festival.startDate}" th:text="${festival.startDate}">2026.11.02</time> ~ <time th:datetime="${festival.endDate}" th:text="${festival.endDate}">2026.11.03</time></td>
                                 <td class="festival-progress-column" th:switch="${festival.progressStatus}">
                                     <span th:case="0" class="badge festival-progress-ended" data-festival-progress>종료</span>
