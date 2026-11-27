@@ -1,29 +1,54 @@
-/**
- * 상세 정보와 참여 모임은 UserController가 Thymeleaf 모델로 전달한다.
- * 이 파일은 회원 상태 버튼의 화면 시연 동작만 담당하며 HTML 페이지를 fetch하지 않는다.
- */
-const userDetailAction = document.querySelector('#user-detail-status-action');
-const userDetailFeedback = document.querySelector('#user-detail-feedback');
-let userDetailStatus = document.body.dataset.userStatus || 'active';
+const statusBadge = document.querySelector('#user-detail-status');
+const actionButton = document.querySelector('#user-detail-status-action');
+const feedbackMessage = document.querySelector('#user-detail-feedback');
 
-function renderUserDetailStatus() {
-    const active = userDetailStatus === 'active';
-    const badge = document.querySelector('#user-detail-status');
-    badge.textContent = active ? '활동' : '정지';
-    badge.className = `badge user-detail-${active ? 'active' : 'suspended'}`;
-    userDetailAction.textContent = active ? '정지' : '활동';
-    userDetailAction.className = active ? 'btn user-detail-suspend' : 'btn user-detail-activate';
-    userDetailAction.disabled = false;
-    userDetailAction.setAttribute('aria-label', active ? '회원 활동 정지' : '회원 활동 재개');
+// 초기 상태 가져오기 (값이 없으면 기본값 'active')
+let currentStatus = document.body.dataset.userStatus || 'active';
+
+// 화면의 배지와 버튼 모양을 현재 상태에 맞게 바꾸는 함수
+function updateStatusView() {
+    if (currentStatus === 'active') {
+        // '활동' 상태일 때 보여줄 화면
+        statusBadge.textContent = '활동';
+        statusBadge.className = 'badge user-detail-active';
+
+        actionButton.textContent = '정지';
+        actionButton.className = 'btn user-detail-suspend';
+        actionButton.setAttribute('aria-label', '회원 활동 정지');
+    } else {
+        // '정지' 상태일 때 보여줄 화면
+        statusBadge.textContent = '정지';
+        statusBadge.className = 'badge user-detail-suspended';
+
+        actionButton.textContent = '활동';
+        actionButton.className = 'btn user-detail-activate';
+        actionButton.setAttribute('aria-label', '회원 활동 재개');
+    }
+
+    actionButton.disabled = false;
 }
 
-userDetailAction.addEventListener('click', function () {
-    const active = userDetailStatus === 'active';
-    if (!window.confirm(active ? '이 회원의 활동을 정지할까요?' : '이 회원의 활동을 재개할까요?')) return;
-    userDetailStatus = active ? 'banned' : 'active';
-    renderUserDetailStatus();
-    userDetailFeedback.textContent = '현재 화면에서 회원 상태를 변경했습니다. 실제 저장은 서버 연동 후 가능합니다.';
-    userDetailFeedback.hidden = false;
+// 버튼을 클릭했을 때 실행되는 동작
+actionButton.addEventListener('click', function () {
+    if (currentStatus === 'active') {
+        const isConfirmed = window.confirm('이 회원의 활동을 정지할까요?');
+        if (!isConfirmed) return;
+
+        currentStatus = 'suspended';
+    } else {
+        const isConfirmed = window.confirm('이 회원의 활동을 재개할까요?');
+        if (!isConfirmed) return;
+
+        currentStatus = 'active';
+    }
+
+    // 바뀐 상태로 화면 다시 그리기
+    updateStatusView();
+
+    // 안내 문구 보여주기
+    feedbackMessage.textContent = '현재 화면에서 회원 상태를 변경했습니다. 실제 저장은 서버 연동 후 가능합니다.';
+    feedbackMessage.hidden = false;
 });
 
-renderUserDetailStatus();
+// 페이지가 처음 열릴 때 한 번 실행
+updateStatusView();
