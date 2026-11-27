@@ -23,5 +23,5 @@ public class UserDetailDTO
     private String inDate;
     private int status;
     private int attendeeCount;
-    private List<UserActivity> userActivities;
+    private List<UserActivityDTO> userActivities;
 }
