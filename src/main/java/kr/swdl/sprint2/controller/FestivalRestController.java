@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.FestivalDTO;
 import kr.swdl.sprint2.dto.FestivalDetailDTO;
 import kr.swdl.sprint2.dto.FestivalRequest;
@@ -19,8 +20,8 @@ public class FestivalRestController {
     private final FestivalsService festivalsService;
 
     @GetMapping("/festivals")
-    public ResponseEntity<List<FestivalDTO>> getFestivals(@ModelAttribute FestivalListQuery festivalListQuery) {
-        List<FestivalDTO> festivals = festivalsService.getFestivals(festivalListQuery);
+    public ResponseEntity<PageInfo<FestivalDTO>> getFestivals(@ModelAttribute FestivalListQuery festivalListQuery) {
+        PageInfo<FestivalDTO> festivals = new PageInfo<>(festivalsService.getFestivals(festivalListQuery));
         return ResponseEntity.ok(festivals);
     }
     @PostMapping("/festivals")

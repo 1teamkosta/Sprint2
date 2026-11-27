@@ -38,7 +38,7 @@
                                 <option value="visible">공개</option>
                                 <option value="hidden">비공개</option>
                         </select>
-                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="festival">상태 변경</button>
+                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="festival"  th:attr="data-update-url=@{/admin/festivals}">상태 변경</button>
                     </div>
                     <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="축제 검색">
                         <div class="festival-search-setting">
@@ -141,7 +141,11 @@
                     </table>
                 </div>
 
-                <nav class="mt-4" aria-label="축제 목록 페이지" id="festival-pagination">
+                <nav class="mt-4" aria-label="축제 목록 페이지"
+                     id="festival-pagination"
+                     th:attr="data-current-page=${currentPage},
+                                  data-total-pages=${totalPages},
+                                  data-total-count=${totalCount}">
                     <ul class="pagination justify-content-center mb-0"></ul>
                 </nav>
             </section>

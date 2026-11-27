@@ -1,7 +1,10 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
+import kr.swdl.sprint2.dto.ClubDTO;
 import kr.swdl.sprint2.dto.FestivalDTO;
 import kr.swdl.sprint2.dto.FestivalDetailDTO;
+import kr.swdl.sprint2.repository.ClubListQuery;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.service.FestivalsService;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +24,12 @@ public class FestivalController {
 
     @GetMapping("/festivalsView")
     public String getFestivals(Model model) {
-        List<FestivalDTO> festivals = festivalsService.getFestivals(FestivalListQuery.builder().build());
-        model.addAttribute("festivals",festivals);
+
+        PageInfo<FestivalDTO> festivals = new PageInfo<>(festivalsService.getFestivals(FestivalListQuery.builder().build()));
+        model.addAttribute("festivals",festivals.getList());
+        model.addAttribute("totalCount", festivals.getTotal());
+        model.addAttribute("totalPages", festivals.getPages());
+        model.addAttribute("currentPage", festivals.getPageNum());
         return "/festival/festivals";
     }
     @GetMapping("/festival/{festivalNumber}")
