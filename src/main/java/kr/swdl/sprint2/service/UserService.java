@@ -53,14 +53,13 @@ public class UserService {
         return userDTOList;
 
     }
-    public UserDetailDTO getUserDetail(int accountNumber, Integer page) {
-        int activitypage = 0;
+    public UserDetailDTO getUserDetail(int accountNumber) {
 
         User user= userRepository.getUser(accountNumber);
         if(user == null)
             return null;
 
-        List<UserActivityDTO> activitiesDTO = getUserActivities(accountNumber, 1);
+        List<UserActivityDTO> activitiesDTO = getUserActivities(accountNumber,1);
 
 
         return UserDetailDTO.builder()

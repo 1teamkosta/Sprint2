@@ -25,7 +25,7 @@ public class UserController {
 
     @GetMapping("/userDetailView/{accountNumber}")
     public String userDetailView(@PathVariable("accountNumber") int accountNumber, Model model) {
-        model.addAttribute("user", userService.getUserDetail(accountNumber,1 ));
+        model.addAttribute("user", userService.getUserDetail(accountNumber ));
         return "users/userDetail";
     }
 
