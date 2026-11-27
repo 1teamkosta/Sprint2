@@ -38,16 +38,21 @@
                                     <option value="visible">공개</option>
                                     <option value="hidden">비공개</option>
                             </select>
-                            <button class="btn btn-primary btn-sm" type="button" data-bulk-action="club">상태 변경</button>
+                            <button class="btn btn-primary btn-sm"
+                                    type="button"
+                                    data-bulk-action="club"
+                                    th:attr="data-update-url=@{/admin/clubs/state}">
+                                상태 변경
+                            </button>
                         </div>
                         <form class="club-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="모임 검색">
                             <div class="club-search-setting">
                                 <label class="visually-hidden" for="club-search-type">검색 기준</label>
                                 <select class="form-select" id="club-search-type" name="searchType" required>
                                     <option value="">검색 유형</option>
-                                    <option value="festival">축제 이름</option>
-                                    <option value="title">모임 이름</option>
-                                    <option value="host">모임 개설자</option>
+                                    <option value="festivalName">축제 이름</option>
+                                    <option value="clubName">모임 이름</option>
+                                    <option value="nickname">모임 개설자</option>
                                 </select>
                             </div>
                             <div class="flex-grow-1">
@@ -103,10 +108,10 @@
                                     <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="1" aria-label="모임 1번 선택"></td>
                                     <td data-field="clubId" th:text="${club.clubNumber}">1</td>
                                     <td><span class="badge club-status-visible" th:text="${club.status == 0 ? '비공개' : '공개'}">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festival"><a class="list-detail-link" th:href="@{/admin/festivalView(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
-                                    <td class="club-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/clubDetailView/{clubNumber}(clubNumber=${club.clubNumber})}" th:text="${club.clubName}">처음 가는 락페 함께 즐겨요</a></td>
+                                    <td class="club-festival text-start" data-field="festivalName"><a class="list-detail-link" th:href="@{/admin/festivalView(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
+                                    <td class="club-title fw-medium text-start" data-field="clubName"><a class="list-detail-link" th:href="@{/admin/clubDetailView/{clubNumber}(clubNumber=${club.clubNumber})}" th:text="${club.clubName}">처음 가는 락페 함께 즐겨요</a></td>
                                     <td class="club-purpose" data-field="purpose" th:text="${club.purpose}">축제메이트</td>
-                                    <td data-field="host"><a class="list-detail-link" th:href="@{/admin/userView/{accountNumber}(accountNumber=${club.accountNumber})}" th:text="${club.nickname}">김축제</a></td>
+                                    <td data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView/{accountNumber}(accountNumber=${club.accountNumber})}" th:text="${club.nickname}">김축제</a></td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30" th:text="${club.createdAt}">2026.10.30</time></td>
                                 </tr>
@@ -116,7 +121,10 @@
                             </tbody>
                         </table>
                     </div>
-                    <nav class="mt-4" aria-label="모임 목록 페이지" id="club-pagination">
+                    <nav id="club-pagination"
+                         th:attr="data-current-page=${currentPage},
+                                  data-total-pages=${totalPages},
+                                  data-total-count=${totalCount}">
                         <ul class="pagination justify-content-center mb-0"></ul>
                     </nav>
                 </div>
