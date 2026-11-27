@@ -15,6 +15,8 @@ public class LoginRepositoryTest {
     @Autowired
     private LoginRepository repository;
     @Autowired
+    private BCryptPasswordEncoder encoder;
+    @Autowired
     private AccountRole role;
 
     @Test
@@ -25,7 +27,7 @@ public class LoginRepositoryTest {
 
     @Test
     public void addUser() {
-        repository.addUser(User.builder().id("admin01").password("1234")
+        repository.addUser(User.builder().id("admin01").password(encoder.encode("1234"))
                 .nickname("임시관리자").email("admin@a.com").accountRole(role.admin().code()).build());
 
         Assertions.assertNotNull(repository.getUserById("admin01"));
