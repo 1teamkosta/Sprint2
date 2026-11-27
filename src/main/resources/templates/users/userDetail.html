@@ -8,7 +8,10 @@
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link th:href="@{/css/component.css}" rel="stylesheet">
     <link th:href="@{/css/userDetail.css}" rel="stylesheet">
+    <script th:src="@{/js/component.js}" defer></script>
+    <script th:src="@{/js/list.js}" defer></script>
     <script th:src="@{/js/userDetail.js}" defer></script>
+
 </head>
 <body data-admin-page="users" th:attr="data-user-status=${user == null or user.status == 1 ? 'active' : 'suspended'}">
     <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
@@ -23,37 +26,42 @@
                     <a class="btn btn-primary" th:href="@{/admin/usersView}">목록으로</a>
                 </div>
             </div>
-            <p class="small text-secondary" id="user-detail-feedback" role="status">컨트롤러에서 전달한 회원 정보를 표시할 예정입니다.</p>
-            <article class="user-detail-card" id="user-detail-card" aria-labelledby="user-profile-heading">
+<!--            <p class="small text-secondary" id="user-detail-feedback" role="status">회원정보를 불러오는중</p>-->
+<!--            <article class="user-detail-card" id="user-detail-card" aria-labelledby="user-profile-heading" hidden>-->
                 <div class="d-flex flex-wrap align-items-center gap-2 mb-4">
                     <h2 class="h5 fw-bold mb-0" id="user-profile-heading">회원 정보</h2>
                 </div>
                 <dl class="user-detail-profile mb-0">
-                    <div><dt>번호</dt><dd id="user-detail-number" th:text="${user != null ? user.accountNumber : userId}">1</dd></div>
-                    <div><dt>상태</dt><dd><span id="user-detail-status" th:class="${user != null and user.status == 0 ? 'badge user-detail-suspended' : 'badge user-detail-active'}" th:text="${user != null ? (user.status == 1 ? '활동' : '정지') : '활동'}">활동</span></dd></div>
-                    <div><dt>아이디</dt><dd id="user-detail-login-id" th:text="${user != null ? user.id : '계정 정보'}">계정 정보</dd></div>
-                    <div><dt>닉네임</dt><dd id="user-detail-nickname" th:text="${user != null ? user.nickname : '회원 이름'}">회원 이름</dd></div>
-                    <div><dt>인기도</dt><dd id="user-detail-popularity" th:text="${user != null ? user.popularity : 0}">0</dd></div>
-                    <div><dt>이메일</dt><dd id="user-detail-email" th:text="${user != null ? user.email : '이메일 정보'}">이메일 정보</dd></div>
-                    <div><dt>가입일</dt><dd><time id="user-detail-joined" th:text="${user != null ? user.inDate : '미정'}" th:datetime="${user != null ? user.inDate : ''}">미정</time></dd></div>
+                    <div><dt>번호</dt><dd id="user-detail-number" th:text="${user.accountNumber}"></dd></div>
+                    <div><dt>상태</dt><dd><span class="badge user-detail-active" id="user-detail-status" th:text="${user.status}">활동</span></dd></div>
+                    <div><dt>아이디</dt><dd id="user-detail-login-id" th:text="${user.id}"></dd></div>
+                    <div><dt>닉네임</dt><dd id="user-detail-nickname" th:text="${user.nickname}"></dd></div>
+                    <div><dt>인기도</dt><dd id="user-detail-popularity" th:text="${user.popularity}"></dd></div>
+                    <div><dt>이메일</dt><dd id="user-detail-email" th:text="${user.email}"></dd></div>
+                    <div><dt>가입일</dt><dd><time id="user-detail-joined" th:text="${user.inDate}"></time></dd></div>
                 </dl>
                 <section class="mt-5" aria-labelledby="user-activity-heading">
                     <h2 class="h5 fw-bold mb-3" id="user-activity-heading">활동 내역</h2>
-                    <h3 class="h6 fw-semibold mb-3">참여 모임 <span class="text-secondary" id="user-detail-club-count" th:text="${user != null ? '(' + user.attendeeCount + '개)' : '(0개)'}">(0개)</span></h3>
-                    <p class="small text-secondary" id="user-clubs-feedback" role="status">참여 모임 내역은 컨트롤러 모델로 연결할 예정입니다.</p>
+                    <h3 class="h6 fw-semibold mb-3">참여 모임 <span class="text-secondary" id="user-detail-club-count" th:text="${user.attendeeCount}"></span></h3>
+<!--                    <p class="small text-secondary" id="user-clubs-feedback" role="status">참여 모임을 불러오는 중입니다.</p>-->
                     <table class="table table-hover align-middle user-detail-clubs mb-0">
                         <caption class="visually-hidden">회원이 참여한 모임의 번호, 축제 이름, 모임 이름, 역할과 모임 목적. 페이지당 10개.</caption>
                         <colgroup><col class="user-club-number"><col class="user-club-festival"><col class="user-club-name"><col class="user-club-role"><col class="user-club-purpose"></colgroup>
-                        <thead class="table-light text-center"><tr><th scope="col">모임 번호</th><th scope="col">축제 이름</th><th scope="col">모임 이름</th><th scope="col">역할</th><th scope="col">모임 목적</th></tr></thead>
+                        <thead class="table-light text-center"><tr>
+                            <th scope="col">모임 번호</th>
+                            <th scope="col">축제 이름</th>
+                            <th scope="col">모임 이름</th>
+                            <th scope="col">역할</th>
+                            <th scope="col">모임 목적</th>
+                        </tr></thead>
                         <tbody class="text-center" id="user-detail-clubs">
-                            <tr th:if="${user == null}"><td colspan="5" class="text-secondary py-4">참여 모임 데이터 연결 예정</td></tr>
-                            <tr th:each="activity : ${user != null ? user.userActivities : null}">
-                                <td th:text="${activity.clubNumber}">1</td>
-                                <td th:text="${activity.festivalName}">축제명</td>
-                                <td><a th:href="@{/admin/clubView(id=${activity.clubNumber})}" th:text="${activity.clubName}">모임명</a></td>
-                                <td th:text="${activity.attendRole == 0 ? '개설자' : '참여자'}">참여자</td>
-                                <td th:text="${activity.purpose}">축제메이트</td>
-                            </tr>
+                        <tr th:each="activity : ${user.userActivities}">
+                        <td th:text="${activity.clubNumber}"></td>
+                            <td th:text="${activity.festivalName}"></td>
+                            <td th:text="${activity.clubName}"></td>
+                            <td th:text="${activity.attendRole==0 ? '개설자': '참가자'}"></td>
+                            <td th:text="${activity.purpose}"></td>
+                        </tr>
                         </tbody>
                     </table>
                     <nav class="mt-4" id="user-detail-clubs-pagination" aria-label="참여 모임 목록 페이지" hidden>

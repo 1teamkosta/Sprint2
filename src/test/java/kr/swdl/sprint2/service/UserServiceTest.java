@@ -32,7 +32,7 @@ public class UserServiceTest {
     @Test
     void getUserDetail_validId() {
 
-        UserDetailDTO userDetail = userService.getUserDetail(1, 1);
+        UserDetailDTO userDetail = userService.getUserDetail(1);
 
         Assertions.assertNotNull(userDetail.getAccountNumber());
         Assertions.assertTrue(userDetail.getUserActivities().size() > 0);
@@ -40,8 +40,8 @@ public class UserServiceTest {
 
     @Test
     void getUserDetail_invalidIdReturnsNull() {
-        Assertions.assertNull(userService.getUserDetail(999999, 1));
-        Assertions.assertNull(userService.getUserDetail(-1, 1));
+        Assertions.assertNull(userService.getUserDetail(999999));
+        Assertions.assertNull(userService.getUserDetail(-1));
     }
 
     @Test
