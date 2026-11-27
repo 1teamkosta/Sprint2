@@ -10,8 +10,6 @@ import lombok.experimental.SuperBuilder;
 @NoArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
 public abstract class ListQuery {
     private Integer page;
     private String searchBy;

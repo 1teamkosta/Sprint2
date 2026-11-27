@@ -19,7 +19,7 @@ import java.util.List;
 public class FestivalController {
     private final FestivalsService festivalsService;
 
-    @GetMapping("/festivals")
+    @GetMapping("/festivalsView")
     public String getFestivals(Model model) {
         List<FestivalDTO> festivals = festivalsService.getFestivals(FestivalListQuery.builder().build());
         model.addAttribute("festivals",festivals);

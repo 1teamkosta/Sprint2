@@ -175,7 +175,7 @@
     </update>
     <update id="setFestivalsStatus" parameterType="Integer">
         UPDATE festivals
-        SET status = 1 - status
+        SET status = #{status}
         WHERE festival_number IN
         <foreach item="festivalNumber" collection="festivalNumbers" open="(" separator="," close=")">
             #{festivalNumber}

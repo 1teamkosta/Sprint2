@@ -183,7 +183,7 @@ public class FestivalsService {
         festivalsRepository.setFestivalStatus(festivalNumber);
     }
 
-    public void setFestivalsStatus(List<Integer> festivalNumbers) {
-        festivalsRepository.setFestivalsStatus(festivalNumbers);
+    public void setFestivalsStatus(int status, List<Integer> festivalNumbers) {
+        festivalsRepository.setFestivalsStatus(status, festivalNumbers);
     }
 }

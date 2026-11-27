@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/api")
+@RequestMapping("/admin")
 @RequiredArgsConstructor
 public class FestivalRestController {
     private final FestivalsService festivalsService;
@@ -29,8 +29,8 @@ public class FestivalRestController {
     }
 
     @PutMapping("/festivals")
-    public void setFestivalStatus(@RequestBody List<Integer> festivalNumbers){
-        festivalsService.setFestivalsStatus(festivalNumbers);
+    public void setFestivalStatus(@RequestParam int status,@RequestParam List<Integer> festivalNumbers){
+        festivalsService.setFestivalsStatus(status,festivalNumbers);
     }
 
 //    @GetMapping("/festival/{festivalNumber}")

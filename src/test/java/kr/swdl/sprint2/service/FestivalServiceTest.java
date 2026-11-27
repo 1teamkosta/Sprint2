@@ -149,7 +149,7 @@ public class FestivalServiceTest {
     @Test
     void setFestivalsStatus() {
         System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().sortDirection("ASC").build()));
-        festivalsService.setFestivalsStatus(List.of(15,141105,506470));
+        festivalsService.setFestivalsStatus(1,List.of(15,141105,506470));
         System.out.println(festivalsService.getFestivals(FestivalListQuery.builder().sortDirection("ASC").build()));
     }
 }

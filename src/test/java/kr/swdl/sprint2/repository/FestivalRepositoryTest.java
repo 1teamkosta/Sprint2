@@ -215,7 +215,7 @@ public class FestivalRepositoryTest {
     @Test
     void setFestivalsStatus(){
         System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
-        festivalsRepository.setFestivalsStatus(List.of(15,141105,506470));
+        festivalsRepository.setFestivalsStatus(0,List.of(15,141105,506470));
         System.out.println(festivalsRepository.getFestivals(FestivalListQuery.builder().build()));
     }
 
