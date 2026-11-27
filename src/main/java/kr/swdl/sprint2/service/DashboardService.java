@@ -1,6 +1,5 @@
 package kr.swdl.sprint2.service;
 
-import kr.swdl.sprint2.dto.DashboardDTO;
 import kr.swdl.sprint2.dto.RecentFestivalDTO;
 import kr.swdl.sprint2.dto.WorstUserDTO;
 import kr.swdl.sprint2.repository.DashboardRepository;
@@ -11,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -95,7 +95,22 @@ public class DashboardService {
         return list;
     }
 
-    public DashboardDTO getDashboard() {
-        return null;
+    public Map<String, Object> getDashboard() {
+        Map<String, Object> result = new HashMap<>();
+
+        result.put("countByFestival", countByFestival());
+        result.put("festivalReviewCount", countByFestivalReview());
+        result.put("attendeeCount", countByAttendee());
+        result.put("getRecentFestival", getRecentFestival());
+        result.put("getGenreTagDistribution", getGenreTagDistribution());
+        result.put("countByTag", countByTag());
+        result.put("countByFestivalReview", countByFestivalReview());
+        result.put("countByAttendee", countByAttendee());
+        result.put("likedFestivalCount", countByLikedFestival());
+        result.put("top5ByPopularity", getTop5ByPopularity());
+        result.put("bottom5ByPopularity", getBottom5ByPopularity());
+
+        return result;
+
     }
 }
