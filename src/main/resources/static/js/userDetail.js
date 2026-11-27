@@ -34,7 +34,7 @@ actionButton.addEventListener('click', function () {
         const isConfirmed = window.confirm('이 회원의 활동을 정지할까요?');
         if (!isConfirmed) return;
 
-        currentStatus = 'suspended';
+        currentStatus = 'banned';
     } else {
         const isConfirmed = window.confirm('이 회원의 활동을 재개할까요?');
         if (!isConfirmed) return;
