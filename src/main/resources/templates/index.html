@@ -8,9 +8,6 @@
           integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <link th:href="@{/css/component.css}" rel="stylesheet">
     <link th:href="@{/css/index.css}" rel="stylesheet">
-    <script th:inline="javascript">
-        const dashboardGenreTags = /*[[${getGenreTagDistribution}]]*/ [];
-    </script>
     <script th:src="@{/js/dashboard.js}" defer></script>
 </head>
 <body data-admin-page="dashboard">
@@ -61,7 +58,7 @@
                             </thead>
                             <tbody class="text-center">
                                 <tr th:each="festival : ${getRecentFestival}">
-                                    <td class="text-start fw-medium"><a class="list-detail-link" th:href="@{/admin/festivalView(id=${festival.festivalNumber})}"
+                                    <td class="text-start fw-medium"><a class="list-detail-link" th:href="@{/admin/festival/{id}(id=${festival.festivalNumber})}"
                                                                         th:text="${festival.festivalName}">서울 재즈 페스티벌</a></td>
                                     <td class="dashboard-festival-place" title="서울특별시 송파구 올림픽공원 야외무대">서울특별시 송파구 올림픽공원 야외무대</td>
                                     <td><time datetime="2026-11-01">2026.11.01</time><br>~ <time datetime="2026-11-05">2026.11.05</time></td>
@@ -82,7 +79,14 @@
                             <svg class="dashboard-donut-chart" id="dashboard-genre-segments" viewBox="0 0 100 100" aria-hidden="true" focusable="false"></svg>
                             <div class="dashboard-donut-label" aria-hidden="true"><strong th:text="${countByTag}">0</strong><span>전체 태그</span></div>
                         </div>
-                        <ul class="dashboard-legend" id="dashboard-genre-legend" aria-label="태그별 비율"></ul>
+                        <ul class="dashboard-legend" id="dashboard-genre-legend"
+                            aria-label="태그별 비율">
+                            <li th:each="tag : ${getGenreTagDistribution}" th:attr="data-color=${tag.color}, data-percent=${tag.percent}">
+                                <span class="dashboard-legend-dot" th:style="|background-color: ${tag.color};|"></span>
+                                <span th:text="${tag.tagName}"></span>
+                                <strong th:text="|${tag.percent}%|"></strong>
+                            </li>
+                        </ul>
                     </div>
                 </section>
 
@@ -97,17 +101,14 @@
                             <caption class="visually-hidden">인기도 오름차순 회원 예시</caption>
                             <thead><tr><th scope="col">닉네임</th><th scope="col" class="text-center">인기도</th></tr></thead>
                             <tbody>
-                                <tr><td><a class="list-detail-link"
-                                           th:href="@{/admin/userDetail(id=@{${bottom5ByPopularity[0].accountNumber}})}"
-                                            th:text="${bottom5ByPopularity[0].nickname}">한문화</a></td><td class="text-center fw-semibold" th:text="${bottom5ByPopularity[0].popularity}">7</td></tr>
-                                <tr><td><a class="list-detail-link"
-                                           th:href="@{/admin/userDetail(id=@{${bottom5ByPopularity[1].accountNumber}})}"  th:text="${bottom5ByPopularity[1].nickname}">오춘천</a></td><td class="text-center fw-semibold" th:text="${bottom5ByPopularity[1].popularity}">15</td></tr>
-                                <tr><td><a class="list-detail-link"
-                                           th:href="@{/admin/userDetail(id=@{${bottom5ByPopularity[2].accountNumber}})}"  th:text="${bottom5ByPopularity[2].nickname}">정수원</a></td><td class="text-center fw-semibold" th:text="${bottom5ByPopularity[2].popularity}">33</td></tr>
-                                <tr><td><a class="list-detail-link"
-                                           th:href="@{/admin/userDetail(id=@{${bottom5ByPopularity[3].accountNumber}})}"  th:text="${bottom5ByPopularity[3].nickname}">이음식</a></td><td class="text-center fw-semibold" th:text="${bottom5ByPopularity[3].popularity}">42</td></tr>
-                                <tr><td><a class="list-detail-link"
-                                           th:href="@{/admin/userDetail(id=@{${bottom5ByPopularity[4].accountNumber}})}"  th:text="${bottom5ByPopularity[4].nickname}">임전주</a></td><td class="text-center fw-semibold" th:text="${bottom5ByPopularity[4].popularity}">64</td></tr>
+                                <tr th:each="user : ${bottom5ByPopularity}">
+                                    <td>
+                                        <a class="list-detail-link"
+                                           th:href="@{/admin/userDetailView/{id}(id=${user.accountNumber})}"
+                                           th:text="${user.nickname}"></a>
+                                    </td>
+                                    <td class="text-center fw-semibold" th:text="${user.popularity}"></td>
+                                </tr>
                             </tbody>
                         </table>
                     </div>

@@ -18,7 +18,7 @@ public class ClubController {
     private final ClubService clubService;
 
     @GetMapping("/clubDetailView/{clubNumber}")
-    public String getClubDetail(@PathVariable int clubNumber, Model model) {
+    public String getClubDetail(@PathVariable("clubNumber") int clubNumber, Model model) {
         ClubDetailDTO club = clubService.getClubDetail(clubNumber);
         model.addAttribute("club", club);
         model.addAttribute("clubAttendee", club.getClubAttendeeDTO());

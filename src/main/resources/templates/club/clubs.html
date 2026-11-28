@@ -64,7 +64,7 @@
                             </div>
                         </form>
                     </div>
-                    <p class="small text-secondary mb-2" id="club-result-count" role="status">전체 11건 · 검색 결과 11건</p>
+                    <p class="small text-secondary mb-2" id="club-result-count" role="status">전체 <span th:text="${totalCount}">11</span>건</p>
                     <div class="table-responsive">
                         <table class="table table-hover align-middle club-table mb-0">
                             <caption class="visually-hidden">모임 관리 예시 목록, 페이지당 10개</caption>
@@ -105,13 +105,13 @@
                             </thead>
                             <tbody class="text-center" id="club-list">
                                 <tr data-club-type="festival" data-status="visible" th:each="club : ${clubs}">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="1" aria-label="모임 1번 선택"></td>
+                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" th:value="${club.clubNumber}" aria-label="모임 1번 선택"></td>
                                     <td data-field="clubId" th:text="${club.clubNumber}">1</td>
-                                    <td><span class="badge club-status-visible"  th:classappend="${club.status == 1 ? 'club-status-visible' : 'club-status-hidden'}" th:text="${club.status == 0 ? '비공개' : '공개'}">공개</span></td>
-                                    <td class="club-festival text-start" data-field="festivalName"><a class="list-detail-link" th:href="@{/admin/festivalView(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
+                                    <td><span class="badge"  th:classappend="${club.status == 1 ? 'club-status-visible' : 'club-status-hidden'}" th:text="${club.status == 1 ? '공개' : '비공개'}">공개</span></td>
+                                    <td class="club-festival text-start" data-field="festivalName"><a class="list-detail-link" th:href="@{/admin/festival/{id}(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
                                     <td class="club-title fw-medium text-start" data-field="clubName"><a class="list-detail-link" th:href="@{/admin/clubDetailView/{clubNumber}(clubNumber=${club.clubNumber})}" th:text="${club.clubName}">처음 가는 락페 함께 즐겨요</a></td>
                                     <td class="club-purpose" data-field="purpose" th:text="${club.purpose}">축제메이트</td>
-                                    <td data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userView/{accountNumber}(accountNumber=${club.accountNumber})}" th:text="${club.nickname}">김축제</a></td>
+                                    <td data-field="nickname"><a class="list-detail-link" th:href="@{/admin/userDetailView/{accountNumber}(accountNumber=${club.accountNumber})}" th:text="${club.nickname}">김축제</a></td>
 
                                     <td data-sort-field="createdAt" data-sort-value="2026-10-30"><time datetime="2026-10-30" th:text="${club.createdAt}">2026.10.30</time></td>
                                 </tr>

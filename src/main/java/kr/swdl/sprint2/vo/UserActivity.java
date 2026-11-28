@@ -13,6 +13,7 @@ public class UserActivity {
     private int clubNumber;
     private String clubName;
     private String festivalName;
-    private int attendRole;
+    private int festivalNumber;
+    private int attendeeRole;
     private String purpose;
 }

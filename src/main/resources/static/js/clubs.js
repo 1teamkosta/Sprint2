@@ -199,7 +199,7 @@ function renderClubs(clubs) {
 
         const festivalLink = row.querySelector('[data-field="festival"] a');
         festivalLink.textContent = club.festivalName;
-        festivalLink.href = `/admin/festivalView?id=${club.festivalNumber}`;
+        festivalLink.href = `/admin/festival/${club.festivalNumber}`;
 
         const clubLink = row.querySelector('[data-field="title"] a');
         clubLink.textContent = club.clubName;
@@ -210,7 +210,7 @@ function renderClubs(clubs) {
 
         const hostLink = row.querySelector('[data-field="host"] a');
         hostLink.textContent = club.nickname;
-        hostLink.href = `/admin/userView/${club.accountNumber}`;
+        hostLink.href = `/admin/userDetailView/${club.accountNumber}`;
 
         row.querySelector('time').textContent = club.createdAt;
 

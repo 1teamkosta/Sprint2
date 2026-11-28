@@ -1,10 +1,3 @@
-// 회원 관리 화면도 공통 목록 기능을 사용한다.
-// setupList({
-//     prefix: 'user',
-//     tableSelector: '.user-table',
-//     idField: 'userId',
-//     exactFields: ['userId']
-// });
 const bulkStatusMap = {
     active: 1,
     suspended: 0
@@ -59,9 +52,6 @@ if (userBulkButton && userBulkSelect) {
     });
 }
 
-
-
-
 const statusFilterMap = {
     all: null,
     active: 1,
@@ -73,15 +63,13 @@ const statusFilterButtons = Array.from(
     document.querySelectorAll('[data-status-filter]')
 );
 
-statusFilterButtons.forEach(function (button) {
-    button.addEventListener('click', async function () {
-        const filterKey = button.dataset.statusFilter;
-        const filterValue = statusFilterMap[filterKey] ?? null;
+let activeStatusFilter = null;
 
-        await changeUserQuery({
-            page: 1,
-            filterByStatus: filterValue
-        });
+// setupList의 클릭 핸들러보다 먼저 실행되도록 capture(true)로 필터 값과 버튼 UI를 갱신한다.
+statusFilterButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+        const filterKey = button.dataset.statusFilter;
+        activeStatusFilter = statusFilterMap[filterKey] ?? null;
 
         statusFilterButtons.forEach(function (item) {
             const isSelected = item === button;
@@ -92,18 +80,21 @@ statusFilterButtons.forEach(function (button) {
         if (statusFilterDetails) {
             statusFilterDetails.open = false;
         }
-    });
+    }, true);
 });
 
-
-
-
-
 function changeUserQuery(changes) {
-    if (typeof changes.keyword === 'string'
-        && changes.keyword.trim() === '') {
-        changes = {
-            ...changes,
+    let nextChanges = { ...changes };
+
+    // setupList가 상태 필터 클릭으로 넘긴 filterByStatus를 회원 상태 매핑 값으로 보정한다.
+    if (Object.prototype.hasOwnProperty.call(nextChanges, 'filterByStatus')) {
+        nextChanges.filterByStatus = activeStatusFilter;
+    }
+
+    if (typeof nextChanges.keyword === 'string'
+        && nextChanges.keyword.trim() === '') {
+        nextChanges = {
+            ...nextChanges,
             page: 1,
             searchBy: null,
             keyword: null
@@ -112,7 +103,7 @@ function changeUserQuery(changes) {
 
     const params = new URLSearchParams(window.location.search);
 
-    Object.entries(changes).forEach(function ([name, value]) {
+    Object.entries(nextChanges).forEach(function ([name, value]) {
         if (value == null) {
             params.delete(name);
         } else {
@@ -172,7 +163,9 @@ function renderUsers(users) {
     const fragment = document.createDocumentFragment();
 
     users.forEach(function (user) {
-        const row = document.createElement('tr');  const checkTd = document.createElement('td');
+        const row = document.createElement('tr');
+
+        const checkTd = document.createElement('td');
         checkTd.className = 'list-selection-column';
         const checkbox = document.createElement('input');
         checkbox.type = 'checkbox';
@@ -185,10 +178,6 @@ function renderUsers(users) {
         const idTd = document.createElement('td');
         idTd.textContent = user.accountNumber;
 
-        // const statusTd = document.createElement('td');
-        // const statusSpan = document.createElement('span');
-        // statusSpan.textContent = user.status;
-        // statusTd.append(statusSpan);
         const statusTd = document.createElement('td');
         const statusBadge = document.createElement('span');
         const isActive = Number(user.status) === 1;
@@ -208,12 +197,6 @@ function renderUsers(users) {
 
         nicknameTd.append(link);
 
-
-
-        // const nicknameSpan = document.createElement('span');
-        // nicknameSpan.textContent = user.nickname;
-        // nicknameTd.append(nicknameSpan);
-
         const emailTd = document.createElement('td');
         emailTd.textContent = user.email;
 
@@ -225,13 +208,9 @@ function renderUsers(users) {
         timeEl.textContent = user.inDate;
         inDateTd.append(timeEl);
 
-
-
         row.append(checkTd, idTd, statusTd, nicknameTd, emailTd, popularityTd, inDateTd);
         fragment.append(row);
     });
-
-    // 회원 테이블 HTML 구조에 맞게 td와 값 채우기
 
     if (emptyRow) {
         emptyRow.hidden = users.length > 0;
