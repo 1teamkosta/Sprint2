@@ -1,5 +1,9 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
+import kr.swdl.sprint2.dto.ClubDTO;
+import kr.swdl.sprint2.dto.UserDTO;
+import kr.swdl.sprint2.repository.ClubListQuery;
 import kr.swdl.sprint2.repository.UserListQuery;
 import kr.swdl.sprint2.service.UserService;
 import kr.swdl.sprint2.service.properties.PageProperties;
@@ -19,7 +23,12 @@ public class UserController {
 
     @GetMapping("/usersView")
     public String usersView(Model model) {
-        model.addAttribute("users", userService.getUsers(UserListQuery.builder().build()));
+        PageInfo<UserDTO> result = new PageInfo<>(userService.getUsers(UserListQuery.builder().build()));
+        //model.addAttribute("users", userService.getUsers(UserListQuery.builder().build()));
+        model.addAttribute("users", result.getList());
+        model.addAttribute("totalCount", result.getTotal());
+        model.addAttribute("totalPages", result.getPages());
+        model.addAttribute("currentPage", result.getPageNum());
         return "/users/users";
     }
 

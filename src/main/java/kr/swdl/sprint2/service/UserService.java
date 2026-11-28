@@ -1,5 +1,7 @@
 package kr.swdl.sprint2.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.TagDTO;
 import kr.swdl.sprint2.dto.UserActivityDTO;
 import kr.swdl.sprint2.dto.UserDTO;
@@ -44,15 +46,46 @@ public class UserService {
                 request.setSortType("account_number");
                 break;
         }
-        Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
-                () -> userRepository.getUsers(request)).forEach((user) -> {
-            userDTOList.add(UserDTO.builder().accountNumber(user.getAccountNumber()).status(user.getStatus())
-                    .nickname(user.getNickname()).email(user.getEmail()).popularity(user.getPopularity())
-                    .inDate(DateFormatConvert.format(user.getInDate())).build());
-        });
-        return userDTOList;
+//        Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
+//                () -> userRepository.getUsers(request)).forEach((user) -> {
+//            userDTOList.add(UserDTO.builder().accountNumber(user.getAccountNumber()).status(user.getStatus())
+//                    .nickname(user.getNickname()).email(user.getEmail()).popularity(user.getPopularity())
+//                    .inDate(DateFormatConvert.format(user.getInDate())).build());
+//        });
+//        return userDTOList;
+        List<User> users = Pagination.execute(
+                request.getPage(),
+                pageProperties.pageSize(),
+                request.getSortType(),
+                request.getSortDirection(),
+                () -> userRepository.getUsers(request)
+        );
 
+        PageInfo<User> pageInfo = new PageInfo<>(users);
+
+        for (User user : users) {
+            userDTOList.add(
+                    UserDTO.builder()
+                            .accountNumber(user.getAccountNumber())
+                            .status(user.getStatus())
+                            .nickname(user.getNickname())
+                            .email(user.getEmail())
+                            .popularity(user.getPopularity())
+                            .inDate(DateFormatConvert.format(user.getInDate()))
+                            .build()
+            );
+        }
+
+        Page<UserDTO> result = new Page<>(
+                pageInfo.getPageNum(),
+                pageInfo.getPageSize()
+        );
+        result.setTotal(pageInfo.getTotal());
+        result.addAll(userDTOList);
+
+        return result;
     }
+
     public UserDetailDTO getUserDetail(int accountNumber) {
 
         User user= userRepository.getUser(accountNumber);

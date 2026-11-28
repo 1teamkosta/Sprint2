@@ -44,7 +44,7 @@
     color: var(--admin-progress-ongoing-text);
 }
 
-.user-status-suspended {
+.user-status-banned {
     background-color: var(--admin-status-hidden-bg);
     color: var(--admin-status-hidden-text);
 }

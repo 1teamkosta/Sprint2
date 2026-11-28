@@ -1,10 +1,14 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
+import kr.swdl.sprint2.dto.ClubDTO;
 import kr.swdl.sprint2.dto.UserActivityDTO;
 import kr.swdl.sprint2.dto.UserDTO;
+import kr.swdl.sprint2.repository.ClubListQuery;
 import kr.swdl.sprint2.repository.UserListQuery;
 import kr.swdl.sprint2.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,8 +22,9 @@ public class UserRestController {
     private final UserService userService;
 
     @GetMapping("/users")
-    public  List<UserDTO> getUserList(UserListQuery request) {
-        return userService.getUsers(request);
+    public ResponseEntity<PageInfo<UserDTO>> getUsers(@ModelAttribute UserListQuery query) {
+        PageInfo<UserDTO> result = new PageInfo<>(userService.getUsers(query));
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/user/{accountNumber}/activities")
