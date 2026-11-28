@@ -105,7 +105,7 @@
                             </thead>
                             <tbody class="text-center" id="club-list">
                                 <tr data-club-type="festival" data-status="visible" th:each="club : ${clubs}">
-                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" value="1" aria-label="모임 1번 선택"></td>
+                                    <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="clubIds" th:value="${club.clubNumber}" aria-label="모임 1번 선택"></td>
                                     <td data-field="clubId" th:text="${club.clubNumber}">1</td>
                                     <td><span class="badge"  th:classappend="${club.status == 1 ? 'club-status-visible' : 'club-status-hidden'}" th:text="${club.status == 1 ? '공개' : '비공개'}">공개</span></td>
                                     <td class="club-festival text-start" data-field="festivalName"><a class="list-detail-link" th:href="@{/admin/festival/{id}(id=${club.festivalNumber})}" th:text="${club.festivalName}">부산 락 페스티벌</a></td>
