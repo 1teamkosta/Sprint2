@@ -11,7 +11,7 @@ import lombok.experimental.SuperBuilder;
 @Getter
 @Setter
 @AllArgsConstructor
-public abstract class ListQuery {
+public class ListQuery {
     private Integer page;
     private String searchBy;
     private String keyword;
