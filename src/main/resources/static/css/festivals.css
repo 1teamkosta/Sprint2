@@ -16,13 +16,13 @@
     table-layout: fixed;
 }
 .festival-col-select { width: 4%; }
-.festival-col-number { width: 5%; }
+.festival-col-number { width: 6%; }
 .festival-col-status { width: 7%; }
-.festival-col-genre { width: 8%; }
-.festival-col-title { width: 25%; }
-.festival-col-schedule { width: 17%; }
+.festival-col-genre { width: 11%; }
+.festival-col-title { width: 20%; }
+.festival-col-schedule { width: 19%; }
 .festival-col-progress { width: 8%; }
-.festival-col-place { width: 19%; }
+.festival-col-place { width: 18%; }
 .festival-col-likes { width: 7%; }
 
 .festival-table th,

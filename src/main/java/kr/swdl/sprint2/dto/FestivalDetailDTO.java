@@ -15,6 +15,7 @@ public class FestivalDetailDTO {
     private int festivalNumber;
     private int status;
     private String mainTag;
+    private String color;
     private String festivalName;
     private String startDate;
     private String endDate;

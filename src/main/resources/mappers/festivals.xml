@@ -7,6 +7,7 @@
         f.festival_number,
         f.status,
         t.tag_name mainTag,
+        t.color,
         f.festival_name,
         f.start_date,
         f.end_date,
