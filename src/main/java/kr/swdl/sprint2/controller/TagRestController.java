@@ -22,7 +22,7 @@ public class TagRestController {
     }
 
     @GetMapping("/tag/{tagNumber}")
-    public TagDetailDTO getTagDetail(@PathVariable int tagNumber) {
+    public TagDetailDTO getTagDetail(@PathVariable("tagNumber")  int tagNumber) {
         return service.getTagDetail(tagNumber);
     }
 

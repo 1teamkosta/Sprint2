@@ -46,13 +46,7 @@ public class UserService {
                 request.setSortType("account_number");
                 break;
         }
-//        Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
-//                () -> userRepository.getUsers(request)).forEach((user) -> {
-//            userDTOList.add(UserDTO.builder().accountNumber(user.getAccountNumber()).status(user.getStatus())
-//                    .nickname(user.getNickname()).email(user.getEmail()).popularity(user.getPopularity())
-//                    .inDate(DateFormatConvert.format(user.getInDate())).build());
-//        });
-//        return userDTOList;
+
         List<User> users = Pagination.execute(
                 request.getPage(),
                 pageProperties.pageSize(),
@@ -109,25 +103,40 @@ public class UserService {
     }
 
     public List<UserActivityDTO> getUserActivities(int accountNumber, Integer page) {
-        int activitypage = (page == null) ? 1 : page;
+        int activityPage = (page == null || page < 1) ? 1 : page;
 
-        List<UserActivity> activities = Pagination.execute(activitypage, pageProperties.pageSize(), "club_number", "ASC", ()
-                -> userRepository.getClubByUser(accountNumber));
+        List<UserActivity> activities = Pagination.execute(
+                activityPage,
+                pageProperties.pageSize(),
+                "club_number",
+                "ASC",
+                () -> userRepository.getClubByUser(accountNumber)
+        );
+
+        PageInfo<UserActivity> pageInfo = new PageInfo<>(activities);
 
         List<UserActivityDTO> activitiesDTO = new ArrayList<>();
         for (UserActivity userActivity : activities) {
             UserActivityDTO dto = UserActivityDTO.builder()
                     .clubNumber(userActivity.getClubNumber())
                     .festivalName(userActivity.getFestivalName())
+                    .festivalNumber(userActivity.getFestivalNumber())
                     .clubName(userActivity.getClubName())
-                    .attendRole(userActivity.getAttendRole())
+                    .attendeeRole(userActivity.getAttendeeRole())
                     .purpose(userActivity.getPurpose())
                     .build();
 
             activitiesDTO.add(dto);
         }
 
-        return activitiesDTO;
+        Page<UserActivityDTO> result = new Page<>(
+                pageInfo.getPageNum(),
+                pageInfo.getPageSize()
+        );
+        result.setTotal(pageInfo.getTotal());
+        result.addAll(activitiesDTO);
+
+        return result;
     }
 
     public void setUserStatus(int accountNumber, int status) {

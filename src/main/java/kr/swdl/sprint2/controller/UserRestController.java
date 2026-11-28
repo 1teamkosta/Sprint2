@@ -28,8 +28,11 @@ public class UserRestController {
     }
 
     @GetMapping("/user/{accountNumber}/activities")
-    public List<UserActivityDTO> getUserActivities(@PathVariable("accountNumber") int accountNumber, @RequestParam(value = "page", required = false) Integer page) {
-        return userService.getUserActivities(accountNumber, page);
+    public ResponseEntity<PageInfo<UserActivityDTO>> getUserActivities(
+            @PathVariable("accountNumber") int accountNumber,
+            @RequestParam(value = "page", required = false) Integer page) {
+        PageInfo<UserActivityDTO> result = new PageInfo<>(userService.getUserActivities(accountNumber, page));
+        return ResponseEntity.ok(result);
     }
 
     @PutMapping("/user/{accountNumber}")

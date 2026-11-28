@@ -10,13 +10,9 @@ import java.util.List;
 @Mapper
 public interface UserRepository  {
     List<User> getUsers (@Param("query") UserListQuery query);
-   // List<User> getUsersByNickname(String nickname);
     List<User> getUsersByStatus(int status);
     List<UserActivity> getClubByUser(int accountNumber);
     User getUser(int accountNumber);
     void setUserStatus(@Param("accountNumber") int accountNumber, @Param("status") int status);
-    //void setUserStatus(int accountNumber, int status);
-    // UserRepository.java
     void setUsersStatus(@Param("accountNumbers") List<Integer> accountNumbers, @Param("status") int status);
- //   void setUsersStatus(List<Integer> accountNumbers, int status);
 }

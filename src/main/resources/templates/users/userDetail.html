@@ -57,9 +57,11 @@
                         <tbody class="text-center" id="user-detail-clubs">
                         <tr th:each="activity : ${user.userActivities}">
                         <td th:text="${activity.clubNumber}"></td>
-                            <td th:text="${activity.festivalName}"></td>
-                            <td th:text="${activity.clubName}"></td>
-                            <td th:text="${activity.attendRole==0 ? '개설자': '참가자'}"></td>
+                            <td> <a th:href="@{/admin/festivalDetailView/{festivalNumber}(festivalNumber=${activity.festivalNumber})}"
+                                   th:text="${activity.festivalName}"></a></td>
+                            <td> <a th:href="@{/admin/clubDetailView/{clubNumber}(clubNumber=${activity.clubNumber})}"
+                                    th:text="${activity.clubName}"></a></td>
+                            <td th:text="${activity.attendeeRole != null and activity.attendeeRole == 1 ? '참가자' : '개설자'}"></td>
                             <td th:text="${activity.purpose}"></td>
                         </tr>
                         </tbody>
