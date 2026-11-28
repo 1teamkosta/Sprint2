@@ -1,5 +1,6 @@
 package kr.swdl.sprint2.controller;
 
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.TagDTO;
 import kr.swdl.sprint2.dto.TagDetailDTO;
 import kr.swdl.sprint2.repository.TagListQuery;
@@ -16,8 +17,8 @@ public class TagRestController {
     private final TagService service;
 
     @GetMapping("/tags")
-    public List<TagDTO> getTags(@ModelAttribute TagListQuery request) {
-        return service.getTags(request);
+    public PageInfo<TagDTO> getTags(@ModelAttribute TagListQuery request) {
+        return new PageInfo<>(service.getTags(request));
     }
 
     @GetMapping("/tag/{tagNumber}")
