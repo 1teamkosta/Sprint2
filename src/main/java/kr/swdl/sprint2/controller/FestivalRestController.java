@@ -29,10 +29,7 @@ public class FestivalRestController {
         festivalsService.addFestival(Festival.builder().progressStatus(festivalRequest.getProgressStatus()).addTag(festivalRequest.getAddTag()).mainTag(festivalRequest.getMainTag()).festivalName(festivalRequest.getFestivalName()).contents(festivalRequest.getContents()).address(festivalRequest.getAddress()).startDate(festivalRequest.getStartDate()).endDate(festivalRequest.getEndDate()).imageUrl(festivalRequest.getImageUrl()).build());
     }
 
-    @PutMapping("/festivals")
-    public void setFestivalStatus(@RequestParam int status,@RequestParam List<Integer> festivalNumbers){
-        festivalsService.setFestivalsStatus(status,festivalNumbers);
-    }
+
 
 //    @GetMapping("/festival/{festivalNumber}")
 //    public ResponseEntity<FestivalDetailDTO> getFestival(@PathVariable int festivalNumber){
@@ -48,6 +45,12 @@ public class FestivalRestController {
     @PutMapping("/festival/{festivalNumber}")
     public void setFestivalStatus(@PathVariable int festivalNumber){
         festivalsService.setFestivalStatus(festivalNumber);
+    }
+
+    @PutMapping("/festivals/status")
+    public ResponseEntity<Void> setFestivalsStatus(@RequestParam("status") int status,@RequestParam("festivalNumbers") List<Integer> festivalNumbers) {
+        festivalsService.setFestivalsStatus(status, festivalNumbers);
+        return ResponseEntity.ok().build();
     }
 
 }

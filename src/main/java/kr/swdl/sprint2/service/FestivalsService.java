@@ -1,14 +1,19 @@
 package kr.swdl.sprint2.service;
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.FestivalDTO;
 import kr.swdl.sprint2.dto.FestivalDetailDTO;
+import kr.swdl.sprint2.dto.UserDTO;
 import kr.swdl.sprint2.repository.FestivalListQuery;
 import kr.swdl.sprint2.repository.FestivalsRepository;
 import kr.swdl.sprint2.service.pagination.Pagination;
 import kr.swdl.sprint2.service.properties.PageProperties;
 import kr.swdl.sprint2.service.properties.ProgressStatus;
 import kr.swdl.sprint2.service.properties.Review;
+import kr.swdl.sprint2.service.util.DateFormatConvert;
 import kr.swdl.sprint2.vo.AddTag;
 import kr.swdl.sprint2.vo.Festival;
+import kr.swdl.sprint2.vo.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,9 +35,7 @@ public class FestivalsService {
     private final Review review;
 
     public List<FestivalDTO> getFestivals(FestivalListQuery festivalListQuery) {
-
-        DateTimeFormatter inputDtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        DateTimeFormatter outputDtf = DateTimeFormatter.ofPattern("yyyy.MM.dd");
+        List<FestivalDTO> festivalDTOList = new ArrayList<>();
 
         if ((festivalListQuery.getSearchBy() != null && festivalListQuery.getKeyword() != null) && (festivalListQuery.getKeyword().isBlank()||festivalListQuery.getKeyword().equals("_")||festivalListQuery.getKeyword().equals("%"))){
             return null;
@@ -56,28 +59,41 @@ public class FestivalsService {
         }
 
 
-        List<Festival> festivals = Pagination.execute(festivalListQuery.getPage(), pageProperties.pageSize(), festivalListQuery.getSortType(), festivalListQuery.getSortDirection(),
-                () -> festivalsRepository.getFestivals(festivalListQuery));
+        List<Festival> festivals = Pagination.execute(
+                festivalListQuery.getPage(),
+                pageProperties.pageSize(),
+                festivalListQuery.getSortType(),
+                festivalListQuery.getSortDirection(),
+                () -> festivalsRepository.getFestivals(festivalListQuery)
+        );
 
-        List<FestivalDTO> festivalsDTO = new ArrayList<>();
+        PageInfo<Festival> pageInfo = new PageInfo<>(festivals);
 
-        for (Festival vo : festivals){
-            FestivalDTO dto = new FestivalDTO();
-
-
-            dto.setFestivalNumber(vo.getFestivalNumber())
-                    .setStatus(vo.getStatus())
-                    .setMainTag(vo.getMainTag())
-                    .setFestivalLikes(vo.getFestivalLikes())
-                    .setFestivalName(vo.getFestivalName())
-                    .setStartDate(LocalDateTime.parse(vo.getStartDate(), inputDtf).format(outputDtf))
-                    .setEndDate(LocalDateTime.parse(vo.getEndDate(), inputDtf).format(outputDtf))
-                    .setProgressStatus(vo.getProgressStatus())
-                    .setAddress(vo.getAddress());
-            festivalsDTO.add(dto);
+        for (Festival festival : festivals) {
+            festivalDTOList.add(
+                    FestivalDTO.builder()
+                            .festivalNumber(festival.getFestivalNumber())
+                            .status(festival.getStatus())
+                            .mainTag(festival.getMainTag())
+                            .color(festival.getColor())
+                            .festivalName(festival.getFestivalName())
+                            .startDate(DateFormatConvert.format(festival.getStartDate()))
+                            .endDate(DateFormatConvert.format(festival.getEndDate()))
+                            .progressStatus(festival.getProgressStatus())
+                            .address(festival.getAddress())
+                            .festivalLikes(festival.getFestivalLikes())
+                            .build()
+            );
         }
 
-        return festivalsDTO;
+        Page<FestivalDTO> result = new Page<>(
+                pageInfo.getPageNum(),
+                pageInfo.getPageSize()
+        );
+        result.setTotal(pageInfo.getTotal());
+        result.addAll(festivalDTOList);
+
+        return result;
     }
 
     public FestivalDetailDTO getFestivalDetail(int festivalNumber){

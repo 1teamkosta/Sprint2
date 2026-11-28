@@ -11,145 +11,153 @@
     <script th:src="@{/js/list.js}" defer></script>
     <script th:src="@{/js/festivals.js}" defer></script>
 </head>
-<body>
-    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+<body data-admin-page="festival">
+<a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
 
-    <!-- JS로 별도 HTML을 불러옴. 추후 th:replace로 교체 -->
-    <div th:replace="~{component/header}"></div>
-    <div th:replace="~{component/sidebar}"></div>
+<div th:replace="~{component/header}"></div>
+<div th:replace="~{component/sidebar}"></div>
 
-    <main id="main-content" class="admin-main" tabindex="-1">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
-                <h1 class="h3 fw-bold mb-0">축제 관리</h1>
-                <a class="btn btn-primary" href="festivalAdd" th:href="@{/admin/festivalAdd}">축제 추가</a>
+<main id="main-content" class="admin-main" tabindex="-1">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+            <h1 class="h3 fw-bold mb-0">축제 관리</h1>
+            <a class="btn btn-primary" href="festivalAdd" th:href="@{/admin/festivalAdd}">축제 추가</a>
+        </div>
+
+        <section class="bg-white border rounded-3 p-4" aria-labelledby="festival-list-heading">
+            <h2 id="festival-list-heading" class="visually-hidden">축제 목록과 검색</h2>
+
+            <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
+                <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group" aria-label="선택한 축제 상태 변경">
+                    <label class="small text-secondary me-1" for="festival-bulk-status">선택 항목</label>
+                    <select class="form-select form-select-sm list-bulk-status" id="festival-bulk-status" name="bulkStatus">
+                        <option value="">변경할 상태</option>
+                        <option value="1">공개</option>
+                        <option value="0">비공개</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm"
+                            type="button"
+                            data-bulk-action="festival"
+                            th:attr="data-update-url=@{/admin/festivals/status}">상태 변경</button>
+                </div>
+                <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="축제 검색">
+                    <div class="festival-search-setting">
+                        <label class="visually-hidden" for="festival-search-type">검색 기준</label>
+                        <select class="form-select" id="festival-search-type" name="searchBy" required>
+                            <option value="">검색 유형</option>
+                            <option value="festivalName">축제 이름</option>
+                            <option value="mainTag">축제 장르</option>
+                        </select>
+                    </div>
+                    <div class="flex-grow-1">
+                        <label class="visually-hidden" for="festival-keyword">검색어</label>
+                        <div class="input-group">
+                            <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
+                            <button class="btn btn-outline-primary" type="submit">검색</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 11건 · 검색 결과 11건</p>
+            <div class="table-responsive festival-table-container">
+                <table class="table table-hover align-middle festival-table mb-0">
+                    <colgroup>
+                        <col class="festival-col-select">
+                        <col class="festival-col-number">
+                        <col class="festival-col-status">
+                        <col class="festival-col-genre">
+                        <col class="festival-col-title">
+                        <col class="festival-col-schedule">
+                        <col class="festival-col-progress">
+                        <col class="festival-col-place">
+                        <col class="festival-col-likes">
+                    </colgroup>
+                    <thead class="table-light text-center">
+                    <tr>
+                        <th scope="col" class="list-selection-column">
+                            <input class="form-check-input list-selection-input" type="checkbox" id="festival-select-all" aria-label="현재 페이지 축제 전체 선택">
+                        </th>
+                        <th scope="col" class="festival-number-heading">
+                            번호
+                        </th>
+                        <th scope="col">
+                            <details class="festival-status-filter" id="festival-status-filter">
+                                <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                <div class="festival-status-options" role="group" aria-label="공개 상태 필터">
+                                    <button type="button" data-status-filter="all" aria-pressed="true">전체</button>
+                                    <button type="button" data-status-filter="1" aria-pressed="false">공개만 보기</button>
+                                    <button type="button" data-status-filter="0" aria-pressed="false">비공개만 보기</button>
+                                </div>
+                            </details>
+                        </th>
+                        <th scope="col" class="festival-genre-heading">
+                            축제 장르
+                        </th>
+                        <th scope="col">
+                            <button type="button" class="column-sort" data-sort="title" aria-label="축제 이름 정렬">축제 이름 <span class="fs-6" aria-hidden="true"></span></button>
+                        </th>
+                        <th scope="col">
+                            <button type="button" class="column-sort" data-sort="startDate" aria-label="시작일 기준 일정 정렬">일정 <span class="fs-6" aria-hidden="true">↕</span></button>
+                        </th>
+                        <th scope="col" class="festival-progress-column">
+                            <details class="festival-status-filter" id="festival-progress-filter">
+                                <summary>진행상황 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
+                                <div class="festival-status-options" role="group" aria-label="진행상황 필터">
+                                    <button type="button" data-progress-filter="" aria-pressed="true">전체</button>
+                                    <button type="button" data-progress-filter="1" aria-pressed="false">진행중</button>
+                                    <button type="button" data-progress-filter="0" aria-pressed="false">종료</button>
+                                    <button type="button" data-progress-filter="2" aria-pressed="false">예정</button>
+                                </div>
+                            </details>
+                        </th>
+                        <th scope="col">
+                            장소
+                        </th>
+                        <th scope="col">
+                            <button type="button" class="column-sort" data-sort="likeCount" aria-label="찜 수 정렬">찜 수 <span class="fs-6" aria-hidden="true">↕</span></button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center" id="festival-list">
+                    <tr th:each="festival : ${festivals}" th:attr="data-status=${festival.status}">
+                        <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" th:value="${festival.festivalNumber}" aria-label="축제 선택"></td>
+                        <td data-field="festivalId" th:text="${festival.festivalNumber}">1</td>
+                        <td>
+                                    <span class="badge"
+                                          th:classappend="${festival.status == 0} ? 'status-hidden' : 'status-visible'"
+                                          th:text="${festival.status == 0} ? '비공개' : '공개'">공개</span>
+                        </td>
+                        <td data-field="genre">
+                                    <span class="festival-genre-tag"
+                                          th:attr="data-tag-color=${festival.color}"
+                                          th:text="${festival.mainTag}">음악</span>
+                        </td>
+                        <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/festival/{festivalNumber}(festivalNumber=${festival.festivalNumber})}" th:text="${festival.festivalName}">부산 락 페스티벌</a></td>
+                        <td data-sort-field="startDate" th:attr="data-sort-value=${festival.startDate}"><time th:datetime="${festival.startDate}" th:text="${festival.startDate}">2026.11.02</time> ~ <time th:datetime="${festival.endDate}" th:text="${festival.endDate}">2026.11.03</time></td>
+                        <td class="festival-progress-column" th:switch="${festival.progressStatus}">
+                            <span th:case="0" class="badge festival-progress-ended" data-festival-progress>종료</span>
+                            <span th:case="1" class="badge festival-progress-ongoing" data-festival-progress>진행중</span>
+                            <span th:case="2" class="badge festival-progress-upcoming" data-festival-progress>예정</span>
+                        </td>
+                        <td class="festival-location" data-field="place" th:text="${festival.address}">삼락공원</td>
+                        <td data-sort-field="likeCount" th:text="${festival.festivalLikes}">53</td>
+                    </tr>
+                    <tr id="festival-empty" hidden>
+                        <td colspan="9" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
             </div>
 
-            <!-- 더미 데이터 기반 검색·상태 필터 -->
-            <section class="bg-white border rounded-3 p-4" aria-labelledby="festival-list-heading">
-                <h2 id="festival-list-heading" class="visually-hidden">축제 목록과 검색</h2>
-
-                <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
-                <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
-                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group" aria-label="선택한 축제 상태 변경">
-                        <label class="small text-secondary me-1" for="festival-bulk-status">선택 항목</label>
-                        <select class="form-select form-select-sm list-bulk-status" id="festival-bulk-status" name="bulkStatus">
-                            <option value="">변경할 상태</option>
-                                <option value=1>공개</option>
-                                <option value=0>비공개</option>
-                        </select>
-                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="festival"  th:attr="data-update-url=@{/admin/festivals}">상태 변경</button>
-                    </div>
-                    <form class="festival-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="축제 검색">
-                        <div class="festival-search-setting">
-                            <label class="visually-hidden" for="festival-search-type">검색 기준</label>
-                            <select class="form-select" id="festival-search-type" name="searchBy" required>
-                                <option value="">검색 유형</option>
-                              <option value="festivalName" >축제 이름</option>  <!--th:selected="${festivalListQuery.searchBy == 'festivalName'}"-->
-                                <option value="mainTag" >축제 장르</option> <!--th:selected="${festivalListQuery.searchBy == 'mainTag'}"-->
-                            </select>
-                        </div>
-                        <div class="flex-grow-1">
-                            <label class="visually-hidden" for="festival-keyword">검색어</label>
-                            <div class="input-group">
-                                <input class="form-control" id="festival-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요"> <!--th:value="${festivalListQuery.keyword}"-->
-                                <button class="btn btn-outline-primary" type="submit">검색</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <p class="small text-secondary mb-2" id="festival-result-count" role="status">전체 11건 · 검색 결과 11건</p>
-                <div class="table-responsive festival-table-container">
-                    <table class="table table-hover align-middle festival-table mb-0">
-                        <colgroup>
-                            <col class="festival-col-select">
-                            <col class="festival-col-number">
-                            <col class="festival-col-status">
-                            <col class="festival-col-genre">
-                            <col class="festival-col-title">
-                            <col class="festival-col-schedule">
-                            <col class="festival-col-progress">
-                            <col class="festival-col-place">
-                            <col class="festival-col-likes">
-                        </colgroup>
-                        <thead class="table-light text-center">
-                            <tr>
-                                <th scope="col" class="list-selection-column">
-                                    <input class="form-check-input list-selection-input" type="checkbox" id="festival-select-all" aria-label="현재 페이지 축제 전체 선택">
-                                </th>
-                                <th scope="col" class="festival-number-heading">
-                                    번호
-                                </th>
-                                <th scope="col">
-                                    <details class="festival-status-filter" id="festival-status-filter">
-                                        <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
-                                        <div class="festival-status-options" role="group" aria-label="공개 상태 필터">
-                                            <button type="button" data-status-filter="all" aria-pressed="true">전체</button>
-                                            <button type="button" data-status-filter="1" aria-pressed="false">공개만 보기</button>
-                                            <button type="button" data-status-filter="0" aria-pressed="false">비공개만 보기</button>
-                                        </div>
-                                    </details>
-                                </th>
-                                <th scope="col" class="festival-genre-heading">
-                                    축제 장르
-                                </th>
-                                <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="title" aria-label="축제 이름 정렬">축제 이름 <span class="fs-6" aria-hidden="true"></span></button>
-                                </th>
-                                <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="startDate" aria-label="시작일 기준 일정 정렬">일정 <span class="fs-6" aria-hidden="true">↕</span></button>
-                                </th>
-                                <th scope="col" class="festival-progress-column">
-                                    <details class="festival-status-filter" id="festival-progress-filter">
-                                        <summary>진행상황 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
-                                        <div class="festival-status-options" role="group" aria-label="진행상황 필터">
-                                            <button type="button" data-progress-filter="" aria-pressed="true">전체</button>
-                                            <button type="button" data-progress-filter="1" aria-pressed="false">진행중</button>
-                                            <button type="button" data-progress-filter="0" aria-pressed="false">종료</button>
-                                            <button type="button" data-progress-filter="2" aria-pressed="false">예정</button>
-                                        </div>
-                                    </details>
-                                </th>
-                                <th scope="col">
-                                    장소
-                                </th>
-                                <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="likeCount" aria-label="찜 수 정렬">찜 수 <span class="fs-6" aria-hidden="true">↕</span></button>
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" id="festival-list">
-                            <tr th:each="festival : ${festivals}">
-                                <td class="list-selection-column"><input class="form-check-input list-selection-input" type="checkbox" name="festivalIds" th:value="${festival.festivalNumber}" aria-label="축제 선택"></td>
-                                <td data-field="festivalId" th:text="${festival.festivalNumber}">1</td>
-                                <td><span class="badge status-visible" th:text="${festival.status == 0} ? '비공개' : '공개'">공개</span></td>
-                                <td data-field="genre"><span class="festival-genre-tag" th:text="${festival.mainTag}">음악</span></td>
-                                <td class="festival-title fw-medium text-start" data-field="title"><a class="list-detail-link" th:href="@{/admin/festival/{festivalNumber}(festivalNumber=${festival.festivalNumber})}" th:text="${festival.festivalName}">부산 락 페스티벌</a></td>
-                                <td data-sort-field="startDate" th:attr="data-sort-value=${festival.startDate}"><time th:datetime="${festival.startDate}" th:text="${festival.startDate}">2026.11.02</time> ~ <time th:datetime="${festival.endDate}" th:text="${festival.endDate}">2026.11.03</time></td>
-                                <td class="festival-progress-column" th:switch="${festival.progressStatus}">
-                                    <span th:case="0" class="badge festival-progress-ended" data-festival-progress>종료</span>
-                                    <span th:case="1" class="badge festival-progress-ongoing" data-festival-progress>진행중</span>
-                                    <span th:case="2" class="badge festival-progress-upcoming" data-festival-progress>예정</span>
-                                </td>
-                                <td class="festival-location" data-field="place" th:text="${festival.address}">삼락공원</td>
-                                <td data-sort-field="likeCount" th:text="${festival.festivalLikes}">53</td>
-                            </tr>
-                            <tr id="festival-empty" hidden>
-                                <td colspan="9" class="py-5 text-secondary">조건에 맞는 축제가 없습니다.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <nav aria-label="축제 목록 페이지"
-                     id="festival-pagination"
-                     th:attr="data-current-page=${currentPage},
+            <nav aria-label="축제 목록 페이지"
+                 id="festival-pagination"
+                 th:attr="data-current-page=${currentPage},
                                   data-total-pages=${totalPages},
                                   data-total-count=${totalCount}">
-                    <ul class="pagination justify-content-center mb-0"></ul>
-                </nav>
-            </section>
-        </div>
-    </main>
+                <ul class="pagination justify-content-center mb-0"></ul>
+            </nav>
+        </section>
+    </div>
+</main>
 </body>
 </html>
