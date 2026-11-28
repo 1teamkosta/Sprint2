@@ -109,16 +109,6 @@ public class FestivalsService {
 
         festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
 
-//        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//        Date now = new Date();
-//
-//        if(now.before(sdf.parse(festival.getStartDate()))){
-//            festival.setProgressStatus(progressStatus.upcomming());
-//        }else if (now.after(sdf.parse(festival.getEndDate()))){
-//            festival.setProgressStatus(progressStatus.closed());
-//        }else festival.setProgressStatus(progressStatus.progress());
-
         festivalsRepository.addFestival(festival);
 
         int festivalNumber = festivalsRepository.getAddFestivalNumber();
@@ -137,16 +127,6 @@ public class FestivalsService {
         if (festivalsRepository.getFestival(festival.getFestivalNumber()) != null) {
 
             festival.setProgressStatus(setDateStatus(festival.getStartDate(),festival.getEndDate()));
-
-//            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//
-//            Date now = new Date();
-//
-//            if(now.before(sdf.parse(festival.getStartDate()))){
-//                festival.setProgressStatus(progressStatus.upcomming());
-//            }else if (now.after(sdf.parse(festival.getEndDate()))){
-//                festival.setProgressStatus(progressStatus.closed());
-//            }else festival.setProgressStatus(progressStatus.progress());
 
             festivalsRepository.setFestival(festival);
 
@@ -183,7 +163,7 @@ public class FestivalsService {
         festivalsRepository.setFestivalStatus(festivalNumber);
     }
 
-    public void setFestivalsStatus(List<Integer> festivalNumbers) {
-        festivalsRepository.setFestivalsStatus(festivalNumbers);
+    public void setFestivalsStatus(int status, List<Integer> festivalNumbers) {
+        festivalsRepository.setFestivalsStatus(status, festivalNumbers);
     }
 }
