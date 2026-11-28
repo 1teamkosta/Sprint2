@@ -35,8 +35,8 @@
                         <label class="small text-secondary me-1" for="festival-bulk-status">선택 항목</label>
                         <select class="form-select form-select-sm list-bulk-status" id="festival-bulk-status" name="bulkStatus">
                             <option value="">변경할 상태</option>
-                                <option value="visible">공개</option>
-                                <option value="hidden">비공개</option>
+                                <option value=1>공개</option>
+                                <option value=0>비공개</option>
                         </select>
                         <button class="btn btn-primary btn-sm" type="button" data-bulk-action="festival"  th:attr="data-update-url=@{/admin/festivals}">상태 변경</button>
                     </div>

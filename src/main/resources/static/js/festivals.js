@@ -63,3 +63,49 @@ festivalProgressFilter.addEventListener('keydown', function (event) {
         festivalProgressFilter.querySelector('summary').focus();
     }
 });
+
+// 축제 상태 일괄 변경
+const festivalBulkButton = document.querySelector('button[data-bulk-action="festival"]');
+
+if (festivalBulkButton) {
+    festivalBulkButton.addEventListener('click', async function () {
+        const selectedNumbers = Array.from(
+            document.querySelectorAll('#festival-list .list-selection-input:checked')
+        ).map(function (checkbox) {
+            return checkbox.value;
+        });
+
+        const selectedStatus = document.querySelector('#festival-bulk-status').value;
+
+        if (selectedNumbers.length === 0 || selectedStatus === '') {
+            alert('축제와 변경할 상태를 선택해 주세요.');
+            return;
+        }
+
+        const params = new URLSearchParams();
+
+        selectedNumbers.forEach(function (number) {
+            params.append('festivalNumbers', number);
+        });
+
+        params.set('status', Number(selectedStatus));
+
+        try {
+            const response = await fetch(
+                `${festivalBulkButton.dataset.updateUrl}?${params.toString()}`,
+                { method: 'PUT' }
+            );
+
+            if (!response.ok) {
+                throw new Error('상태 변경에 실패했습니다.');
+            }
+
+            // 축제 목록 갱신 함수가 있다면 호출 (예: await changeFestivalQuery({}) 또는 listController.refresh())
+            // SSR 페이지 새로고침이 필요하면 window.location.reload() 사용
+            window.location.reload();
+        } catch (error) {
+            console.error(error);
+            alert('상태 변경에 실패했습니다.');
+        }
+    });
+}
