@@ -23,14 +23,5 @@ public interface FestivalsRepository {
     void addAddTag(AddTag addtag);
     void setTagFestivalCount(int festivalNumber, boolean isIncrease);
     void delAddTags(int festivalNumber);
-
-
-//    List<Festival> getFestivalDetail(int festivalNumber);
-//    List<FestivalVO> getFestivalsByGenreTag(String genreTag);
-//    List<FestivalVO> getFestivalsByFestivalName(String festivalName);
-//    List<FestivalVO> getFestivalsByStatus(int status);
-//    List<FestivalVO> getFestivalsByProgressStatus(String progressStatus);
-//    List<FestivalVO> getFestivalsByDate(String sort);
-//    List<FestivalVO> getFestivalsByFestivalLikes(String sort);
-
+    List<Integer> getFestivalNumbers();
 }

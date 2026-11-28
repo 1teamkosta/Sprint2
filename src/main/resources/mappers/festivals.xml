@@ -185,5 +185,9 @@
         DELETE FROM add_tags
         WHERE festival_number = #{festivalNumber};
     </delete>
-
+    <select id="getFestivalNumbers" parameterType="int">
+        SELECT
+            festival_number
+        FROM festivals
+    </select>
 </mapper>

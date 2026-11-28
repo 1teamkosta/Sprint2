@@ -225,17 +225,9 @@ public class FestivalRepositoryTest {
         festivalsRepository.delAddTags(141105);
         System.out.println(festivalsRepository.getAddTag(141105));
     }
-//    @Test
-//    void getFestivalSortByStartDate(){
-//        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().orderBy("startDateDesc").build()));
-//        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().orderBy("startDateAsc").build()));
-//        System.out.println(festivalsRepository.getFestivals(Festival.builder().orderBy("startDateDesc").build()));
-//    }
-//    @Test
-//    void getFestivalSortByFestivalLike(){
-//        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().orderBy("likesDesc").build()));
-//        Assertions.assertNotNull(festivalsRepository.getFestivals(Festival.builder().orderBy("likesAsc").build()));
-//        System.out.println(festivalsRepository.getFestivals(Festival.builder().orderBy("likesDesc").build()));
-//    }
-//
+
+    @Test
+    void getFestivalNumbers() {
+        System.out.println(festivalsRepository.getFestivalNumbers());
+    }
 }
