@@ -10,9 +10,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class NoticeDTO {
-    private int noticeNumber;
+    private Integer noticeNumber;
     private String title;
     private String contents;
     private String inDate;
-    private int author;
+    private Integer author;
 }

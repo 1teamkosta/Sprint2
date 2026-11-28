@@ -27,7 +27,7 @@ public class NoticeService {
                 request.getPage() == null ? 0 : request.getPage(),
                 pageProperties.pageSize(),
                 Sort.by("ASC".equals(request.getSortDirection()) ? Sort.Direction.ASC : Sort.Direction.DESC
-                        , request.getSortType() == null ? "noticeNumber" : request.getSortType())
+                        , "inDate".equals(request.getSortType()) ? "inDate" : "noticeNumber")
         );
 
         if(request.getKeyword() != null && !request.getKeyword().isBlank())
