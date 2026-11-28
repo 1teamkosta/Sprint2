@@ -12,111 +12,132 @@
     <script th:src="@{/js/users.js}" defer></script>
 </head>
 <body data-admin-page="users">
-    <a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
-    <div th:replace="~{component/header}"></div>
-    <div th:replace="~{component/sidebar}"></div>
+<a class="visually-hidden-focusable skip-link" href="#main-content">본문 바로가기</a>
+<div th:replace="~{component/header}"></div>
+<div th:replace="~{component/sidebar}"></div>
 
-    <main id="main-content" class="admin-main" tabindex="-1">
-        <div class="container-fluid">
-            <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
-                <h1 class="h3 fw-bold mb-0">회원 관리</h1>
-            </div>
-            <section class="bg-white border rounded-3 p-4" aria-labelledby="user-list-heading">
-                <h2 id="user-list-heading" class="visually-hidden">회원 목록과 검색</h2>
-                <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
-                <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
-                    <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group" aria-label="선택한 회원 상태 변경">
-                        <label class="small text-secondary me-1" for="user-bulk-status">선택 항목</label>
-                        <select class="form-select form-select-sm list-bulk-status" id="user-bulk-status" name="bulkStatus">
-                            <option value="">변경할 상태</option>
-                                <option value="suspended">정지</option>
-                                <option value="active">활동</option>
-                        </select>
-                        <button class="btn btn-primary btn-sm" type="button" data-bulk-action="user">상태 변경</button>
-                    </div>
-                    <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="회원 검색">
-                        <div class="user-search-setting">
-                            <label class="visually-hidden" for="user-search-type">검색 유형</label>
-                            <select class="form-select" id="user-search-type" name="searchType" required>
-                                <option value="">검색 유형</option>
-                                <option value="nickname">닉네임</option>
-
-                            </select>
-                        </div>
-                        <div class="flex-grow-1">
-                            <label class="visually-hidden" for="user-keyword">검색어</label>
-                            <div class="input-group">
-                                <input class="form-control" id="user-keyword" name="keyword" type="search" placeholder="검색어를 입력하세요">
-                                <button class="btn btn-outline-primary" type="submit">검색</button>
-                            </div>
-                        </div>
-                    </form>
-                </div>
-                <p class="small text-secondary mb-2" id="user-result-count" role="status">전체 11건 · 검색 결과 11건</p>
-                <div class="table-responsive">
-                    <table class="table table-hover align-middle user-table mb-0">
-                        <caption class="visually-hidden">회원 상태 예시 목록, 페이지당 10개</caption>
-                        <thead class="table-light text-center">
-                            <tr>
-                                <th scope="col" class="list-selection-column">
-                                    <input class="form-check-input list-selection-input" type="checkbox" id="user-select-all" aria-label="현재 페이지 회원 전체 선택">
-                                </th>
-                                <th scope="col">번호</th>
-                                <th scope="col">
-                                    <details class="user-status-filter" id="user-status-filter">
-                                        <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
-                                        <div class="user-status-options" role="group" aria-label="회원 상태 필터">
-                                            <button type="button" data-status-filter="all" aria-pressed="true">전체 보기</button>
-                                            <button type="button" data-status-filter="active" aria-pressed="false">활동 보기</button>
-                                            <button type="button" data-status-filter="suspended" aria-pressed="false">정지 보기</button>
-                                        </div>
-                                    </details>
-                                </th>
-                                <th scope="col">닉네임</th>
-                                <th scope="col">이메일</th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도 <span class="fs-6" aria-hidden="true">↕</span></button></th>
-                                <th scope="col"><button type="button" class="column-sort" data-sort="joinedAt" aria-label="가입일 정렬">가입일 <span class="fs-6" aria-hidden="true">↕</span></button></th>
-                            </tr>
-                        </thead>
-                        <tbody class="text-center" id="user-list">
-                        <tr th:each="user : ${users}">
-                            <td class="list-selection-column">
-                                <input class="form-check-input list-selection-input"
-                                       type="checkbox"
-                                       name="userIds"
-                                       th:value="${user.accountNumber}"
-                                       th:attr="aria-label=|회원 ${user.accountNumber}번 선택|">
-                            </td>
-
-                            <td th:text="${user.accountNumber}"></td>
-
-                            <td>
-                                <span th:text="${user.status}"></span>
-                            </td>
-
-                            <td class="fw-medium">
-                                <span th:text="${user.nickname}"></span>
-                            </td>
-
-                            <td th:text="${user.email}"></td>
-                            <td th:text="${user.popularity}"></td>
-
-                            <td>
-                                <time th:text="${user.inDate}"></time>
-                            </td>
-                        </tr>
-
-                        <tr id="user-empty" hidden>
-                                <td colspan="7" class="py-5 text-secondary">조건에 맞는 회원이 없습니다.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <nav class="mt-4" aria-label="회원 목록 페이지" id="user-pagination">
-                    <ul class="pagination justify-content-center mb-0"></ul>
-                </nav>
-            </section>
+<main id="main-content" class="admin-main" tabindex="-1">
+    <div class="container-fluid">
+        <div class="d-flex justify-content-between align-items-center gap-3 mb-4">
+            <h1 class="h3 fw-bold mb-0">회원 관리</h1>
         </div>
-    </main>
+        <section class="bg-white border rounded-3 p-4" aria-labelledby="user-list-heading">
+            <h2 id="user-list-heading" class="visually-hidden">회원 목록과 검색</h2>
+            <!-- 일괄 상태 변경 UI: 전체 선택·상태 적용 동작은 추후 연결한다. -->
+            <div class="list-toolbar d-flex flex-wrap align-items-center gap-3 mb-3">
+                <div class="list-bulk-actions d-flex flex-wrap align-items-center gap-2" role="group"
+                     aria-label="선택한 회원 상태 변경">
+                    <label class="small text-secondary me-1" for="user-bulk-status">선택 항목</label>
+                    <select class="form-select form-select-sm list-bulk-status" id="user-bulk-status" name="bulkStatus">
+                        <option value="">변경할 상태</option>
+                        <option value="suspended">정지</option>
+                        <option value="active">활동</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" type="button" data-bulk-action="user">상태 변경</button>
+                </div>
+                <form class="user-search d-flex flex-column flex-sm-row gap-2 ms-auto" aria-label="회원 검색">
+                    <div class="user-search-setting">
+                        <label class="visually-hidden" for="user-search-type">검색 유형</label>
+                        <select class="form-select" id="user-search-type" name="searchType" required>
+                            <!--                                <option value="">검색 유형</option>-->
+                            <option value="nickname">닉네임</option>
+
+                        </select>
+                    </div>
+                    <div class="flex-grow-1">
+                        <label class="visually-hidden" for="user-keyword">검색어</label>
+                        <div class="input-group">
+                            <input class="form-control" id="user-keyword" name="keyword" type="search"
+                                   placeholder="닉네임 입력하세요">
+                            <button class="btn btn-outline-primary" type="submit">검색</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <p class="small text-secondary mb-2" id="user-result-count" role="status"></p>
+            <div class="table-responsive">
+                <table class="table table-hover align-middle user-table mb-0">
+                    <caption class="visually-hidden">회원 상태 예시 목록, 페이지당 10개</caption>
+                    <thead class="table-light text-center">
+                    <tr>
+                        <th scope="col" class="list-selection-column">
+                            <input class="form-check-input list-selection-input" type="checkbox" id="user-select-all"
+                                   aria-label="현재 페이지 회원 전체 선택">
+                        </th>
+                        <th scope="col">번호</th>
+                        <th scope="col">
+                            <details class="user-status-filter" id="user-status-filter">
+                                <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span>
+                                </summary>
+                                <div class="user-status-options" role="group" aria-label="회원 상태 필터">
+                                    <button type="button" data-status-filter="all" aria-pressed="true">전체 보기</button>
+                                    <button type="button" data-status-filter="active" aria-pressed="false">활동 보기
+                                    </button>
+                                    <button type="button" data-status-filter="banned" aria-pressed="false">정지 보기
+                                    </button>
+                                </div>
+                            </details>
+                        </th>
+                        <th scope="col">닉네임</th>
+                        <th scope="col">이메일</th>
+                        <th scope="col">
+                            <button type="button" class="column-sort" data-sort="popularity" aria-label="인기도 정렬">인기도
+                                <span class="fs-6" aria-hidden="true">↕</span></button>
+                        </th>
+                        <th scope="col">
+                            <button type="button" class="column-sort" data-sort="joinedAt" aria-label="가입일 정렬">가입일 <span
+                                    class="fs-6" aria-hidden="true">↕</span></button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="text-center" id="user-list">
+                    <tr th:each="user : ${users}">
+                        <td class="list-selection-column">
+                            <input class="form-check-input list-selection-input"
+                                   type="checkbox"
+                                   name="userIds"
+                                   th:value="${user.accountNumber}"
+                                   th:attr="aria-label=|회원 ${user.accountNumber}번 선택|">
+                        </td>
+
+                        <td th:text="${user.accountNumber}"></td>
+
+                        <td>
+<span class="badge"
+      th:classappend="${user.status == 1} ? ' user-status-active' : ' user-status-banned'"
+      th:text="${user.status == 1} ? '활동' : '정지'">활동</span>
+                        </td>
+
+                        <td class="fw-medium">
+                            <a class="list-detail-link"
+                               th:href="@{/admin/userDetailView/{accountNumber}(accountNumber=${user.accountNumber})}"
+                               th:text="${user.nickname}"></a>
+                        </td>
+
+
+                        <td th:text="${user.email}"></td>
+                        <td th:text="${user.popularity}"></td>
+
+                        <td>
+                            <time th:text="${user.inDate}"></time>
+                        </td>
+                    </tr>
+
+                    <tr id="user-empty" hidden>
+                        <td colspan="7" class="py-5 text-secondary">조건에 맞는 회원이 없습니다.</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <nav class="mt-4" aria-label="회원 목록 페이지" id="user-pagination"
+                 th:attr="data-current-page=${currentPage},
+              data-total-pages=${totalPages},
+              data-total-count=${totalCount}">
+                <ul class="pagination justify-content-center mb-0"></ul>
+            </nav>
+
+        </section>
+    </div>
+</main>
 </body>
 </html>
