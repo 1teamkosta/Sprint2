@@ -1,5 +1,7 @@
 package kr.swdl.sprint2.service;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageInfo;
 import kr.swdl.sprint2.dto.TagDTO;
 import kr.swdl.sprint2.dto.TagDetailDTO;
 import kr.swdl.sprint2.dto.TagViewDTO;
@@ -49,14 +51,20 @@ public class TagService {
         if(request.getSearchBy() != null && !(request.getSearchBy().isBlank()))
             request.setKeyword(LikePatternEscaper.escape(request.getKeyword()));
 
-        Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
-                () -> repo.getTags(request)).forEach((tag) -> {
-                    list.add(TagDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
-                            .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
-                            .status(tag.getStatus()).build());
+        List<Tag> tags= Pagination.execute(request.getPage(), pageProperties.pageSize(), request.getSortType(), request.getSortDirection(),
+                () -> repo.getTags(request));
+
+        tags.forEach((tag) -> {
+            list.add(TagDTO.builder().tagNumber(tag.getTagNumber()).tagName(tag.getTagName())
+                    .contents(tag.getContents()).color(tag.getColor()).festivalCount(tag.getFestivalCount())
+                    .status(tag.getStatus()).build());
         });
 
-        return list;
+        Page<TagDTO> result = new Page<>(
+                request.getPage(), pageProperties.pageSize());
+        result.setTotal(new PageInfo<>(tags).getTotal());
+        result.addAll(list);
+        return result;
     }
 
     public TagDetailDTO getTagDetail(int tagNumber) {
