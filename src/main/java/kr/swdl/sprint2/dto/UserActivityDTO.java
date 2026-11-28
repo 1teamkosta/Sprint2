@@ -12,7 +12,8 @@ import lombok.NoArgsConstructor;
 public class UserActivityDTO {
     private int clubNumber;
     private String festivalName;
+    private int festivalNumber;
     private String clubName;
-    private int attendRole;
+    private int attendeeRole;
     private String purpose;
 }

@@ -35,7 +35,7 @@ public class FestivalController {
         model.addAttribute("currentPage", festivals.getPageNum());
         return "/festival/festivals";
     }
-    @GetMapping("/festival/{festivalNumber}")
+    @GetMapping("/festivalDetailView/{festivalNumber}")
     public String getFestival(@PathVariable int festivalNumber , Model model){
         FestivalDetailDTO festivalDetailDTO = festivalsService.getFestivalDetail(festivalNumber);
         model.addAttribute("festivalDetailDTO",festivalDetailDTO);
@@ -45,14 +45,14 @@ public class FestivalController {
 //    public String addFestival(){
 //        return "/festival/festivalAdd";
 //    }
-    @GetMapping("/festivalAdd")
+    @GetMapping("/festivalAddView")
     public String addForm(Model model) {
         model.addAttribute("festival", new FestivalDetailDTO()); // 빈 객체 전달
         model.addAttribute("isEdit", false); // 모드 구분용
         model.addAttribute("festivalTagCatalog", tagService.getTags(TagListQuery.builder().build()));
         return "festival/festivalAdd"; // 공용 HTML 파일명
     }
-    @GetMapping("/festivalSet/{festivalNumber}")
+    @GetMapping("/festivalSetView/{festivalNumber}")
     public String editForm(@PathVariable int festivalNumber, Model model) {
         FestivalDetailDTO festivalDetailDTO = festivalsService.getFestivalDetail(festivalNumber);
         model.addAttribute("festival", festivalDetailDTO); // 기존 데이터 전달

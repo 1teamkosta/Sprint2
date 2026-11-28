@@ -56,6 +56,7 @@
             a.attendee_role,
             c.club_name,
             f.festival_name,
+            f.festival_number,
             c.purpose
         FROM attendees a
                  JOIN clubs c ON a.club_number = c.club_number
