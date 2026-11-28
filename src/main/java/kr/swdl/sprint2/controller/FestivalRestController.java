@@ -40,7 +40,7 @@ public class FestivalRestController {
 //        return ResponseEntity.ok(festivalDetailDTO);
 //    }
 
-    @PutMapping("/festivalAdd/{festivalNumber}")
+    @PutMapping("/festivalSet/{festivalNumber}")
     public void setFestival(@PathVariable int festivalNumber,@RequestBody FestivalRequest festivalRequest){
         festivalsService.setFestival(Festival.builder().festivalNumber(festivalNumber).progressStatus(festivalRequest.getProgressStatus()).addTag(festivalRequest.getAddTag()).mainTag(festivalRequest.getMainTag()).festivalName(festivalRequest.getFestivalName()).contents(festivalRequest.getContents()).address(festivalRequest.getAddress()).startDate(festivalRequest.getStartDate()).endDate(festivalRequest.getEndDate()).imageUrl(festivalRequest.getImageUrl()).build());
     }

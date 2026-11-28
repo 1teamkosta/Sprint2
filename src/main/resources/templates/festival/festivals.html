@@ -85,8 +85,8 @@
                                         <summary>상태 <span class="fs-6" aria-hidden="true">▾</span><span class="visually-hidden"> 필터</span></summary>
                                         <div class="festival-status-options" role="group" aria-label="공개 상태 필터">
                                             <button type="button" data-status-filter="all" aria-pressed="true">전체</button>
-                                            <button type="button" data-status-filter="visible" aria-pressed="false">공개만 보기</button>
-                                            <button type="button" data-status-filter="hidden" aria-pressed="false">비공개만 보기</button>
+                                            <button type="button" data-status-filter="1" aria-pressed="false">공개만 보기</button>
+                                            <button type="button" data-status-filter="0" aria-pressed="false">비공개만 보기</button>
                                         </div>
                                     </details>
                                 </th>
@@ -94,7 +94,7 @@
                                     축제 장르
                                 </th>
                                 <th scope="col">
-                                    <button type="button" class="column-sort" data-sort="title" aria-label="축제 이름 정렬">축제 이름 <span class="fs-6" aria-hidden="true">↕</span></button>
+                                    <button type="button" class="column-sort" data-sort="title" aria-label="축제 이름 정렬">축제 이름 <span class="fs-6" aria-hidden="true"></span></button>
                                 </th>
                                 <th scope="col">
                                     <button type="button" class="column-sort" data-sort="startDate" aria-label="시작일 기준 일정 정렬">일정 <span class="fs-6" aria-hidden="true">↕</span></button>
@@ -141,7 +141,7 @@
                     </table>
                 </div>
 
-                <nav class="mt-4" aria-label="축제 목록 페이지"
+                <nav aria-label="축제 목록 페이지"
                      id="festival-pagination"
                      th:attr="data-current-page=${currentPage},
                                   data-total-pages=${totalPages},
