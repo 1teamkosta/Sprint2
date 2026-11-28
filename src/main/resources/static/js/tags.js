@@ -35,6 +35,10 @@ function tagElement(tagName, className, text) {
     return element;
 }
 
+function showTagError(error) {
+    document.querySelector('#tag-feedback').textContent = error.message;
+}
+
 // 탭 전환시 상태, 정렬 유지
 function changeTagQuery(changes) {
     const params = new URLSearchParams(tagParams);
