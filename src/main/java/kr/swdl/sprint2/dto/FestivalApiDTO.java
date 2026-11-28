@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class FestivalApiDTO {
-    private String contentid;
+    private Integer contentid;
     private String addr1;
     private String eventstartdate;
     private String eventenddate;
