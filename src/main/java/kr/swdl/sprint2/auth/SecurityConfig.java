@@ -20,10 +20,13 @@ public class SecurityConfig {
                     .anyRequest().permitAll());
 
         http.formLogin(form ->
-                form.loginPage("/login")
+                form.loginPage("/loginView")
                     .loginProcessingUrl("/login")
-                    .failureUrl("/login?error=true")
-                    .defaultSuccessUrl("/admin/tag"));
+                    .failureUrl("/loginView?error=true")
+                    .defaultSuccessUrl("/admin/tagsView"));
+
+        http.exceptionHandling(exception -> exception
+                .accessDeniedPage("/loginView?denied=true"));
 
         return http.build();
     }

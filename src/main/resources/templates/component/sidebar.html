@@ -16,6 +16,8 @@
     </nav>
     <div class="admin-account mt-auto">
 <!--        <p class="mb-2 fw-semibold">관리자</p>-->
-        <button class="btn btn-outline-secondary btn-sm w-100" type="button" disabled>로그아웃</button>
+        <form th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-secondary btn-sm w-100" type="submit">로그아웃</button>
+        </form>
     </div>
 </aside>
