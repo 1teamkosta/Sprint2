@@ -243,7 +243,9 @@ document.addEventListener('click', function (event) {
     if (!tagStatusFilter.contains(event.target)) tagStatusFilter.open = false;
 });
 
-document.querySelector('#tag-add-button').addEventListener('click', openTagDialog());
+document.querySelector('#tag-add-button').addEventListener('click',function () {
+    openTagDialog().catch(showTagError);
+});
 document.querySelector('#tag-dialog-close').addEventListener('click', closeTagDialog);
 document.querySelector('#tag-dialog-cancel').addEventListener('click', closeTagDialog);
 tagNameInput.addEventListener('input', function () { tagNameInput.setCustomValidity(''); });
