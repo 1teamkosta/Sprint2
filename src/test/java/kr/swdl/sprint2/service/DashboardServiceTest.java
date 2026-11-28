@@ -68,4 +68,10 @@ public class DashboardServiceTest {
         Assertions.assertEquals(5, service.getBottom5ByPopularity().size());
         service.getBottom5ByPopularity().forEach(System.out::println);
     }
+
+    @Test
+    public void getDashboard() {
+        System.out.println(service.getDashboard());
+    }
+
 }
