@@ -31,7 +31,7 @@
     overflow-wrap: anywhere;
 }
 .notice-detail-date { margin: 0; color: var(--admin-muted); font-size: 0.875rem; }
-.notice-detail-content { padding-top: 24px; line-height: 1.9; overflow-wrap: anywhere; }
+.notice-detail-content { padding-top: 24px; line-height: 1.9; overflow-wrap: anywhere; white-space: pre-wrap; }
 .notice-detail-content p { margin: 0 0 20px; }
 .notice-detail-content p:last-child { margin-bottom: 0; }
 @media (max-width: 575.98px) {
